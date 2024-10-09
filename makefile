@@ -6,7 +6,7 @@
 #    By: edribeir <edribeir@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/10/09 11:21:58 by edribeir      #+#    #+#                  #
-#    Updated: 2024/10/09 11:41:45 by edribeir      ########   odam.nl          #
+#    Updated: 2024/10/09 13:04:24 by edribeir      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME = cub3d
 CC = cc
 
 CFLAGS = -Wall -Wextra -Werror -g
+# CFLAGS += -fsanitize=address
 
 LIBFT = ./Libft/libft.a
 
@@ -26,12 +27,17 @@ LIBMLX = ./MLX42
 
 FLAGSMLX = -ldl -lglfw -pthread -lm 
 
-SOURCE = 
+SOURCE =  main.c \
+		checkers.c \
 
-OBJECTS = $(SOURCE:%.c=%.o)
+OBJECTS = $(SOURCE:%.c=obj/%.o)
 
+OBJ_DIR = obj
 
 all: $(MLXLIB) $(NAME)
+
+$(OBJ_DIR):
+	@mkdir $(OBJ_DIR)
 
 $(MLXLIB):
 	@cmake $(LIBMLX) -DEBUG=1 -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
@@ -43,12 +49,12 @@ $(NAME): $(LIBFT) $(MLXLIB) $(OBJECTS)
 	@cc $(CFLAGS) $(FLAGSMLX) $(OBJECTS) $(LIBFT) $(MLXLIB) -o $(NAME)
 	@echo "\n\t LET'S PLAY!! 🎉🎉\n"
 
-%.o:%.c
-	@cc $(CFLAGS) -c -o $@ $^
+obj/%.o:%.c | $(OBJ_DIR)
+	@cc $(CFLAGS) -c -o $@ $^ 
 
 clean:
 	@$(MAKE) clean -C ./Libft
-	@rm -f $(OBJECTS)
+	@rm -rf $(OBJ_DIR)
 	@echo "\t OFILES Cleansed ✅!"
 
 fclean: clean

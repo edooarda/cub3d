@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   checkers.c                                         :+:    :+:            */
+/*   main.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/10/09 11:22:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/09 13:05:06 by edribeir      ########   odam.nl         */
+/*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
+/*   Updated: 2024/10/09 13:03:46 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-bool	file_extension_checker(char *str)
+int	main(int argc, char **argv)
 {
-	int	len;
-
-	len = ft_strlen(str);
-	if (str && ft_strncmp(&str[len - 4], ".cub", 4) != 0)
+	if (argc == 2)
 	{
-		write(2, "Wrong extension, please use file.cub\n", 37);
-		return (false);
+		if (file_extension_checker(argv[1]) == false)
+			return (1);
 	}
-	return (true);
+	else
+	{
+		printf("   Wrong Input\n");
+		printf("Please add a map!\n");
+		return (1);
+	}
+
 }
