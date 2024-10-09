@@ -6,7 +6,7 @@
 #    By: edribeir <edribeir@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/10/09 11:21:58 by edribeir      #+#    #+#                  #
-#    Updated: 2024/10/09 13:04:24 by edribeir      ########   odam.nl          #
+#    Updated: 2024/10/09 18:48:46 by edribeir      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ FLAGSMLX = -ldl -lglfw -pthread -lm
 
 SOURCE =  main.c \
 		checkers.c \
+		utils.c
 
 OBJECTS = $(SOURCE:%.c=obj/%.o)
 
@@ -47,7 +48,9 @@ $(LIBFT):
 
 $(NAME): $(LIBFT) $(MLXLIB) $(OBJECTS)
 	@cc $(CFLAGS) $(FLAGSMLX) $(OBJECTS) $(LIBFT) $(MLXLIB) -o $(NAME)
-	@echo "\n\t LET'S PLAY!! 🎉🎉\n"
+	@echo "\n--------------------------------------------\n"
+	@echo "\n\t R-E-A-D-Y! LET'S PLAY!! 🎉🎉\n"
+	@echo "\n--------------------------------------------\n"
 
 obj/%.o:%.c | $(OBJ_DIR)
 	@cc $(CFLAGS) -c -o $@ $^ 

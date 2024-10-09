@@ -6,7 +6,7 @@
 #    By: edribeir <edribeir@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/10/20 13:36:22 by edribeir      #+#    #+#                  #
-#    Updated: 2024/03/07 14:06:33 by edribeir      ########   odam.nl          #
+#    Updated: 2024/10/09 18:51:14 by edribeir      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,18 +78,19 @@ all: $(NAME)
 
 $(NAME) : $(OBJECTS)
 	@$(AR) $(NAME) $(OBJECTS)
-	@echo "----> LIBFT DONE 😊 <----"
+	@echo "\t\tLIBFT IS DONE 😊\n"
 
-%.o:%.c 
+%.o:%.c
 	@$(CC) -c $(CFLAGS) -o $@ $^
 
-clean: 
+clean:
 	@$(RM) $(OBJECTS)
-	@echo "----> LIBFT Cleansed!✅ <----"
+	@echo "LIBFT Cleansed!✅"
 
-fclean: clean
+fclean:
+	@$(RM) $(OBJECTS)
 	@$(RM) $(NAME)
-	@echo "----> LIBFT ALL Cleansed!✅ <----"
+	@echo "LIBFT ALL Cleansed!✅"
 
 re: fclean all
 

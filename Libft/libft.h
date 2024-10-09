@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/24 12:31:26 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/02/28 11:58:16 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/09 18:38:46 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <string.h>
 # include <limits.h>
 # include <unistd.h>
+# include "get_next_line.h"
+# include "ft_printf.h"
 
 // Bonus Struct
 typedef struct s_list

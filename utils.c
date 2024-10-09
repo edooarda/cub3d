@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   utils.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/09 18:33:03 by edribeir      ########   odam.nl         */
+/*   Created: 2024/10/09 18:32:15 by edribeir      #+#    #+#                 */
+/*   Updated: 2024/10/09 18:33:37 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	main(int argc, char **argv)
+void	error_message(char *message)
 {
-	if (argc == 2)
-	{
-		file_validator(argv[1]);
-	}
-	else
-	{
-		printf("   Wrong Input\n");
-		printf("Please add one file!\n");
-		return (1);
-	}
+	ft_putendl_fd("ERROR", 2);
+	ft_putendl_fd(message, 2);
+	exit(EXIT_FAILURE);
 }
