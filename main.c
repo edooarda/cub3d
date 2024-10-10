@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/10 15:28:16 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/10 17:38:36 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char **argv)
 	valid_file.EA = NULL;
 	if (argc == 2)
 	{
-		file_validator(argv[1], valid_file);
+		file_validator(argv[1], &valid_file);
 	}
 	else
 	{
@@ -34,7 +34,6 @@ int	main(int argc, char **argv)
 		printf("Please add one file!\n");
 		return (1);
 	}
-	printf("oq tem dentro do NO = %s\n", valid_file.NO);
 	if (valid_file.NO != NULL)
 		free(valid_file.NO);
 	if (valid_file.SO != NULL)

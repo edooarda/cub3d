@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/10 15:58:04 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/10 17:57:55 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,68 +22,34 @@ size_t	skip_char(char *line, char c)
 	return (i);
 }
 
-char	*textures_checker(char *line, int *i, char frst_l, char scnd_l)
+char	*textures_checker(char *line, int *i, char *values)
 {
 	int j;
 	int		len;
 	char	*temp;
+	
 
-	len = 0;
+	len = -3;
 	temp = NULL;
-	// printf("line before strcmp %s\n", line);
-	if (ft_strncmp(&line[(*i)], &frst_l, 1) == 0 && strncmp(&line[(*i) + 1], &scnd_l, 1) == 0)
+
+	// printf("line before strcmp %c\n", line[(*i)]);
+	if (ft_strncmp(&line[(*i)], values, 2) == 0)
 	{
-		j = skip_char(line, frst_l);
-		// printf("entrei j = %i - %c\n", j, j);
+		// add check for tabs and jump a lot of tabs
+		j = *i + 1 + skip_char(line, ' ');
 		while (line[(*i)] != '\n')
 		{
 			len++;
 			(*i)++;
 		}
-		printf("i = %i -- j = %i  ---- h = %i\n", (*i), j, len);
+		// printf("i = %i -- j = %i  ---- h = %i\n", (*i), j, len);
 		temp = ft_substr(line, j, len);
+		printf("esse eh o TEMP %s--\n", temp);
 	}
-	printf("esse eh o TEMP %s\n", temp);
+	// printf("entrei i = '%i' - '%c'\n", line[(*i)], line[(*i)]);
+	(*i)++;
 	return (temp);
 }
-
-// bool	textures_checker(t_file *file, int *i, char frst_l, char scnd_l)
-// {
-// 	int		j;
-// 	int		len;
-// 	char	*temp;
-
-// 	len = 0;
-// 	temp = NULL;
-// 	if (ft_strncmp(&file->file[(*i)], &frst_l, 1) == 0 && strncmp(&file->file[(*i) + 1], &scnd_l, 1) == 0)
-// 	{
-// 		j = skip_char(file->file, frst_l);
-// 		// printf("entrei j = %i - %c\n", j, j);
-// 		while (file->file[(*i)] != '\n')
-// 		{
-// 			len++;
-// 			(*i)++;
-// 		}
-// 		printf("i = %i -- j = %i  ---- h = %i\n", (*i), j, len);
-// 		temp = ft_substr(file->file, j, len);
-// 		if (temp[0] == 'N' && temp[1] == 'O')
-// 		{
-// 			file->NO = temp;
-// 			printf("esse eh o q ta dentro da estrura %s\n", file->NO);
-// 			return (true);
-// 		}
-// 		else if (frst_l == 'S' && scnd_l == 'O')
-// 		{
-// 			printf("humm?\n");
-// 			file->SO = temp;
-// 		}
-// 		else if (frst_l == 'W' && scnd_l == 'E')
-// 			file->WE = temp;
-// 		else if (frst_l == 'E' && scnd_l == 'A')
-// 			file->EA = temp;
-// 	}
-// 	printf("esse eh o TEMP %s\n", temp);
-// }
 
 bool	file_checker(t_file *valid_file)
 {
@@ -103,15 +69,17 @@ bool	file_checker(t_file *valid_file)
 		// 	j = i;
 		// 	printf("esse eh o NO %s\n", valid_file->NO);
 		// }
-		valid_file->NO = textures_checker(valid_file->file, &i, 'N', 'O');
-		valid_file->SO = textures_checker(valid_file->file, &i, 'S', 'O');
-		// valid_file->WE = textures_checker(valid_file->file, &i, 'W', 'E');
-		valid_file->EA = textures_checker(valid_file->file, &i, 'E', 'A');
+		// if (textures_checker(valid_file, &i, 'N', 'O') == false)
+		// 	return (false);
+		valid_file->NO = textures_checker(valid_file->file, &i, "NO");
+		valid_file->SO = textures_checker(valid_file->file, &i, "SO");
+		valid_file->WE = textures_checker(valid_file->file, &i, "WE");
+		valid_file->EA = textures_checker(valid_file->file, &i, "EA");
 		printf(" this is i %i\n", i);
-		printf("%s\n", valid_file->NO);
-		printf("%s--\n", valid_file->SO);
+		// printf("%s\n", valid_file->NO);
+		// printf("%s--\n", valid_file->SO);
 		// printf("%s--\n", valid_file->WE);
-		printf("%s--\n", valid_file->EA);
+		// printf("%s--\n", valid_file->EA);
 		if (valid_file->EA != NULL)
 			break ;
 		// if (valid_file->file[i] == '\n' && valid_file->file[i + 1] == '\n')
@@ -169,24 +137,14 @@ bool	file_extension_checker(char *argv)
 	return (true);
 }
 
-void	file_validator(char *argv, t_file valid_file)
+void	file_validator(char *argv, t_file *valid_file)
 {
 	if (file_extension_checker(&argv[1]) == false)
 		exit(EXIT_FAILURE);
-	valid_file.file = read_file(argv);
-	if (valid_file.file == NULL)
+	valid_file->file = read_file(argv);
+	if (valid_file->file == NULL)
 		error_message("Something wrong reading the file");
 	// printf("%s---\n", valid_file->file);
-	file_checker(&valid_file);
-	printf("oq tem dentro do WE = %s\n", valid_file.WE);
-	// if (valid_file.NO != NULL)
-	// 	free(valid_file.NO);
-	// if (valid_file.SO != NULL)
-	// 	free(valid_file.SO);
-	// if (valid_file.EA != NULL)
-	// 	free(valid_file.EA);
-	// if (valid_file.WE != NULL)
-	// 	free(valid_file.WE);
-	if (valid_file.file != NULL)
-		free(valid_file.file);
+	file_checker(valid_file);
+	printf("oq tem dentro do WE = %s\n", valid_file->WE);
 }
