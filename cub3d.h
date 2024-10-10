@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/09 18:33:48 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/10 15:08:20 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,20 @@
 #include <fcntl.h>
 # include <stdbool.h>
 
-void	file_validator(char *argv);
+typedef struct s_file
+{
+	char *file;
+	char **mapa;
+	char *NO;
+	char *SO;
+	char *WE;
+	char *EA;
+	char *f_color;
+	char *c_color;
+}	t_file;
+
+
+void	file_validator(char *argv, t_file valid_file);
 void	error_message(char *message);
 
 #endif

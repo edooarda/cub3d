@@ -6,7 +6,7 @@
 #    By: edribeir <edribeir@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/10/09 11:21:58 by edribeir      #+#    #+#                  #
-#    Updated: 2024/10/09 18:48:46 by edribeir      ########   odam.nl          #
+#    Updated: 2024/10/10 14:06:56 by edribeir      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = cub3d
 CC = cc
 
 CFLAGS = -Wall -Wextra -Werror -g
-# CFLAGS += -fsanitize=address
+CFLAGS += -fsanitize=address
 
 LIBFT = ./Libft/libft.a
 

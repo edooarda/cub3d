@@ -6,29 +6,125 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/09 18:36:55 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/10 15:58:04 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-bool	file_checker(char *file)
+size_t	skip_char(char *line, char c)
+{
+	int i;
+
+	i = 0;
+	while (line[i] != c && line[i] != '\0')
+		i++;
+	return (i);
+}
+
+char	*textures_checker(char *line, int *i, char frst_l, char scnd_l)
+{
+	int j;
+	int		len;
+	char	*temp;
+
+	len = 0;
+	temp = NULL;
+	// printf("line before strcmp %s\n", line);
+	if (ft_strncmp(&line[(*i)], &frst_l, 1) == 0 && strncmp(&line[(*i) + 1], &scnd_l, 1) == 0)
+	{
+		j = skip_char(line, frst_l);
+		// printf("entrei j = %i - %c\n", j, j);
+		while (line[(*i)] != '\n')
+		{
+			len++;
+			(*i)++;
+		}
+		printf("i = %i -- j = %i  ---- h = %i\n", (*i), j, len);
+		temp = ft_substr(line, j, len);
+	}
+	printf("esse eh o TEMP %s\n", temp);
+	return (temp);
+}
+
+// bool	textures_checker(t_file *file, int *i, char frst_l, char scnd_l)
+// {
+// 	int		j;
+// 	int		len;
+// 	char	*temp;
+
+// 	len = 0;
+// 	temp = NULL;
+// 	if (ft_strncmp(&file->file[(*i)], &frst_l, 1) == 0 && strncmp(&file->file[(*i) + 1], &scnd_l, 1) == 0)
+// 	{
+// 		j = skip_char(file->file, frst_l);
+// 		// printf("entrei j = %i - %c\n", j, j);
+// 		while (file->file[(*i)] != '\n')
+// 		{
+// 			len++;
+// 			(*i)++;
+// 		}
+// 		printf("i = %i -- j = %i  ---- h = %i\n", (*i), j, len);
+// 		temp = ft_substr(file->file, j, len);
+// 		if (temp[0] == 'N' && temp[1] == 'O')
+// 		{
+// 			file->NO = temp;
+// 			printf("esse eh o q ta dentro da estrura %s\n", file->NO);
+// 			return (true);
+// 		}
+// 		else if (frst_l == 'S' && scnd_l == 'O')
+// 		{
+// 			printf("humm?\n");
+// 			file->SO = temp;
+// 		}
+// 		else if (frst_l == 'W' && scnd_l == 'E')
+// 			file->WE = temp;
+// 		else if (frst_l == 'E' && scnd_l == 'A')
+// 			file->EA = temp;
+// 	}
+// 	printf("esse eh o TEMP %s\n", temp);
+// }
+
+bool	file_checker(t_file *valid_file)
 {
 	int	i;
 
 	i = 0;
-	while (file[i] != '\0')
+	while (valid_file->file[i])
 	{
-		if (file[i] == '\n' && file[i + 1] == '\n')
-		{
-			// pode ser usado o i, e conferir o file ate a posicao i encontrada, ou a partir da posicao i encontrada
-			// conferir as cores e depois se for '\n' no inicio da str, pular todos para chegar no mapa
-			printf("i am here\n"); // first time colors second print chegou no map
-			// return (true);
-		}
+		// if (ft_strncmp(&valid_file->file[i], "N", 1) == 0 && strncmp(&valid_file->file[i + 1], "O", 1) == 0)
+		// // if (valid_file->file[i] == 'N' && valid_file->file[i + 1] == '0')
+		// {
+		// 	// j = ft_strncmp(&valid_file->file[i], "N", 1);
+		// 	printf("entrei\n");
+		// 	while (valid_file->file[i] != '\n')
+		// 		i++;
+		// 	valid_file->NO = ft_substr(valid_file->file, j, i);
+		// 	j = i;
+		// 	printf("esse eh o NO %s\n", valid_file->NO);
+		// }
+		valid_file->NO = textures_checker(valid_file->file, &i, 'N', 'O');
+		valid_file->SO = textures_checker(valid_file->file, &i, 'S', 'O');
+		// valid_file->WE = textures_checker(valid_file->file, &i, 'W', 'E');
+		valid_file->EA = textures_checker(valid_file->file, &i, 'E', 'A');
+		printf(" this is i %i\n", i);
+		printf("%s\n", valid_file->NO);
+		printf("%s--\n", valid_file->SO);
+		// printf("%s--\n", valid_file->WE);
+		printf("%s--\n", valid_file->EA);
+		if (valid_file->EA != NULL)
+			break ;
+		// if (valid_file->file[i] == '\n' && valid_file->file[i + 1] == '\n')
+		// {
+		// 	// pode ser usado o i, e conferir o file ate a posicao i encontrada, ou a partir da posicao i encontrada
+		// 	// conferir as cores e depois se for '\n' no inicio da str, pular todos para chegar no mapa
+		// 	printf("i am here %i\n", i);
+		// 	break ; // first time colors second print chegou no map
+		// 	// return (true);
+		// }
 		i++;
 	}
-	return (false);
+	return (true);
 }
 
 char	*read_file(char *file)
@@ -73,106 +169,24 @@ bool	file_extension_checker(char *argv)
 	return (true);
 }
 
-void	file_validator(char *argv)
+void	file_validator(char *argv, t_file valid_file)
 {
-	char *cpy_file;
-
 	if (file_extension_checker(&argv[1]) == false)
 		exit(EXIT_FAILURE);
-	cpy_file = read_file(argv);
-	if (cpy_file == NULL)
+	valid_file.file = read_file(argv);
+	if (valid_file.file == NULL)
 		error_message("Something wrong reading the file");
-	printf("%s---\n", cpy_file);
-	file_checker(cpy_file);
-	// array = ft_split(test, '\n');
-	// int i = 0;
-	// while (array[i] != NULL)
-	// {
-	// 	printf("%s---\n", array[i]);
-	// 	i++;
-	// }
+	// printf("%s---\n", valid_file->file);
+	file_checker(&valid_file);
+	printf("oq tem dentro do WE = %s\n", valid_file.WE);
+	// if (valid_file.NO != NULL)
+	// 	free(valid_file.NO);
+	// if (valid_file.SO != NULL)
+	// 	free(valid_file.SO);
+	// if (valid_file.EA != NULL)
+	// 	free(valid_file.EA);
+	// if (valid_file.WE != NULL)
+	// 	free(valid_file.WE);
+	if (valid_file.file != NULL)
+		free(valid_file.file);
 }
-
-
-// void	file_check(char *str)
-// {
-// 	int fd;
-// 	int i;
-
-// 	i = 0;
-// 	fd = open(str, O_RDONLY);
-// 	while(i < 23)
-// 	{
-// 		printf("%s\n", get_next_line(fd));
-// 		i++;
-// 	}
-// }
-
-// static char	*gnl(int file, char *layout)
-// {
-// 	char	*temp_map;
-
-// 	while (1)
-// 	{
-// 		temp_map = get_next_line(file);
-// 		if (temp_map == NULL)
-// 			break ;
-// 		layout = ft_strjoin(layout, temp_map);
-// 		if (layout == NULL)
-// 			printf("bah\n");
-// 			// msg("Error\nMalloc fail\n");
-// 		free(temp_map);
-// 	}
-// 	close(file);
-// 	free(temp_map);
-// 	return (layout);
-// }
-
-// char	**map_copy(char *argv)
-// {
-// 	char	*layout;
-// 	char	**full_map;
-// 	int		file;
-
-// 	layout = ft_strdup("");
-// 	file = open(argv, O_RDONLY);
-// 	if (file == -1)
-// 		printf("bah\n");
-// 		// msg("Error\nMalloc fail\n");
-// 	layout = gnl(file, layout);
-// 	full_map = ft_split(layout, '\n');
-// 	free(layout);
-// 	if (!full_map)
-// 		printf("bah\n");
-// 		// msg("Error\nMalloc fail\n");
-// 	if (*full_map == NULL)
-// 	{
-// 		free(full_map);
-// 		printf("bah\n");
-// 		// msg("Error\nMalloc fail\n");
-// 	}
-// 	return (full_map);
-// }
-
-// char	**map_copy(char **argv)
-// {
-// 	int	i;
-// 	int	x;
-// 	int	y;
-
-// 	x = 0;
-// 	y = 0;
-// 	argv = (char **)ft_calloc(sizeof(char *), (y + 1));
-// 	if (!argv)
-// 		printf("Malloc map\n");
-// 	i = 0;
-// 	while (i < y)
-// 	{
-// 		argv[i] = ft_calloc(sizeof(char), (x + 2));
-// 		if (!argv[i])
-// 			printf("Malloc map[y]\n");
-// 		i++;
-// 	}
-// 	argv[i] = NULL;
-// 	return (argv);
-// }
