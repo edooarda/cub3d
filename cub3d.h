@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/10 17:20:04 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/14 15:42:29 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ typedef struct s_file
 
 
 void	file_validator(char *argv, t_file *valid_file);
+void	cleaner_file(t_file valid_file);
 void	error_message(char *message);
+void	free_split(char **array);
 
 #endif
