@@ -6,7 +6,7 @@
 #    By: edribeir <edribeir@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/10/09 11:21:58 by edribeir      #+#    #+#                  #
-#    Updated: 2024/10/10 14:06:56 by edribeir      ########   odam.nl          #
+#    Updated: 2024/10/14 15:39:29 by edribeir      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ FLAGSMLX = -ldl -lglfw -pthread -lm
 
 SOURCE =  main.c \
 		checkers.c \
-		utils.c
+		utils.c \
+		cleaner.c \
 
 OBJECTS = $(SOURCE:%.c=obj/%.o)
 

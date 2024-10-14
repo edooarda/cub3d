@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/10 17:38:36 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/14 15:44:21 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,5 @@ int	main(int argc, char **argv)
 		printf("Please add one file!\n");
 		return (1);
 	}
-	if (valid_file.NO != NULL)
-		free(valid_file.NO);
-	if (valid_file.SO != NULL)
-		free(valid_file.SO);
-	if (valid_file.EA != NULL)
-		free(valid_file.EA);
-	if (valid_file.WE != NULL)
-		free(valid_file.WE);
-	if (valid_file.file != NULL)
-		free(valid_file.file);
+	cleaner_file(valid_file);
 }
