@@ -6,106 +6,81 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/14 12:11:31 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/14 16:29:15 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-// static bool	ft_isspace(char c)
+// void	tex_check(mlx_texture_t *png, char *path, char *msg)
 // {
-// 	return (c == '\t' || c == '\n' || c == '\v' || \
-// 		c == '\f' || c == '\r' || c == ' ');
+// 	png = mlx_load_png(path);
+// 	if (!png)
+// 		return (error_message(msg));
 // }
 
-// static bool	ft_isspace(char c)
+// void	tex_assing(t_file *valid_file)
 // {
-// 	return (c == '\t' || c == '\n' || c == '\v' || \
-// 		c == '\f' || c == '\r' || c == ' ');
+// 	tex_check(valid_file->valid_tex->NO_tex, valid_file->NO, ERROR_TEX);
+// 	tex_check(valid_file->valid_tex->SO_tex, valid_file->SO, ERROR_TEX);
+// 	tex_check(valid_file->valid_tex->WE_tex, valid_file->WE, ERROR_TEX);
+// 	tex_check(valid_file->valid_tex->EA_tex, valid_file->EA, ERROR_TEX);
 // }
 
-// size_t	skip_char(char *line, char c)
-// {
-// 	int i;
+static int	get_rgb(int r, int g, int b, int a)
+{
+	return (r << 24 | g << 16 | b << 8 | a);
+}
 
-// 	i = 0;
-// 	while (line[i] != c && line[i] != '\0')
-// 		i++;
-// 	return (i);
-// }
 
-// char	*textures_checker(char *line, int *i, char *values)
-// {
-// 	int j;
-// 	int		len;
-// 	char	*temp;
+int	get_colors(t_file *valid_file, char **color, char **word)
+{
+	int 	i;
+	int		number;
+	int		arg[3];
+	int32_t	rgb;
+
+	i = 0;
+	while(color[i])
+	{
+		number = ft_atoi(color[i]);
+		if (number < 0 || number > 255)
+			return (1);// add error
+		arg[i] = number;
+		i++;
+	}
+	rgb = get_rgb(arg[0], arg[1], arg[2], 255);
+	if (!ft_strcmp(word[0], "F"))
+		valid_file->valid_tex->floor = rgb;
+	else if (!ft_strcmp(word[0], "C"))
+		valid_file->valid_tex->ceil = rgb;
+	return (EXIT_SUCCESS);
+}
+
+void	color_check(t_file *valid_file)
+{
+	int i;
+	char	**color;
+	char	**line;
 	
+	i = 0;
+	// while (valid_file->f_color[i] != ' ')
+	// 	valid_file->f_color[i]++;
+	valid_file->f_color[ft_strlen(valid_file->f_color)] = '\0';
+	line = ft_split(valid_file->f_color, ' ');
+	//add error if diferente de 2
+	color = ft_split(valid_file->f_color, ',');
+	//add erro if diferente de 3
+	// funcao para ir buscar as cores
+	if (get_colors(valid_file, color, line))
+		return (EXIT_FAILURE);
+	// while(color[i])
+	// {
+	// 	printf("%s\n", color[i]);
+	// 	i++;
+	// }
 
-// 	len = -3;
-// 	temp = NULL;
-
-// 	// printf("line before strcmp %c\n", line[(*i)]);
-// 	if (ft_strncmp(&line[(*i)], values, 2) == 0)
-// 	{
-// 		// add check for tabs and jump a lot of tabs
-// 		j = *i + 1 + skip_char(line, ' ');
-// 		while (line[(*i)] != '\n')
-// 		{
-// 			len++;
-// 			(*i)++;
-// 		}
-// 		// printf("i = %i -- j = %i  ---- h = %i\n", (*i), j, len);
-// 		temp = ft_substr(line, j, len);
-// 		printf("esse eh o TEMP %s--\n", temp);
-// 	}
-// 	// printf("entrei i = '%i' - '%c'\n", line[(*i)], line[(*i)]);
-// 	(*i)++;
-// 	return (temp);
-// }
-
-// bool	file_checker(t_file *valid_file)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (valid_file->file[i] && i < 4)
-// 	{
-// 		// if (ft_strncmp(&valid_file->file[i], "N", 1) == 0 && strncmp(&valid_file->file[i + 1], "O", 1) == 0)
-// 		// // if (valid_file->file[i] == 'N' && valid_file->file[i + 1] == '0')
-// 		// {
-// 		// 	// j = ft_strncmp(&valid_file->file[i], "N", 1);
-// 		// 	printf("entrei\n");
-// 		// 	while (valid_file->file[i] != '\n')
-// 		// 		i++;
-// 		// 	valid_file->NO = ft_substr(valid_file->file, j, i);
-// 		// 	j = i;
-// 		// 	printf("esse eh o NO %s\n", valid_file->NO);
-// 		// }
-// 		// if (textures_checker(valid_file, &i, 'N', 'O') == false)
-// 		// 	return (false);
-// 		valid_file->NO = textures_checker(valid_file->file, &i, "NO");
-// 		valid_file->SO = textures_checker(valid_file->file, &i, "SO");
-// 		valid_file->WE = textures_checker(valid_file->file, &i, "WE");
-// 		valid_file->EA = textures_checker(valid_file->file, &i, "EA");
-// 		printf(" this is i %i\n", i);
-// 		// printf("%s\n", valid_file->NO);
-// 		// printf("%s--\n", valid_file->SO);
-// 		// printf("%s--\n", valid_file->WE);
-// 		// printf("%s--\n", valid_file->EA);
-// 		// if (valid_file->EA != NULL)
-// 		// 	break ;
-// 		// if (valid_file->file[i] == '\n' && valid_file->file[i + 1] == '\n')
-// 		// {
-// 		// 	// pode ser usado o i, e conferir o file ate a posicao i encontrada, ou a partir da posicao i encontrada
-// 		// 	// conferir as cores e depois se for '\n' no inicio da str, pular todos para chegar no mapa
-// 		// 	printf("i am here %i\n", i);
-// 		// 	break ; // first time colors second print chegou no map
-// 		// 	// return (true);
-// 		// }
-// 		i++;
-// 	}
-// 	return (true);
-// }
+}
 
 char	*read_file(char *file)
 {
@@ -176,7 +151,7 @@ void	file_validator(char *argv, t_file *valid_file)
 			valid_file->f_color = array[i];
 		else if (ft_strncmp(array[i], "C", 1) == 0)
 			valid_file->c_color = array[i];
-		else if(ft_strchr("\t1 ", array[i][0]) /*array[i][0] == '\t' || array[i][0] == '1' || array[i][0] == ' '*/)
+		else if(array[i][0] == '\t' || array[i][0] == '1' || array[i][0] == ' ')
 		{
 			valid_file->mapa[j] = ft_strdup(array[i]);
 			j++;
@@ -184,18 +159,6 @@ void	file_validator(char *argv, t_file *valid_file)
 		// printf("esse eh o valor --%s---\n", array[i]);
 		i++;
 	}
-	printf("esse eh o valor --%s---\n", valid_file->NO);
-	printf("oq tem dentro do WE = --%s--\n", valid_file->WE);
-	printf("oq tem dentro do EA = --%s--\n", valid_file->EA);
-	printf("oq tem dentro do SO = --%s--\n", valid_file->SO);
-	printf("F color = --%s--\n", valid_file->f_color);
-	printf("C color = --%s--\n", valid_file->c_color);
-	int k = 0;
-	while(valid_file->mapa[k])
-	{
-		printf("C color = --%s--\n", valid_file->mapa[k]);
-		k++;
-	}
-	// printf("%s---\n", valid_file->file);
-	// file_checker(valid_file);
+	// tex_assing(valid_file);
+	color_check(valid_file);
 }
