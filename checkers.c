@@ -6,11 +6,23 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/14 12:04:54 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/14 12:11:31 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+// static bool	ft_isspace(char c)
+// {
+// 	return (c == '\t' || c == '\n' || c == '\v' || \
+// 		c == '\f' || c == '\r' || c == ' ');
+// }
+
+// static bool	ft_isspace(char c)
+// {
+// 	return (c == '\t' || c == '\n' || c == '\v' || \
+// 		c == '\f' || c == '\r' || c == ' ');
+// }
 
 // size_t	skip_char(char *line, char c)
 // {
