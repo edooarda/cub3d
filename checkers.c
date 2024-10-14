@@ -6,11 +6,17 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/10 17:57:55 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/14 11:52:36 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+// static bool	ft_isspace(char c)
+// {
+// 	return (c == '\t' || c == '\n' || c == '\v' || \
+// 		c == '\f' || c == '\r' || c == ' ');
+// }
 
 size_t	skip_char(char *line, char c)
 {
@@ -32,9 +38,12 @@ char	*textures_checker(char *line, int *i, char *values)
 	len = -3;
 	temp = NULL;
 
-	// printf("line before strcmp %c\n", line[(*i)]);
 	if (ft_strncmp(&line[(*i)], values, 2) == 0)
 	{
+		// printf("%c\n", line[(*i)]);
+		// while (ft_isspace(line[(*i)]))
+		// 	line[(*i)]++;
+		// printf("%c\n", line[(*i)]);
 		// add check for tabs and jump a lot of tabs
 		j = *i + 1 + skip_char(line, ' ');
 		while (line[(*i)] != '\n')
@@ -42,11 +51,9 @@ char	*textures_checker(char *line, int *i, char *values)
 			len++;
 			(*i)++;
 		}
-		// printf("i = %i -- j = %i  ---- h = %i\n", (*i), j, len);
 		temp = ft_substr(line, j, len);
-		printf("esse eh o TEMP %s--\n", temp);
+		// printf("esse eh o TEMP %s--\n", temp);
 	}
-	// printf("entrei i = '%i' - '%c'\n", line[(*i)], line[(*i)]);
 	(*i)++;
 	return (temp);
 }
@@ -58,40 +65,16 @@ bool	file_checker(t_file *valid_file)
 	i = 0;
 	while (valid_file->file[i])
 	{
-		// if (ft_strncmp(&valid_file->file[i], "N", 1) == 0 && strncmp(&valid_file->file[i + 1], "O", 1) == 0)
-		// // if (valid_file->file[i] == 'N' && valid_file->file[i + 1] == '0')
-		// {
-		// 	// j = ft_strncmp(&valid_file->file[i], "N", 1);
-		// 	printf("entrei\n");
-		// 	while (valid_file->file[i] != '\n')
-		// 		i++;
-		// 	valid_file->NO = ft_substr(valid_file->file, j, i);
-		// 	j = i;
-		// 	printf("esse eh o NO %s\n", valid_file->NO);
-		// }
-		// if (textures_checker(valid_file, &i, 'N', 'O') == false)
-		// 	return (false);
 		valid_file->NO = textures_checker(valid_file->file, &i, "NO");
 		valid_file->SO = textures_checker(valid_file->file, &i, "SO");
 		valid_file->WE = textures_checker(valid_file->file, &i, "WE");
 		valid_file->EA = textures_checker(valid_file->file, &i, "EA");
-		printf(" this is i %i\n", i);
-		// printf("%s\n", valid_file->NO);
-		// printf("%s--\n", valid_file->SO);
-		// printf("%s--\n", valid_file->WE);
-		// printf("%s--\n", valid_file->EA);
-		if (valid_file->EA != NULL)
-			break ;
-		// if (valid_file->file[i] == '\n' && valid_file->file[i + 1] == '\n')
-		// {
-		// 	// pode ser usado o i, e conferir o file ate a posicao i encontrada, ou a partir da posicao i encontrada
-		// 	// conferir as cores e depois se for '\n' no inicio da str, pular todos para chegar no mapa
-		// 	printf("i am here %i\n", i);
-		// 	break ; // first time colors second print chegou no map
-		// 	// return (true);
-		// }
-		i++;
+		printf("%s--\n", valid_file->NO);
+		printf("%s--\n", valid_file->SO);
+		printf("%s--\n", valid_file->WE);
+		printf("%s--\n", valid_file->EA);
 	}
+	
 	return (true);
 }
 
@@ -146,5 +129,5 @@ void	file_validator(char *argv, t_file *valid_file)
 		error_message("Something wrong reading the file");
 	// printf("%s---\n", valid_file->file);
 	file_checker(valid_file);
-	printf("oq tem dentro do WE = %s\n", valid_file->WE);
+	// printf("oq tem dentro do WE = %s\n", valid_file->WE);
 }
