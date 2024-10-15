@@ -6,11 +6,38 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/14 16:29:15 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/15 10:44:23 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	ft_free_arr(char **arr)
+{
+	int	i;
+
+	if (!arr)
+		return ;
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
+size_t	ft_arrlen(char **arr)
+{
+	size_t	i;
+
+	i = 0;
+	if (!arr)
+		return (0);
+	while (arr[i])
+		i++;
+	return (i);
+}
 
 // void	tex_check(mlx_texture_t *png, char *path, char *msg)
 // {
@@ -57,29 +84,25 @@ int	get_colors(t_file *valid_file, char **color, char **word)
 	return (EXIT_SUCCESS);
 }
 
-void	color_check(t_file *valid_file)
+int	color_check(t_file *valid_file)
 {
 	int i;
 	char	**color;
 	char	**line;
 	
 	i = 0;
-	// while (valid_file->f_color[i] != ' ')
-	// 	valid_file->f_color[i]++;
 	valid_file->f_color[ft_strlen(valid_file->f_color)] = '\0';
 	line = ft_split(valid_file->f_color, ' ');
-	//add error if diferente de 2
+	if (ft_arrlen(line) != 2)
+		return (ft_free_arr(line), error_message("Wrong color selection"), 0);
 	color = ft_split(valid_file->f_color, ',');
-	//add erro if diferente de 3
-	// funcao para ir buscar as cores
+	if (ft_arrlen(color) != 3)
+		return (ft_free_arr(color), error_message("Wrong color selection"), 0);
 	if (get_colors(valid_file, color, line))
 		return (EXIT_FAILURE);
-	// while(color[i])
-	// {
-	// 	printf("%s\n", color[i]);
-	// 	i++;
-	// }
-
+	ft_free_arr(color);
+	ft_free_arr(line);
+	return (0);
 }
 
 char	*read_file(char *file)

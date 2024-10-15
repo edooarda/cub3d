@@ -6,7 +6,7 @@
 #    By: edribeir <edribeir@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/10/20 13:36:22 by edribeir      #+#    #+#                  #
-#    Updated: 2024/10/09 18:51:14 by edribeir      ########   odam.nl          #
+#    Updated: 2024/10/15 10:47:08 by jovieira      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SOURCE = ft_isdigit.c \
 		ft_memchr.c \
 		ft_strdup.c \
 		ft_strncmp.c \
+		ft_strcmp.c\
 		ft_isalnum.c \
 		ft_memcmp.c \
 		ft_striteri.c \
