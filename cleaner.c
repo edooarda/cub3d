@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/14 14:43:52 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/14 14:48:21 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/15 11:15:52 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,14 @@ void	cleaner_file(t_file valid_file)
 	}
 	if (valid_file.file != NULL)
 		free(valid_file.file);
+	if (valid_file.valid_tex->NO_tex)
+		free(valid_file.valid_tex->NO_tex);
+	if (valid_file.valid_tex->EA_tex)
+		free(valid_file.valid_tex->EA_tex);
+	if (valid_file.valid_tex->WE_tex)
+		free(valid_file.valid_tex->WE_tex);
+	if (valid_file.valid_tex->SO_tex)
+		free(valid_file.valid_tex->SO_tex);
+	if (valid_file.valid_tex)
+		free(valid_file.valid_tex);
 }
