@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/14 15:44:21 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/15 10:57:32 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	main(int argc, char **argv)
 {
-	t_file valid_file;
+	t_file	valid_file;
 
 	valid_file.c_color = NULL;
 	valid_file.f_color = NULL;
@@ -24,6 +24,11 @@ int	main(int argc, char **argv)
 	valid_file.SO = NULL;
 	valid_file.WE = NULL;
 	valid_file.EA = NULL;
+	valid_file.valid_tex = malloc(sizeof(t_tex));
+	valid_file.valid_tex->EA_tex = malloc(sizeof(mlx_texture_t));
+	valid_file.valid_tex->NO_tex = malloc(sizeof(mlx_texture_t));
+	valid_file.valid_tex->SO_tex = NULL;
+	valid_file.valid_tex->WE_tex = NULL;
 	if (argc == 2)
 	{
 		file_validator(argv[1], &valid_file);

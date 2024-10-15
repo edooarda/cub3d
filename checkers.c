@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/14 15:42:55 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/15 10:57:20 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,98 @@ void	filling_map(t_file *valid_file, char **file, int lines)
 	}
 	valid_file->mapa[j] = NULL;
 	// return(map);
+}
+void	ft_free_arr(char **arr)
+{
+	int	i;
+
+	if (!arr)
+		return ;
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
+size_t	ft_arrlen(char **arr)
+{
+	size_t	i;
+
+	i = 0;
+	if (!arr)
+		return (0);
+	while (arr[i])
+		i++;
+	return (i);
+}
+
+// void	tex_check(mlx_texture_t *png, char *path, char *msg)
+// {
+// 	png = mlx_load_png(path);
+// 	if (!png)
+// 		return (error_message(msg));
+// }
+
+// void	tex_assing(t_file *valid_file)
+// {
+// 	tex_check(valid_file->valid_tex->NO_tex, valid_file->NO, ERROR_TEX);
+// 	tex_check(valid_file->valid_tex->SO_tex, valid_file->SO, ERROR_TEX);
+// 	tex_check(valid_file->valid_tex->WE_tex, valid_file->WE, ERROR_TEX);
+// 	tex_check(valid_file->valid_tex->EA_tex, valid_file->EA, ERROR_TEX);
+// }
+
+static int	get_rgb(int r, int g, int b, int a)
+{
+	return (r << 24 | g << 16 | b << 8 | a);
+}
+
+
+int	get_colors(t_file *valid_file, char **color, char **word)
+{
+	int 	i;
+	int		number;
+	int		arg[3];
+	int32_t	rgb;
+
+	i = 0;
+	while(color[i])
+	{
+		number = ft_atoi(color[i]);
+		if (number < 0 || number > 255)
+			return (1);// add error
+		arg[i] = number;
+		i++;
+	}
+	rgb = get_rgb(arg[0], arg[1], arg[2], 255);
+	if (!ft_strcmp(word[0], "F"))
+		valid_file->valid_tex->floor = rgb;
+	else if (!ft_strcmp(word[0], "C"))
+		valid_file->valid_tex->ceil = rgb;
+	return (EXIT_SUCCESS);
+}
+
+int	color_check(t_file *valid_file)
+{
+	int i;
+	char	**color;
+	char	**line;
+	
+	i = 0;
+	valid_file->f_color[ft_strlen(valid_file->f_color)] = '\0';
+	line = ft_split(valid_file->f_color, ' ');
+	if (ft_arrlen(line) != 2)
+		return (ft_free_arr(line), error_message("Wrong color selection"), 0);
+	color = ft_split(valid_file->f_color, ',');
+	if (ft_arrlen(color) != 3)
+		return (ft_free_arr(color), error_message("Wrong color selection"), 0);
+	if (get_colors(valid_file, color, line))
+		return (EXIT_FAILURE);
+	ft_free_arr(color);
+	ft_free_arr(line);
+	return (0);
 }
 
 char	*read_file(char *file)
