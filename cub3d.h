@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/15 10:57:40 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/15 14:14:31 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_file
 {
 	char 	*file;
 	char 	**mapa;
+	char	**mapa_copy;
 	char 	*NO;
 	char 	*SO;
 	char 	*WE;

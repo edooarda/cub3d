@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/15 11:19:12 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/16 11:06:18 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,14 @@ void	filling_map(t_file *valid_file, char **file, int lines)
 		if (file[i][0] == '\t' || file[i][0] == '1' || file[i][0] == ' ')
 		{
 			valid_file->mapa[j] = ft_strdup(file[i]);
+			valid_file->mapa_copy[j] = ft_strdup(file[i]);
 			j++;
 		}
 		i++;
 	}
 	valid_file->mapa[j] = NULL;
-	// return(map);
 }
+
 void	ft_free_arr(char **arr)
 {
 	int	i;
@@ -97,7 +98,7 @@ int	get_colors(t_file *valid_file, char **color, char **word)
 	{
 		number = ft_atoi(color[i]);
 		if (number < 0 || number > 255)
-			return (1);// add error
+			return (error_message("Wrong color selection"), 1);
 		arg[i] = number;
 		i++;
 	}
@@ -109,25 +110,25 @@ int	get_colors(t_file *valid_file, char **color, char **word)
 	return (EXIT_SUCCESS);
 }
 
-int	color_check(t_file *valid_file)
+int	color_check(t_file *valid_file, char *word)
 {
 	int i;
 	char	**color;
 	char	**line;
 	
 	i = 0;
-	valid_file->f_color[ft_strlen(valid_file->f_color)] = '\0';
-	line = ft_split(valid_file->f_color, ' ');
+	word[ft_strlen(word)] = '\0';
+	line = ft_split(word, ' ');
 	if (ft_arrlen(line) != 2)
 		return (ft_free_arr(line), error_message("Wrong color selection"), 0);
-	color = ft_split(valid_file->f_color, ',');
+	color = ft_split(line[1], ',');
 	if (ft_arrlen(color) != 3)
 		return (ft_free_arr(color), error_message("Wrong color selection"), 0);
-	if (get_colors(valid_file, color, line))
-		return (EXIT_FAILURE);
+	if (!get_colors(valid_file, color, line))
+		return (ft_free_arr(color), ft_free_arr(line), EXIT_FAILURE);
 	ft_free_arr(color);
 	ft_free_arr(line);
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 char	*read_file(char *file)
@@ -159,6 +160,13 @@ char	*read_file(char *file)
 	return (close (fd), line_read);
 }
 
+// void	flood_map(int x, int y, t_file *valid_file)
+// {
+	
+// }
+
+
+
 bool	file_extension_checker(char *argv)
 {
 	int	len;
@@ -182,6 +190,7 @@ void	file_validator(char *argv, t_file *valid_file)
 	if (valid_file->file == NULL)
 		error_message("Something wrong reading the file");
 	array = ft_split(valid_file->file, '\n');
+	valid_file->mapa_copy = ft_split(valid_file->file, '\n');
 	int i = 0;
 	int map_lines = 0;
 	while (array[i])
@@ -202,21 +211,18 @@ void	file_validator(char *argv, t_file *valid_file)
 			map_lines++;
 		i++;
 	}
-	printf("esse eh o j --%i--\n", map_lines);
-	printf("%p\n", valid_file->mapa);
+	color_check(valid_file, valid_file->c_color);
+	color_check(valid_file, valid_file->f_color);
+	// tex_assing(valid_file);
 	filling_map(valid_file, array, map_lines);
-	printf("%p\n", valid_file->mapa);
-	printf("esse eh o valor --%s---\n", valid_file->NO);
-	printf("oq tem dentro do WE = --%s--\n", valid_file->WE);
-	printf("oq tem dentro do EA = --%s--\n", valid_file->EA);
-	printf("C color = --%s--\n", valid_file->c_color);
-	printf("F color = --%s--\n", valid_file->f_color);
-	int k = 0;
-	printf("%p\n", valid_file->mapa);
-	while(valid_file->mapa[k])
-	{
-		printf("This is the map = --%s--\n", valid_file->mapa[k]);
-		k++;
-	}
+	int j;
+
+	j = 0;
+	// while (valid_file->mapa[j])
+	// {
+	// 	printf("%s\n", valid_file->mapa[j]);
+	// 	j++;
+	// }
+	
 	free_split(array);
 }
