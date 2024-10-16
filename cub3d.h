@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/16 14:53:22 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/16 18:04:33 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,14 @@ void	file_validator(char *argv, t_file *valid_file);
 void	cleaner_file(t_file valid_file);
 void	error_message(char *message);
 void	free_split(char **array);
+
+// Map Checkers
+bool	is_map_filled(t_file *valid_file);
+
+// Color Checkers
+int	color_check(t_file *valid_file, char *word);
+
+// Texture Checkers
+bool	is_texture_valid(t_file *valid_file);
 
 #endif
