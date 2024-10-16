@@ -6,51 +6,53 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/16 11:06:18 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/16 16:06:06 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	filling_map(t_file *valid_file, char **file, int lines)
+bool	allocation_memory_map(t_file *valid_file)
+{
+	valid_file->mapa = malloc((valid_file->map_y_lines + 1) * sizeof(char *));
+	if (valid_file->mapa == NULL)
+	{
+		cleaner_file(*valid_file);
+		ft_putendl_fd("Allocation problem for the map", 2);
+		return (false);
+	}
+	valid_file->mapa_copy = malloc((valid_file->map_y_lines + 1) * sizeof(char *));
+	if (valid_file->mapa_copy == NULL)
+	{
+		cleaner_file(*valid_file);
+		ft_putendl_fd("Allocation problem for the map copy", 2); // fazer free do q esta antes
+		return (false);
+	}
+	return(true);
+}
+
+bool	filling_map(t_file *valid_file)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	valid_file->mapa = malloc((lines + 1) * sizeof(char *));
-	if (valid_file->mapa == NULL)
+	if (allocation_memory_map(valid_file) == false)
+		return (false);
+	while (valid_file->file[i])
 	{
-		ft_putendl_fd("Allocation problem", 2);
-		return ;
-	}
-	while (file[i])
-	{
-		if (file[i][0] == '\t' || file[i][0] == '1' || file[i][0] == ' ')
+		if (valid_file->file[i][0] == '\t' || valid_file->file[i][0] == '1' || valid_file->file[i][0] == ' ')
 		{
-			valid_file->mapa[j] = ft_strdup(file[i]);
-			valid_file->mapa_copy[j] = ft_strdup(file[i]);
+			valid_file->mapa[j] = ft_strdup(valid_file->file[i]);
+			valid_file->mapa_copy[j] = ft_strdup(valid_file->file[i]);
 			j++;
 		}
 		i++;
 	}
 	valid_file->mapa[j] = NULL;
-}
-
-void	ft_free_arr(char **arr)
-{
-	int	i;
-
-	if (!arr)
-		return ;
-	i = 0;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
+	valid_file->mapa_copy[j] = NULL;
+	return (true);
 }
 
 size_t	ft_arrlen(char **arr)
@@ -85,7 +87,6 @@ static int	get_rgb(int r, int g, int b, int a)
 	return (r << 24 | g << 16 | b << 8 | a);
 }
 
-
 int	get_colors(t_file *valid_file, char **color, char **word)
 {
 	int 	i;
@@ -115,19 +116,19 @@ int	color_check(t_file *valid_file, char *word)
 	int i;
 	char	**color;
 	char	**line;
-	
+
 	i = 0;
 	word[ft_strlen(word)] = '\0';
 	line = ft_split(word, ' ');
 	if (ft_arrlen(line) != 2)
-		return (ft_free_arr(line), error_message("Wrong color selection"), 0);
+		return (free_split(line), error_message("Wrong color selection"), 0);
 	color = ft_split(line[1], ',');
 	if (ft_arrlen(color) != 3)
-		return (ft_free_arr(color), error_message("Wrong color selection"), 0);
+		return (free_split(color), error_message("Wrong color selection"), 0);
 	if (!get_colors(valid_file, color, line))
-		return (ft_free_arr(color), ft_free_arr(line), EXIT_FAILURE);
-	ft_free_arr(color);
-	ft_free_arr(line);
+		return (free_split(color), free_split(line), EXIT_FAILURE);
+	free_split(color);
+	free_split(line);
 	return (EXIT_SUCCESS);
 }
 
@@ -140,13 +141,13 @@ char	*read_file(char *file)
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		error_message("There is a problem Open the File");
+		return (error_message("There is a problem Open the File"), NULL);
 	current_line = get_next_line(fd);
 	if (current_line == NULL)
-		error_message("There is a problem Reading the File");
+		return (error_message("There is a problem Reading the File"), NULL);
 	temp = ft_calloc(1, sizeof(char));
 	if (temp == NULL)
-		error_message("Allocation Memory Problem");
+		return (error_message("Allocation Memory Problem"), NULL);
 	while (current_line != NULL)
 	{
 		line_read = ft_strjoin(temp, current_line);
@@ -157,7 +158,7 @@ char	*read_file(char *file)
 		free(temp);
 		temp = line_read;
 	}
-	return (close (fd), line_read);
+	return (close(fd), line_read);
 }
 
 // void	flood_map(int x, int y, t_file *valid_file)
@@ -180,49 +181,59 @@ bool	file_extension_checker(char *argv)
 	return (true);
 }
 
+void	fill_information(t_file *valid_file, char **data)
+{
+	int	i;
+	int	lines;
+
+	i = 0;
+	lines = 0;
+	while (data[i])
+	{
+		if (ft_strncmp(data[i], "NO", 2) == 0)
+			valid_file->NO = ft_strdup(data[i]);
+		else if (ft_strncmp(data[i], "WE", 2) == 0)
+			valid_file->WE = ft_strdup(data[i]);
+		else if (ft_strncmp(data[i], "SO", 2) == 0)
+			valid_file->SO = ft_strdup(data[i]);
+		else if (ft_strncmp(data[i], "EA", 2) == 0)
+			valid_file->EA = ft_strdup(data[i]);
+		else if (ft_strncmp(data[i], "F", 1) == 0)
+			valid_file->f_color = ft_strdup(data[i]);
+		else if (ft_strncmp(data[i], "C", 1) == 0)
+			valid_file->c_color = ft_strdup(data[i]);
+		else if(data[i][0] == '\t' || data[i][0] == '1' || data[i][0] == ' ')
+			valid_file->map_y_lines++;
+		i++;
+	}
+}
+
 void	file_validator(char *argv, t_file *valid_file)
 {
-	char **array;
+	char	*file;
 
 	if (file_extension_checker(&argv[1]) == false)
 		exit(EXIT_FAILURE);
-	valid_file->file = read_file(argv);
-	if (valid_file->file == NULL)
-		error_message("Something wrong reading the file");
-	array = ft_split(valid_file->file, '\n');
-	valid_file->mapa_copy = ft_split(valid_file->file, '\n');
-	int i = 0;
-	int map_lines = 0;
-	while (array[i])
+	file = read_file(argv);
+	if (file == NULL)
 	{
-		if (ft_strncmp(array[i], "NO", 2) == 0)
-			valid_file->NO = ft_strdup(array[i]);
-		else if (ft_strncmp(array[i], "WE", 2) == 0)
-			valid_file->WE = ft_strdup(array[i]);
-		else if (ft_strncmp(array[i], "SO", 2) == 0)
-			valid_file->SO = ft_strdup(array[i]);
-		else if (ft_strncmp(array[i], "EA", 2) == 0)
-			valid_file->EA = ft_strdup(array[i]);
-		else if (ft_strncmp(array[i], "F", 1) == 0)
-			valid_file->f_color = ft_strdup(array[i]);
-		else if (ft_strncmp(array[i], "C", 1) == 0)
-			valid_file->c_color = ft_strdup(array[i]);
-		else if(array[i][0] == '\t' || array[i][0] == '1' || array[i][0] == ' ')
-			map_lines++;
-		i++;
+		error_message("Something wrong reading the file");
+		exit (EXIT_FAILURE);
 	}
-	color_check(valid_file, valid_file->c_color);
-	color_check(valid_file, valid_file->f_color);
+	valid_file->file = ft_split(file, '\n');
+	free(file);
+	if (valid_file->file == NULL)
+	{
+		error_message("Something is wrong with the file");
+		exit (EXIT_FAILURE);
+	}
+	fill_information(valid_file, valid_file->file);
+	printf("esse eh o tamanho do mapa %i\n", valid_file->map_y_lines);
+	color_check(valid_file, valid_file->c_color); // fazer check e free
+	color_check(valid_file, valid_file->f_color); // fazer check e free
 	// tex_assing(valid_file);
-	filling_map(valid_file, array, map_lines);
-	int j;
 
-	j = 0;
-	// while (valid_file->mapa[j])
-	// {
-	// 	printf("%s\n", valid_file->mapa[j]);
-	// 	j++;
-	// }
-	
-	free_split(array);
+	printf("error\n");
+	if (filling_map(valid_file) == false )
+		return ; // fazer free
 }

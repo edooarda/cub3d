@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/15 14:14:31 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/16 14:53:22 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,26 @@
 
 typedef struct s_tex
 {
-	mlx_texture_t *NO_tex;
-	mlx_texture_t *SO_tex;
-	mlx_texture_t *EA_tex;
-	mlx_texture_t *WE_tex;
+	mlx_texture_t	*NO_tex;
+	mlx_texture_t	*SO_tex;
+	mlx_texture_t	*EA_tex;
+	mlx_texture_t	*WE_tex;
 	int32_t			ceil;
 	int32_t			floor;
 }	t_tex;
 
-typedef struct s_file
+typedef struct	s_file
 {
-	char 	*file;
-	char 	**mapa;
+	char	**file;
+	char	**mapa;
+	int		map_y_lines;
 	char	**mapa_copy;
-	char 	*NO;
-	char 	*SO;
-	char 	*WE;
-	char 	*EA;
+	char	*NO;
+	char	*SO;
+	char	*WE;
+	char	*EA;
 	char	*f_color;
-	char 	*c_color;
+	char	*c_color;
 	t_tex	*valid_tex;
 }	t_file;
 
