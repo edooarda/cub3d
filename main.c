@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/16 10:55:40 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/16 16:10:01 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	main(int argc, char **argv)
 	valid_file.f_color = NULL;
 	valid_file.file = NULL;
 	valid_file.mapa = NULL;
+	valid_file.map_y_lines = 0;
 	valid_file.mapa_copy = NULL;
 	valid_file.NO = NULL;
 	valid_file.SO = NULL;
@@ -34,7 +35,7 @@ int	main(int argc, char **argv)
 	// valid_file.valid_tex->WE_tex = malloc(sizeof(mlx_texture_t));
 	if (argc == 2)
 	{
-		file_validator(argv[1], &valid_file);
+		file_validator(argv[1], &valid_file); // fazer bool para fazer free se algo der errado
 	}
 	else
 	{
@@ -44,3 +45,5 @@ int	main(int argc, char **argv)
 	}
 	cleaner_file(valid_file);
 }
+
+// criar varios invalid maps

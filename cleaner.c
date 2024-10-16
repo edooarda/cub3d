@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/14 14:43:52 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/16 10:54:28 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/16 18:08:57 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,11 @@ void	cleaner_file(t_file valid_file)
 	if (valid_file.c_color != NULL)
 		free(valid_file.c_color);
 	if (valid_file.mapa != NULL)
-	{
-		int i = 0;
-		while(valid_file.mapa[i])
-		{
-			free(valid_file.mapa[i]);
-			i++;
-		}
-		free(valid_file.mapa);
-	}
+		free_split(valid_file.mapa);
 	if (valid_file.file != NULL)
-		free(valid_file.file);
+		free_split(valid_file.file);
+	if (valid_file.mapa_copy != NULL)
+		free_split(valid_file.mapa_copy);
 	// if (valid_file.valid_tex->NO_tex)
 	// 	free(valid_file.valid_tex->NO_tex);
 	// if (valid_file.valid_tex->EA_tex)
@@ -46,6 +40,6 @@ void	cleaner_file(t_file valid_file)
 	// 	free(valid_file.valid_tex->WE_tex);
 	// if (valid_file.valid_tex->SO_tex)
 	// 	free(valid_file.valid_tex->SO_tex);
-	// if (valid_file.valid_tex)
-	// 	free(valid_file.valid_tex);
+	if (valid_file.valid_tex)  // colocar os frees dessas alocacoes num free para essa estrutura
+		free(valid_file.valid_tex);
 }
