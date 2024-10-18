@@ -6,13 +6,13 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 17:22:59 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/18 17:38:56 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	fill_information(t_file *valid_file, char **data)
+void	fill_information(t_file *file, char **data)
 {
 	int	i;
 	int	lines;
@@ -21,20 +21,20 @@ void	fill_information(t_file *valid_file, char **data)
 	lines = 0;
 	while (data[i])
 	{
-		if (ft_strncmp(data[i], "NO", 2) == 0)
-			valid_file->NO = ft_strdup(data[i]);
-		else if (ft_strncmp(data[i], "WE", 2) == 0)
-			valid_file->WE = ft_strdup(data[i]);
-		else if (ft_strncmp(data[i], "SO", 2) == 0)
-			valid_file->SO = ft_strdup(data[i]);
-		else if (ft_strncmp(data[i], "EA", 2) == 0)
-			valid_file->EA = ft_strdup(data[i]);
-		else if (ft_strncmp(data[i], "F", 1) == 0)
-			valid_file->f_color = ft_strdup(data[i]);
-		else if (ft_strncmp(data[i], "C", 1) == 0)
-			valid_file->c_color = ft_strdup(data[i]);
-		else if(data[i][0] == '\t' || data[i][0] == '1' || data[i][0] == ' ')
-			valid_file->map_y_lines++;
+		if (ft_strncmp(data[i], "NO", 2) == 0 && file->no == NULL)
+			file->no = ft_strdup(data[i]);
+		else if (ft_strncmp(data[i], "WE", 2) == 0 && file->we == NULL)
+			file->we = ft_strdup(data[i]);
+		else if (ft_strncmp(data[i], "SO", 2) == 0 && file->so == NULL)
+			file->so = ft_strdup(data[i]);
+		else if (ft_strncmp(data[i], "EA", 2) == 0 && file->ea == NULL)
+			file->ea = ft_strdup(data[i]);
+		else if (ft_strncmp(data[i], "F", 1) == 0 && file->f_color == NULL)
+			file->f_color = ft_strdup(data[i]);
+		else if (ft_strncmp(data[i], "C", 1) == 0 && file->c_color == NULL)
+			file->c_color = ft_strdup(data[i]);
+		else if (data[i][0] == '\t' || data[i][0] == '1' || data[i][0] == ' ')
+			file->map_y_lines++;
 		i++;
 	}
 }
@@ -68,7 +68,7 @@ char	*read_file(char *file)
 	return (close(fd), line_read);
 }
 
-bool	file_extension_checker(char *argv)
+bool	is_file_extension_valid(char *argv)
 {
 	int	len;
 
@@ -82,36 +82,28 @@ bool	file_extension_checker(char *argv)
 }
 
 
-void	file_validator(char *argv, t_file *valid_file)
+
+bool	is_file_valid(char *argv, t_file *valid_file)
 {
 	char	*file;
 
-	if (file_extension_checker(&argv[1]) == false)
-		exit(EXIT_FAILURE);
 	file = read_file(argv);
 	if (file == NULL)
-	{
-		error_message("Something wrong reading the file");
-		exit (EXIT_FAILURE);
-	}
+		return (error_message("Something wrong reading the file"), false);
 	valid_file->file = ft_split(file, '\n');
 	free(file);
 	if (valid_file->file == NULL)
-	{
-		error_message("Something is wrong with the file");
-		exit (EXIT_FAILURE);
-	}
+		return (error_message("Something is wrong with the file"), false);
 	fill_information(valid_file, valid_file->file);
 	if (is_texture_valid(valid_file) == false)
-		return ;
-	color_check(valid_file, valid_file->c_color); // fazer check e free
-	color_check(valid_file, valid_file->f_color); // fazer check e free
+		return (error_message("Invalid Input"), false);
 	// tex_assing(valid_file);
-	// printf("error\n");
-	if (is_map_filled(valid_file) == false )
-		return ; // fazer free
+	if (color_check(valid_file, valid_file->c_color) == false
+		|| color_check(valid_file, valid_file->f_color) == false)
+		return (false);
+	if (is_map_filled(valid_file) == false)
+		return (false);
 	find_player(valid_file);
 	printf("player x -- %i\nplayer y -- %i\n", valid_file->map->player_x, valid_file->map->player_y);
-
-	// tornar esta funcao bool
+	return (true);
 }

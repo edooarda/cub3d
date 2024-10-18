@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 17:58:25 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/16 17:59:46 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/18 17:05:39 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ size_t	ft_arrlen(char **arr)
 		i++;
 	return (i);
 }
+
 static int	get_rgb(int r, int g, int b, int a)
 {
 	return (r << 24 | g << 16 | b << 8 | a);
@@ -30,13 +31,13 @@ static int	get_rgb(int r, int g, int b, int a)
 
 int	get_colors(t_file *valid_file, char **color, char **word)
 {
-	int 	i;
+	int		i;
 	int		number;
 	int		arg[3];
 	int32_t	rgb;
 
 	i = 0;
-	while(color[i])
+	while (color[i])
 	{
 		number = ft_atoi(color[i]);
 		if (number < 0 || number > 255)
@@ -54,11 +55,13 @@ int	get_colors(t_file *valid_file, char **color, char **word)
 
 int	color_check(t_file *valid_file, char *word)
 {
-	int i;
+	int		i;
 	char	**color;
 	char	**line;
 
 	i = 0;
+	if (!word)
+		return (EXIT_FAILURE);
 	word[ft_strlen(word)] = '\0';
 	line = ft_split(word, ' ');
 	if (ft_arrlen(line) != 2)

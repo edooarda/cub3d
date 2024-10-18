@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 18:00:58 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 15:27:22 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/18 17:44:40 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,18 @@
 
 bool	is_texture_valid(t_file *valid_file) // is_texture_valid(char *str, char *CC)
 {
-	char *temp;
-
-	if (valid_file->NO != NULL && valid_file->SO != NULL && valid_file->WE != NULL && valid_file->EA != NULL) // if (str)
-	{
-		if (valid_file->NO) // if (ft_strncmp(str, CC, 2))
-		{
-			temp = valid_file->NO; // str = ./blabla sem CC
-			// printf("esse eh o temp --%s\n", ft_strchr(temp, ' '));
-			// pode ser um espaco ou uma tab?
-			// fazer o free to temp mas antes fazer o valid_file->NO perder as letras, substring?
-		}
-		// printf("bla!\n");
-		return (true);
-	}
-	printf("hey!\n");
-	return (false);
+	valid_file->no = space_jumper(valid_file->no);
+	if (valid_file->no == NULL)
+		return (false);
+	valid_file->so = space_jumper(valid_file->so);
+	if (valid_file->so == NULL)
+		return (false);
+	valid_file->ea = space_jumper(valid_file->ea);
+	if (valid_file->ea == NULL)
+		return (false);
+	valid_file->we = space_jumper(valid_file->we);
+	if (valid_file->we == NULL)
+		return (false);
+	return (true);
 }
 

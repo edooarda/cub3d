@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 18:32:15 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/16 12:01:45 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/18 16:22:05 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	error_message(char *message)
 {
 	ft_putendl_fd("ERROR", 2);
 	ft_putendl_fd(message, 2);
-	// exit(EXIT_FAILURE);
 }
 
 void	free_split(char **array)
@@ -32,4 +31,25 @@ void	free_split(char **array)
 		i++;
 	}
 	free(array);
+}
+
+char	*space_jumper(char *str)
+{
+	char	*temp;
+	int		i;
+	int		len;
+
+	i = 2;
+	if (str != NULL)
+	{
+		while (str[i] == ' ' || str[i] == '\t')
+			i++;
+		len = ft_strlen(str);
+		temp = malloc(sizeof(char) * len);
+		ft_strlcpy(temp, &str[i], len);
+		free(str);
+		return (temp);
+	}
+	else
+		return (NULL);
 }
