@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 18:32:15 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 16:22:05 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/18 20:24:19 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ char	*space_jumper(char *str)
 	i = 2;
 	if (str != NULL)
 	{
+		if (str[i] != ' ' && str[i] != '\t')
+			return (free(str), NULL);
 		while (str[i] == ' ' || str[i] == '\t')
 			i++;
 		len = ft_strlen(str);
