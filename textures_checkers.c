@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 18:00:58 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 15:36:17 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/18 16:48:48 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,17 @@
 
 bool	is_texture_valid(t_file *valid_file)
 {
-	valid_file->NO = space_jumper(valid_file->NO);
-	if (valid_file->NO == NULL)
+	valid_file->no = space_jumper(valid_file->no);
+	if (valid_file->no == NULL)
 		return (false);
-	valid_file->SO = space_jumper(valid_file->SO);
-	if (valid_file->SO == NULL)
+	valid_file->so = space_jumper(valid_file->so);
+	if (valid_file->so == NULL)
 		return (false);
-	valid_file->EA = space_jumper(valid_file->EA);
-	if (valid_file->EA == NULL)
+	valid_file->ea = space_jumper(valid_file->ea);
+	if (valid_file->ea == NULL)
 		return (false);
-	valid_file->WE = space_jumper(valid_file->WE);
-	if (valid_file->WE == NULL)
+	valid_file->we = space_jumper(valid_file->we);
+	if (valid_file->we == NULL)
 		return (false);
 	return (true);
 }
