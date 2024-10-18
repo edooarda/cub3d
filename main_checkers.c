@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 17:21:08 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/18 17:38:56 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ bool	is_file_extension_valid(char *argv)
 	return (true);
 }
 
+
+
 bool	is_file_valid(char *argv, t_file *valid_file)
 {
 	char	*file;
@@ -101,5 +103,7 @@ bool	is_file_valid(char *argv, t_file *valid_file)
 		return (false);
 	if (is_map_filled(valid_file) == false)
 		return (false);
+	find_player(valid_file);
+	printf("player x -- %i\nplayer y -- %i\n", valid_file->map->player_x, valid_file->map->player_y);
 	return (true);
 }

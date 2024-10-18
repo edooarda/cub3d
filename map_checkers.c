@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 17:48:13 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 16:27:15 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/18 17:45:53 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,28 @@ bool	is_map_filled(t_file *file)
 	file->mapa[j] = NULL;
 	file->mapa_copy[j] = NULL;
 	return (true);
+}
+
+void	find_player(t_file *valid_file)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (valid_file->mapa[y])
+	{
+		x = 0;
+		while (valid_file->mapa[y][x])
+		{
+			if (ft_isspace(valid_file->mapa[y][x]) || ft_isdigit(valid_file->mapa[y][x]))
+				x++;
+			if (valid_file->mapa[y][x] == 'N')
+			{
+				valid_file->map->player_x = x;
+				valid_file->map->player_y = y;
+				x++;
+			}
+		}
+		y++;
+	}
 }

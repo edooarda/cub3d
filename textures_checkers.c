@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 18:00:58 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 16:48:48 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/18 17:44:40 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 // 	tex_check(valid_file->valid_tex->EA_tex, valid_file->EA, ERROR_TEX);
 // }
 
-bool	is_texture_valid(t_file *valid_file)
+bool	is_texture_valid(t_file *valid_file) // is_texture_valid(char *str, char *CC)
 {
 	valid_file->no = space_jumper(valid_file->no);
 	if (valid_file->no == NULL)
@@ -43,3 +43,4 @@ bool	is_texture_valid(t_file *valid_file)
 		return (false);
 	return (true);
 }
+

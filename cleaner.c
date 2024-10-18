@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/14 14:43:52 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 16:32:58 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/18 17:55:06 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,6 @@ void	cleaner_file(t_file *valid_file)
 	// 	free(valid_file->valid_tex->SO_tex);
 	if (valid_file->valid_tex) // colocar os frees dessas alocacoes num free para essa estrutura
 		free(valid_file->valid_tex);
+	if (valid_file->map)
+		free(valid_file->map);
 }

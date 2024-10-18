@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 17:19:30 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/18 17:49:45 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ typedef struct s_tex
 	int32_t			floor;
 }	t_tex;
 
+typedef struct s_map
+{
+	int	player_x;
+	int	player_y;
+}	t_map;
+
 typedef struct s_file
 {
 	char	**file;
@@ -44,6 +50,7 @@ typedef struct s_file
 	char	*f_color;
 	char	*c_color;
 	t_tex	*valid_tex;
+	t_map	*map;
 }	t_file;
 
 // Utils
@@ -58,6 +65,7 @@ bool	is_file_extension_valid(char *argv);
 
 // Map Checkers
 bool	is_map_filled(t_file *valid_file);
+void	find_player(t_file *valid_file);
 
 // Color Checkers
 int		color_check(t_file *valid_file, char *word);

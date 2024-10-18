@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 17:19:20 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/18 17:53:38 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	init_file_struct(t_file *valid_file)
 	valid_file->we = NULL;
 	valid_file->ea = NULL;
 	valid_file->valid_tex = malloc(sizeof(t_tex));
+	valid_file->map = malloc(sizeof(t_map));
 	valid_file->valid_tex->floor = 0;
 	valid_file->valid_tex->ceil = 0;
 	// valid_file->valid_tex->EA_tex = malloc(sizeof(mlx_texture_t));
