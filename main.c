@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/16 16:10:01 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/18 15:21:33 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ int	main(int argc, char **argv)
 	valid_file.WE = NULL;
 	valid_file.EA = NULL;
 	valid_file.valid_tex = malloc(sizeof(t_tex));
+	valid_file.map = malloc(sizeof(t_map));
+	valid_file.map->player_x = 0;
+	valid_file.map->player_y = 0;
 	valid_file.valid_tex->floor = 0;
 	valid_file.valid_tex->ceil = 0;
 	// valid_file.valid_tex->EA_tex = malloc(sizeof(mlx_texture_t));
@@ -36,6 +39,8 @@ int	main(int argc, char **argv)
 	if (argc == 2)
 	{
 		file_validator(argv[1], &valid_file); // fazer bool para fazer free se algo der errado
+		void	find_player(t_file *valid_file);
+		printf("player x -- %i\nplayer y -- %i\n", valid_file.map->player_x, valid_file.map->player_y);
 	}
 	else
 	{

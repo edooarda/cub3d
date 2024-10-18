@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/10/24 12:31:26 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/15 10:29:18 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/18 15:00:39 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <string.h>
+# include <stdbool.h>
 # include <ctype.h>
 # include <stddef.h>
 # include <string.h>
@@ -69,6 +70,7 @@ void			ft_striteri(char *s, void (*f)(unsigned int, char*));
 char			*ft_strdup(const char *str);
 char			*ft_strchr(const char *str, int c);
 char			**ft_split(char const *s, char c);
+bool			ft_isspace(char c);
 void			ft_bzero(void *s, size_t n);
 
 // Write Functions

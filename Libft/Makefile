@@ -6,7 +6,7 @@
 #    By: edribeir <edribeir@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/10/20 13:36:22 by edribeir      #+#    #+#                  #
-#    Updated: 2024/10/15 10:47:08 by jovieira      ########   odam.nl          #
+#    Updated: 2024/10/18 15:00:49 by jovieira      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,7 @@ SOURCE = ft_isdigit.c \
 		ft_memmove.c \
 		ft_strlcat.c \
 		ft_strtrim.c \
+		ft_isspace.c\
 		ft_putchar_fd.c \
 		ft_putstr_fd.c \
 		ft_putnbr_fd.c \
