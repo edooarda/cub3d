@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/16 18:03:13 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/18 17:22:59 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ bool	file_extension_checker(char *argv)
 	return (true);
 }
 
+
 void	file_validator(char *argv, t_file *valid_file)
 {
 	char	*file;
@@ -106,9 +107,11 @@ void	file_validator(char *argv, t_file *valid_file)
 	color_check(valid_file, valid_file->c_color); // fazer check e free
 	color_check(valid_file, valid_file->f_color); // fazer check e free
 	// tex_assing(valid_file);
-	printf("error\n");
+	// printf("error\n");
 	if (is_map_filled(valid_file) == false )
 		return ; // fazer free
+	find_player(valid_file);
+	printf("player x -- %i\nplayer y -- %i\n", valid_file->map->player_x, valid_file->map->player_y);
 
 	// tornar esta funcao bool
 }

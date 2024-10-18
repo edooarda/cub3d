@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 15:21:33 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/18 17:17:47 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ int	main(int argc, char **argv)
 	if (argc == 2)
 	{
 		file_validator(argv[1], &valid_file); // fazer bool para fazer free se algo der errado
-		void	find_player(t_file *valid_file);
-		printf("player x -- %i\nplayer y -- %i\n", valid_file.map->player_x, valid_file.map->player_y);
 	}
 	else
 	{

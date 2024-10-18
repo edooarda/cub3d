@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 17:48:13 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 15:26:50 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/18 17:22:46 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,30 +68,15 @@ void	find_player(t_file *valid_file)
 	y = 0;
 	while (valid_file->mapa[y])
 	{
-		printf("%s\n", valid_file->mapa[y]);
-		y++;
-	}
-	y = 0;
-	while (valid_file->mapa[y])
-	{
 		x = 0;
 		while (valid_file->mapa[y][x])
 		{
-			if (ft_isspace(valid_file->mapa[y][x]))
+			if (ft_isspace(valid_file->mapa[y][x]) || ft_isdigit(valid_file->mapa[y][x]))
 				x++;
-			while (ft_isdigit(valid_file->mapa[y][x]))
+			if (valid_file->mapa[y][x] == 'N')
 			{
-				if (valid_file->mapa[y][x] == 'N')
-				{
-					printf("x - %i\ny - %i\n", x, y);
-					valid_file->map->player_x = x;
-					valid_file->map->player_y = y;
-				}
-				// if (ft_strcmp(&valid_file->mapa[y][x], "NSEW"))
-				// {
-				// 	valid_file->map->player_x = x;
-				// 	valid_file->map->player_y = y;
-				// }
+				valid_file->map->player_x = x;
+				valid_file->map->player_y = y;
 				x++;
 			}
 		}
