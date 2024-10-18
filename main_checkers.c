@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/16 18:03:13 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/18 15:18:47 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,10 @@ void	file_validator(char *argv, t_file *valid_file)
 	}
 	fill_information(valid_file, valid_file->file);
 	if (is_texture_valid(valid_file) == false)
+	{
+		error_message("Invalid Input");
 		return ;
+	}
 	color_check(valid_file, valid_file->c_color); // fazer check e free
 	color_check(valid_file, valid_file->f_color); // fazer check e free
 	// tex_assing(valid_file);

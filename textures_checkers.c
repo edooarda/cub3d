@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 18:00:58 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/16 18:02:45 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/18 15:36:17 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,17 @@
 
 bool	is_texture_valid(t_file *valid_file)
 {
-	char *temp;
-
-	if (valid_file->NO != NULL && valid_file->SO != NULL && valid_file->WE != NULL && valid_file->EA != NULL)
-	{
-		if (valid_file->NO)
-		{
-			temp = valid_file->NO;
-			printf("esse eh o temp --%s\n", ft_strchr(temp, ' '));
-			// pode ser um espaco ou uma tab?
-			// fazer o free to temp mas antes fazer o valid_file->NO perder as letras, substring?
-		}
-		printf("bla!\n");
-		return (true);
-	}
-	printf("hey!\n");
-	return (false);
+	valid_file->NO = space_jumper(valid_file->NO);
+	if (valid_file->NO == NULL)
+		return (false);
+	valid_file->SO = space_jumper(valid_file->SO);
+	if (valid_file->SO == NULL)
+		return (false);
+	valid_file->EA = space_jumper(valid_file->EA);
+	if (valid_file->EA == NULL)
+		return (false);
+	valid_file->WE = space_jumper(valid_file->WE);
+	if (valid_file->WE == NULL)
+		return (false);
+	return (true);
 }

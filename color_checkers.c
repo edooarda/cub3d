@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 17:58:25 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/16 17:59:46 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/18 14:26:55 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ size_t	ft_arrlen(char **arr)
 		i++;
 	return (i);
 }
+
 static int	get_rgb(int r, int g, int b, int a)
 {
 	return (r << 24 | g << 16 | b << 8 | a);

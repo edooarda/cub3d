@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/16 18:04:33 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/18 15:34:32 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,12 @@ typedef struct	s_file
 }	t_file;
 
 
-
+// Utils
 void	file_validator(char *argv, t_file *valid_file);
 void	cleaner_file(t_file valid_file);
 void	error_message(char *message);
 void	free_split(char **array);
+char	*space_jumper(char *str);
 
 // Map Checkers
 bool	is_map_filled(t_file *valid_file);
