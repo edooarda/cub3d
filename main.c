@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 17:17:47 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/18 18:00:01 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ int	main(int argc, char **argv)
 	valid_file.EA = NULL;
 	valid_file.valid_tex = malloc(sizeof(t_tex));
 	valid_file.map = malloc(sizeof(t_map));
-	valid_file.map->player_x = 0;
-	valid_file.map->player_y = 0;
+	valid_file.map->player_x = -1;
+	valid_file.map->player_y = -1;
+	valid_file.map->max_x = 0;
+	valid_file.map->max_y = 0;
 	valid_file.valid_tex->floor = 0;
 	valid_file.valid_tex->ceil = 0;
 	// valid_file.valid_tex->EA_tex = malloc(sizeof(mlx_texture_t));

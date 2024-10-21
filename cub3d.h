@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 15:18:12 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/18 17:37:00 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ typedef struct s_map
 {
 	int	player_x;
 	int	player_y;
+	int	max_x;
+	int	max_y;
 }	t_map;
 
 

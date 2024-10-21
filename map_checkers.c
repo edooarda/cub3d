@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 17:48:13 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 17:22:46 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/18 21:04:00 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,18 @@ bool	is_map_filled(t_file *valid_file)
 	return (true);
 }
 
+void	map_area(t_file *valid_file, int x, int y)
+{
+	if (!valid_file->mapa[y - 1][x] || valid_file->mapa[y - 1][x] == ' ')
+		return (error_message("no walls"));
+	if (!valid_file->mapa[y + 1][x] || valid_file->mapa[y + 1][x] == ' ')
+		return (error_message("no walls"));
+	if (!valid_file->mapa[y][x - 1] || valid_file->mapa[y][x - 1] == ' ')
+		return (error_message("no walls"));
+	if (!valid_file->mapa[y][x + 1] || valid_file->mapa[y][x + 1] == ' ')
+		return (error_message("no walls"));
+}
+
 void	find_player(t_file *valid_file)
 {
 	int	x;
@@ -82,4 +94,7 @@ void	find_player(t_file *valid_file)
 		}
 		y++;
 	}
+	while (valid_file->mapa_copy)
+		map_area(valid_file, valid_file->map->player_x, valid_file->map->player_y);
 }
+

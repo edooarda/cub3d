@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 17:22:59 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/18 19:01:57 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,10 @@ void	file_validator(char *argv, t_file *valid_file)
 	if (is_map_filled(valid_file) == false )
 		return ; // fazer free
 	find_player(valid_file);
+	if (valid_file->map->player_x == -1 && valid_file->map->player_y == -1)
+		return ;
 	printf("player x -- %i\nplayer y -- %i\n", valid_file->map->player_x, valid_file->map->player_y);
 
 	// tornar esta funcao bool
 }
+
