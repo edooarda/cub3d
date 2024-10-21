@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 19:01:57 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/21 13:08:15 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ bool	file_extension_checker(char *argv)
 }
 
 
-void	file_validator(char *argv, t_file *valid_file)
+bool	file_validator(char *argv, t_file *valid_file)
 {
 	char	*file;
 
@@ -103,18 +103,20 @@ void	file_validator(char *argv, t_file *valid_file)
 	}
 	fill_information(valid_file, valid_file->file);
 	if (is_texture_valid(valid_file) == false)
-		return ;
+		return (false);
 	color_check(valid_file, valid_file->c_color); // fazer check e free
 	color_check(valid_file, valid_file->f_color); // fazer check e free
 	// tex_assing(valid_file);
 	// printf("error\n");
 	if (is_map_filled(valid_file) == false )
-		return ; // fazer free
-	find_player(valid_file);
-	if (valid_file->map->player_x == -1 && valid_file->map->player_y == -1)
-		return ;
-	printf("player x -- %i\nplayer y -- %i\n", valid_file->map->player_x, valid_file->map->player_y);
-
+		return (false); // fazer free
+	if (!find_player(valid_file))
+		return (error_message("Multiple characters"), exit);
+	if (valid_file->map->player_x == 0 && valid_file->map->player_y == 0)
+		return (false);
+	// printf("player x -- %i\nplayer y -- %i\nplayer dir -- %c\n", valid_file->map->player_x, valid_file->map->player_y, valid_file->map->player_dir);
+	map_area(valid_file);
 	// tornar esta funcao bool
+	return (true);
 }
 

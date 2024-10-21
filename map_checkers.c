@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 17:48:13 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 21:04:00 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/21 13:43:52 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,7 @@ bool	is_map_filled(t_file *valid_file)
 	return (true);
 }
 
-void	map_area(t_file *valid_file, int x, int y)
-{
-	if (!valid_file->mapa[y - 1][x] || valid_file->mapa[y - 1][x] == ' ')
-		return (error_message("no walls"));
-	if (!valid_file->mapa[y + 1][x] || valid_file->mapa[y + 1][x] == ' ')
-		return (error_message("no walls"));
-	if (!valid_file->mapa[y][x - 1] || valid_file->mapa[y][x - 1] == ' ')
-		return (error_message("no walls"));
-	if (!valid_file->mapa[y][x + 1] || valid_file->mapa[y][x + 1] == ' ')
-		return (error_message("no walls"));
-}
-
-void	find_player(t_file *valid_file)
+int	map_area(t_file *valid_file)
 {
 	int	x;
 	int	y;
@@ -81,20 +69,62 @@ void	find_player(t_file *valid_file)
 	while (valid_file->mapa[y])
 	{
 		x = 0;
+		printf("%c\n", valid_file->mapa[y][2]);
 		while (valid_file->mapa[y][x])
 		{
-			if (ft_isspace(valid_file->mapa[y][x]) || ft_isdigit(valid_file->mapa[y][x]))
+			// printf("%s\n", valid_file->mapa[y]);
+			// if (ft_isdigit(valid_file->mapa[y][x]) || ft_isspace(valid_file->mapa[y][x]))
+			// {
+				// if ((valid_file->mapa[0][x] != '1' || valid_file->mapa[0][x] == ' ' )&& valid_file->mapa[0][ft_strlen(valid_file->mapa[0])])
+				// 	return (error_message("Missing north walls"), 1);
+				// if (valid_file->mapa[y][0] != '1' || valid_file->mapa[y][0] == ' ')
+				// 	return (error_message("Missing west walls"), 1);
+			// }
+			x++;
+		}
+		y++;
+	}
+	return (0);
+}
+
+char	player_pos(char c)
+{
+	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+		return (c);
+	return (0);
+	
+}
+
+bool	find_player(t_file *valid_file)
+{
+	int	x;
+	int	y;
+	int	i;
+
+	y = 0;
+	i = 0;
+	while (valid_file->mapa_copy[y])
+	{
+		x = 0;
+		while (valid_file->mapa_copy[y][x])
+		{
+			if (ft_isspace(valid_file->mapa_copy[y][x]) || ft_isdigit(valid_file->mapa_copy[y][x]))
 				x++;
-			if (valid_file->mapa[y][x] == 'N')
+			if (player_pos(valid_file->mapa_copy[y][x]))
 			{
+				i++;
+				if (i != 1)
+					return (false);
 				valid_file->map->player_x = x;
 				valid_file->map->player_y = y;
+				valid_file->map->player_dir = player_pos(valid_file->mapa_copy[y][x]);
 				x++;
 			}
 		}
 		y++;
+		if (!valid_file->mapa_copy[y])
+			valid_file->map->max_y = y;
 	}
-	while (valid_file->mapa_copy)
-		map_area(valid_file, valid_file->map->player_x, valid_file->map->player_y);
+	return (true);
 }
 

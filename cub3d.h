@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 17:37:00 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/21 13:00:43 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ typedef struct s_tex
 
 typedef struct s_map
 {
-	int	player_x;
-	int	player_y;
-	int	max_x;
-	int	max_y;
+	char	player_dir;
+	int		player_x;
+	int		player_y;
+	int		max_x;
+	int		max_y;
 }	t_map;
 
 
@@ -58,14 +59,15 @@ typedef struct	s_file
 
 
 
-void	file_validator(char *argv, t_file *valid_file);
+bool	file_validator(char *argv, t_file *valid_file);
 void	cleaner_file(t_file valid_file);
 void	error_message(char *message);
 void	free_split(char **array);
 
 // Map Checkers
 bool	is_map_filled(t_file *valid_file);
-void	find_player(t_file *valid_file);
+bool	find_player(t_file *valid_file);
+int		map_area(t_file *valid_file);
 
 // Color Checkers
 int	color_check(t_file *valid_file, char *word);
