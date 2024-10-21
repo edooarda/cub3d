@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 17:49:45 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/21 11:39:56 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <fcntl.h>
 # include <stdbool.h>
 
+# define WIDTH 1920
+# define HEIGHT 1080
 # define ERROR_TEX "Texture not found"
 
 typedef struct s_tex
@@ -52,6 +54,12 @@ typedef struct s_file
 	t_tex	*valid_tex;
 	t_map	*map;
 }	t_file;
+
+typedef struct s_data
+{
+	mlx_t		*mlx;
+	mlx_image_t	*img;
+} t_data;
 
 // Utils
 bool	is_file_valid(char *argv, t_file *valid_file);
