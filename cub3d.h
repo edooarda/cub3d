@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/21 11:39:56 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/22 17:17:29 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,24 @@ typedef struct s_tex
 	int32_t			floor;
 }	t_tex;
 
+// typedef struct s_player //the player structure
+// {
+// 	int  plyr_x; // player x position in pixels
+// 	int  plyr_y; // player y position in pixels
+// 	double angle; // player angle
+// 	float fov_rd; // field of view in radians
+// 	int  rot; // rotation flag
+// 	int  l_r; // left right flag
+// 	int  u_d; // up down flag
+// } t_player;
+
 typedef struct s_map
 {
-	int	player_x;
-	int	player_y;
+	int		player_x;
+	int		player_y;
+	int		map_width;
+	int		map_height; // same as map_y_lines;
+	char	**map2d; // same as mapa in the sfile
 }	t_map;
 
 typedef struct s_file
@@ -55,11 +69,22 @@ typedef struct s_file
 	t_map	*map;
 }	t_file;
 
-typedef struct s_data
+typedef struct s_ray
+{
+	double	ray_angle;
+	double	distance_to_wall;
+	int		flag_wall;
+	t_map	data;
+	
+}	t_ray;
+
+typedef struct s_mlx
 {
 	mlx_t		*mlx;
 	mlx_image_t	*img;
-} t_data;
+	t_ray		*ray;
+	
+}	t_mlx;
 
 // Utils
 bool	is_file_valid(char *argv, t_file *valid_file);

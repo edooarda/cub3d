@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/21 15:12:25 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/22 15:16:16 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	controls(mlx_key_data_t keydata, void *param)
 {
-	t_data	*data;
+	t_mlx	*data;
 	
 	data = param;
 	(void)keydata;
@@ -26,7 +26,7 @@ void	controls(mlx_key_data_t keydata, void *param)
 }
 
 
-int	init_mlx(t_data *data, t_file *input)
+int	init_mlx(t_mlx *data, t_file *input)
 {
 	data->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", false);
 	if (!data->mlx)
@@ -70,7 +70,7 @@ void	init_file_struct(t_file *valid_file)
 int	main(int argc, char **argv)
 {
 	t_file	input;
-	t_data	data;
+	t_mlx	data;
 
 	if (argc == 2)
 	{
