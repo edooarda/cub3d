@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 17:48:13 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/21 13:43:52 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/22 15:10:35 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ bool	is_map_filled(t_file *valid_file)
 		return (false);
 	while (valid_file->file[i])
 	{
-		if (valid_file->file[i][0] == '\t' || valid_file->file[i][0] == '1' || valid_file->file[i][0] == ' ')
+		if (ft_isspace(valid_file->file[i][0]) || ft_isdigit(valid_file->file[i][0]))
 		{
 			valid_file->mapa[j] = ft_strdup(valid_file->file[i]);
 			valid_file->mapa_copy[j] = ft_strdup(valid_file->file[i]);
@@ -69,17 +69,10 @@ int	map_area(t_file *valid_file)
 	while (valid_file->mapa[y])
 	{
 		x = 0;
-		printf("%c\n", valid_file->mapa[y][2]);
+		printf("%s\n", valid_file->mapa[0]);
 		while (valid_file->mapa[y][x])
 		{
-			// printf("%s\n", valid_file->mapa[y]);
-			// if (ft_isdigit(valid_file->mapa[y][x]) || ft_isspace(valid_file->mapa[y][x]))
-			// {
-				// if ((valid_file->mapa[0][x] != '1' || valid_file->mapa[0][x] == ' ' )&& valid_file->mapa[0][ft_strlen(valid_file->mapa[0])])
-				// 	return (error_message("Missing north walls"), 1);
-				// if (valid_file->mapa[y][0] != '1' || valid_file->mapa[y][0] == ' ')
-				// 	return (error_message("Missing west walls"), 1);
-			// }
+	
 			x++;
 		}
 		y++;
