@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/24 12:13:33 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/24 13:05:27 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,10 @@ int	main(int argc, char **argv)
 		}
 		if (init_mlx(&data, &input) == 1)
 			return (1);
-		mlx_image_to_window(data.mlx, data.img, 0, 0);
-		mlx_key_hook(data.mlx, &controls, &data);
-		mlx_loop(data.mlx);
-		mlx_terminate(data.mlx);
+		// mlx_image_to_window(data.mlx, data.img, 0, 0);
+		// mlx_key_hook(data.mlx, &controls, &data);
+		// mlx_loop(data.mlx);
+		// mlx_terminate(data.mlx);
 		printf("everything is ok!\n");
 		cleaner_file(&input);
 	}

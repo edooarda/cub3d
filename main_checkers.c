@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/24 12:12:58 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/24 16:28:52 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	fill_information(t_file *file, char **data)
 			file->f_color = ft_strdup(data[i]);
 		else if (ft_strncmp(data[i], "C", 1) == 0 && file->c_color == NULL)
 			file->c_color = ft_strdup(data[i]);
-		else if (ft_isdigit(file->file[i][0]) || ft_isspace(file->file[i][0]))
+		else
 			file->map_y_lines++;
 		i++;
 	}
@@ -104,27 +104,9 @@ bool	is_file_valid(char *argv, t_file *valid_file)
 	if (is_map_filled(valid_file) == false)
 		return (false);
 	find_player(valid_file);
-	printf("isso eh a textura -%s-\n", valid_file->so);
-	int i;
-	int j;
-		i = 0;
-	while (valid_file->mapa[i])
-	{
-	j = 0;
-		while (valid_file->mapa[i][j])
-		{
-			if (valid_file->mapa[i][j] == '\t')
-			{
-				j++;
-			}
-			else if (valid_file->mapa[i][j] == ' ')
-				j++;
-		printf("%c\n", valid_file->mapa[i][j]);
-			j++;
-		}
-		i++;
-	}
-	printf("player x -- %i\nplayer y -- %i\n", valid_file->map->player_x, valid_file->map->player_y);
+	// printf("player x -- %i\nplayer y -- %i\nmax y -- %i\n", valid_file->map->player_x, valid_file->map->player_y, valid_file->map->max_y);
+	if (!map_area(valid_file))
+		return (false);
 	return (true);
 }
 

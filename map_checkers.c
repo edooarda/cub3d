@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 17:48:13 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/24 12:11:56 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/24 17:17:36 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,15 @@ bool	is_map_filled(t_file *file)
 	int	i;
 	int	j;
 
-	i = 0;
+	i = 6;
 	j = 0;
 	if (allocation_memory_map(file) == false)
 		return (false);
 	while (file->file[i])
 	{
-		while (ft_isalpha(file->file[i][0]))
-			i++;
-		if (ft_isdigit(file->file[i][0]) || ft_isspace(file->file[i][0]))
-		{
-			file->mapa[j] = ft_strdup(file->file[i]);
-			file->mapa_copy[j] = ft_strdup(file->file[i]);
-			j++;
-		}
+		file->mapa[j] = ft_strdup(file->file[i]);
+		file->mapa_copy[j] = ft_strdup(file->file[i]);
+		j++;
 		i++;
 	}
 	file->mapa[j] = NULL;
@@ -62,24 +57,58 @@ bool	is_map_filled(t_file *file)
 	return (true);
 }
 
+void	map_wall(char **map, int x, int y, char *def)
+{
+	if (ft_strchr(def, map[y][x - 1]) == 0 || \
+	ft_strchr(def, map[y][x + 1]) == 0 || \
+	ft_strchr(def, map[y - 1][x]) == 0 || \
+	ft_strchr(def, map[y + 1][x]) == 0)
+	{
+		error_message("hey");
+		return ;
+	}
+}
+
 int	map_area(t_file *valid_file)
 {
 	int	x;
 	int	y;
-
-	y = 0;
+	
+	y = 1;
+	x = 0;
+	while (valid_file->mapa[0][x])
+	{
+		if (ft_strchr("\t1 ", valid_file->mapa[0][x]) == 0)
+			return(error_message("no top walls"), 1);
+		x++;
+	}
+	x = 0;
+	while (ft_isspace(valid_file->mapa[y][x]))
+	{
+		x++;
+	}
 	while (valid_file->mapa[y])
 	{
-		x = 0;
-		printf("%s\n", valid_file->mapa[0]);
-		while (valid_file->mapa[y][x])
+		int len;
+		len = ft_strlen(valid_file->mapa[y]);
+		if (!ft_isspace(valid_file->mapa[y][0]))
+			x = 0;
+		if (ft_strchr("1", valid_file->mapa[y][x]) == 0 \
+		|| ft_strrchr("1", valid_file->mapa[y][len - 1]) == 0)
 		{
-	
-			x++;
+			return(error_message("no side walls"), 1);
 		}
 		y++;
 	}
-	return (0);
+	printf("%i--- %c\n", y, valid_file->mapa[y-1][x]);
+	while (valid_file->mapa[y-1][x])
+	{
+		if (ft_strchr("\t1 ", valid_file->mapa[y][x]) == 0)
+			return(error_message("no bottom walls"), 1);
+		x++;
+	}
+	
+	return (1);
 }
 
 char	player_pos(char c)
@@ -98,26 +127,25 @@ bool	find_player(t_file *valid_file)
 
 	y = 0;
 	i = 0;
-	while (valid_file->mapa_copy[y])
+	while (valid_file->mapa[y])
 	{
 		x = 0;
-		while (valid_file->mapa_copy[y][x])
+		while (valid_file->mapa[y][x])
 		{
-			if (ft_isspace(valid_file->mapa_copy[y][x]) || ft_isdigit(valid_file->mapa_copy[y][x]))
-				x++;
-			if (player_pos(valid_file->mapa_copy[y][x]))
+			if (player_pos(valid_file->mapa[y][x]))
 			{
 				i++;
 				if (i != 1)
 					return (false);
 				valid_file->map->player_x = x;
 				valid_file->map->player_y = y;
-				valid_file->map->player_dir = player_pos(valid_file->mapa_copy[y][x]);
+				valid_file->map->player_dir = player_pos(valid_file->mapa[y][x]);
 				x++;
 			}
+			x++;
 		}
 		y++;
-		if (!valid_file->mapa_copy[y])
+		if (!valid_file->mapa[y])
 			valid_file->map->max_y = y;
 	}
 	return (true);
