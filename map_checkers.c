@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 17:48:13 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/22 15:10:35 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/24 12:11:56 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,51 @@
 
 // void	flood_map(int x, int y, t_file *valid_file)
 // {
-	
+
 // }
 
-static bool	allocation_memory_map(t_file *valid_file)
+static bool	allocation_memory_map(t_file *file)
 {
-	valid_file->mapa = malloc((valid_file->map_y_lines + 1) * sizeof(char *));
-	if (valid_file->mapa == NULL)
+	file->mapa = malloc((file->map_y_lines + 1) * sizeof(char *));
+	if (file->mapa == NULL)
 	{
-		cleaner_file(*valid_file); // check
+		cleaner_file(file);
 		ft_putendl_fd("Allocation problem for the map", 2);
 		return (false);
 	}
-	valid_file->mapa_copy = malloc((valid_file->map_y_lines + 1) * sizeof(char *));
-	if (valid_file->mapa_copy == NULL)
+	file->mapa_copy = malloc((file->map_y_lines + 1) * sizeof(char *));
+	if (file->mapa_copy == NULL)
 	{
-		cleaner_file(*valid_file);
-		ft_putendl_fd("Allocation problem for the map copy", 2); // fazer free do q esta antes
+		cleaner_file(file);
+		ft_putendl_fd("Allocation problem for the map copy", 2);
 		return (false);
 	}
-	return(true);
+	return (true);
 }
-
-bool	is_map_filled(t_file *valid_file)
+/*(file->file[i][0] == '\t' || file->file[i][0] == '1' || file->file[i][0] == ' ')*/
+bool	is_map_filled(t_file *file)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	if (allocation_memory_map(valid_file) == false)
+	if (allocation_memory_map(file) == false)
 		return (false);
-	while (valid_file->file[i])
+	while (file->file[i])
 	{
-		if (ft_isspace(valid_file->file[i][0]) || ft_isdigit(valid_file->file[i][0]))
+		while (ft_isalpha(file->file[i][0]))
+			i++;
+		if (ft_isdigit(file->file[i][0]) || ft_isspace(file->file[i][0]))
 		{
-			valid_file->mapa[j] = ft_strdup(valid_file->file[i]);
-			valid_file->mapa_copy[j] = ft_strdup(valid_file->file[i]);
+			file->mapa[j] = ft_strdup(file->file[i]);
+			file->mapa_copy[j] = ft_strdup(file->file[i]);
 			j++;
 		}
 		i++;
 	}
-	valid_file->mapa[j] = NULL;
-	valid_file->mapa_copy[j] = NULL;
+	file->mapa[j] = NULL;
+	file->mapa_copy[j] = NULL;
 	return (true);
 }
 
@@ -120,4 +122,3 @@ bool	find_player(t_file *valid_file)
 	}
 	return (true);
 }
-
