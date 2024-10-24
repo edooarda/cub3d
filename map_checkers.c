@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 17:48:13 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 17:45:53 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/24 11:47:03 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static bool	allocation_memory_map(t_file *file)
 	}
 	return (true);
 }
-
+/*(file->file[i][0] == '\t' || file->file[i][0] == '1' || file->file[i][0] == ' ')*/
 bool	is_map_filled(t_file *file)
 {
 	int	i;
@@ -47,8 +47,9 @@ bool	is_map_filled(t_file *file)
 		return (false);
 	while (file->file[i])
 	{
-		if (file->file[i][0] == '\t'
-			|| file->file[i][0] == '1' || file->file[i][0] == ' ')
+		while (ft_isalpha(file->file[i][0]))
+			i++;
+		if (ft_isdigit(file->file[i][0]) || ft_isspace(file->file[i][0]))
 		{
 			file->mapa[j] = ft_strdup(file->file[i]);
 			file->mapa_copy[j] = ft_strdup(file->file[i]);
