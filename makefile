@@ -6,7 +6,7 @@
 #    By: edribeir <edribeir@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/10/09 11:21:58 by edribeir      #+#    #+#                  #
-#    Updated: 2024/10/21 13:47:55 by edribeir      ########   odam.nl          #
+#    Updated: 2024/10/28 16:20:46 by edribeir      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = cub3d
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -I Libft
 CFLAGS += -fsanitize=address
 
 LIBFT = ./Libft/libft.a
@@ -34,6 +34,7 @@ SOURCE =  main.c \
 		textures_checkers.c \
 		utils.c \
 		cleaner.c \
+		raycasting.c \
 
 OBJECTS = $(SOURCE:%.c=obj/%.o)
 

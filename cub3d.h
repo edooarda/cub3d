@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/22 17:17:29 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/28 18:09:14 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 # define CUB3D_H
 
 # include "MLX42/include/MLX42/MLX42.h"
-# include "./Libft/libft.h"
+# include <libft.h>
 # include <stdio.h>
 # include <fcntl.h>
 # include <stdbool.h>
+# include <math.h>
 
 # define WIDTH 1920
 # define HEIGHT 1080
-# define ERROR_TEX "Texture not found"
 
 typedef struct s_tex
 {
@@ -33,16 +33,15 @@ typedef struct s_tex
 	int32_t			floor;
 }	t_tex;
 
-// typedef struct s_player //the player structure
-// {
-// 	int  plyr_x; // player x position in pixels
-// 	int  plyr_y; // player y position in pixels
-// 	double angle; // player angle
-// 	float fov_rd; // field of view in radians
-// 	int  rot; // rotation flag
-// 	int  l_r; // left right flag
-// 	int  u_d; // up down flag
-// } t_player;
+typedef struct s_player
+{
+	int		pos_x;
+	int		pos_y;
+	double	direction_x;
+	double	direction_y;
+	double	angle_x;
+	double	angle_y;
+} t_player;
 
 typedef struct s_map
 {
@@ -71,20 +70,32 @@ typedef struct s_file
 
 typedef struct s_ray
 {
-	double	ray_angle;
-	double	distance_to_wall;
-	int		flag_wall;
-	t_map	data;
-	
+	int	map_x;
+	int	map_y;
+	int	step_x;
+	int	step_y;
+	int	side;
+	int	wall;
+	double	view_x;
+	double	direction_x;
+	double	direction_y;
+	double	distance_x;
+	double	distance_y;
+	double	delta_distance_x;
+	double	delta_distance_y;
+	double	wall_distance;
+	int		line_height;
+	int		start_line;
+	int		end_line;
 }	t_ray;
 
-typedef struct s_mlx
+typedef struct s_game
 {
 	mlx_t		*mlx;
 	mlx_image_t	*img;
-	t_ray		*ray;
-	
-}	t_mlx;
+	t_ray		ray;
+	t_player	player;
+}	t_game;
 
 // Utils
 bool	is_file_valid(char *argv, t_file *valid_file);
@@ -105,5 +116,9 @@ int		color_check(t_file *valid_file, char *word);
 
 // Texture Checkers
 bool	is_texture_valid(t_file *valid_file);
+
+// Raycasting
+void	init_ray(t_ray	*tmp);
+void	game(void *param);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/24 11:45:28 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/28 17:51:50 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	fill_information(t_file *file, char **data)
 			file->f_color = ft_strdup(data[i]);
 		else if (ft_strncmp(data[i], "C", 1) == 0 && file->c_color == NULL)
 			file->c_color = ft_strdup(data[i]);
-		else if (ft_isdigit(file->file[i][0]) || ft_isspace(file->file[i][0]))
+		else
 			file->map_y_lines++;
 		i++;
 	}
@@ -97,31 +97,31 @@ bool	is_file_valid(char *argv, t_file *valid_file)
 	fill_information(valid_file, valid_file->file);
 	if (is_texture_valid(valid_file) == false)
 		return (error_message("Invalid Input"), false);
-	// tex_assing(valid_file);
 	if (color_check(valid_file, valid_file->c_color) == false
 		|| color_check(valid_file, valid_file->f_color) == false)
 		return (false);
 	if (is_map_filled(valid_file) == false)
 		return (false);
 	find_player(valid_file);
+	// tex_assing(valid_file);
 	printf("isso eh a textura -%s-\n", valid_file->so);
-	int i;
-	int j;
-		i = 0;
+	int i = 0;
+	// int j;
+	// 	i = 0;
 	while (valid_file->mapa[i])
 	{
-	j = 0;
-		while (valid_file->mapa[i][j])
-		{
-			if (valid_file->mapa[i][j] == '\t')
-			{
-				j++;
-			}
-			else if (valid_file->mapa[i][j] == ' ')
-				j++;
-		printf("%c\n", valid_file->mapa[i][j]);
-			j++;
-		}
+	// j = 0;
+	// 	while (valid_file->mapa[i][j])
+	// 	{
+	// 		if (valid_file->mapa[i][j] == '\t')
+	// 		{
+	// 			j++;
+	// 		}
+	// 		else if (valid_file->mapa[i][j] == ' ')
+	// 			j++;
+		printf("%s\n", valid_file->mapa[i]);
+	// 		j++;
+	// 	}
 		i++;
 	}
 	printf("player x -- %i\nplayer y -- %i\n", valid_file->map->player_x, valid_file->map->player_y);

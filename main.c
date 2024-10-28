@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/22 15:16:16 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/28 18:08:49 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	controls(mlx_key_data_t keydata, void *param)
 {
-	t_mlx	*data;
+	t_game	*data;
 	
 	data = param;
 	(void)keydata;
@@ -26,7 +26,7 @@ void	controls(mlx_key_data_t keydata, void *param)
 }
 
 
-int	init_mlx(t_mlx *data, t_file *input)
+int	init_mlx(t_game *data, t_file *input)
 {
 	data->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", false);
 	if (!data->mlx)
@@ -66,11 +66,23 @@ void	init_file_struct(t_file *valid_file)
 	// valid_file->valid_tex->SO_tex = malloc(sizeof(mlx_texture_t));
 	// valid_file->valid_tex->WE_tex = malloc(sizeof(mlx_texture_t));
 }
+void	init_player(t_player *player) // vai receber o valor da posicao do player
+{
+	double	distance_to_wall;
+	double	field_of_view;
+
+	player->direction_x = 1; // precisa mudar de acordo com a letra que esta no mapa
+	player->direction_y = 1; // "
+	field_of_view = 0.60;
+	distance_to_wall = sqrt((player->direction_x * player->direction_x) + (player->direction_y * player->direction_y));
+	player->angle_x = (player->direction_y / distance_to_wall) * field_of_view;
+	player->angle_y = (player->direction_x / distance_to_wall) * field_of_view;
+}
 
 int	main(int argc, char **argv)
 {
 	t_file	input;
-	t_mlx	data;
+	t_game	screen;
 
 	if (argc == 2)
 	{
@@ -82,12 +94,15 @@ int	main(int argc, char **argv)
 			cleaner_file(&input);
 			return (1);
 		}
-		if (init_mlx(&data, &input) == 1)
+		init_ray(&screen.ray);
+		init_player(&screen.player);
+		if (init_mlx(&screen, &input) == 1)
 			return (1);
-		mlx_image_to_window(data.mlx, data.img, 0, 0);
-		mlx_key_hook(data.mlx, &controls, &data);
-		mlx_loop(data.mlx);
-		mlx_terminate(data.mlx);
+		mlx_image_to_window(screen.mlx, screen.img, 0, 0);
+		mlx_loop_hook(screen.mlx, &game, &screen);
+		mlx_key_hook(screen.mlx, &controls, &screen);
+		mlx_loop(screen.mlx);
+		mlx_terminate(screen.mlx);
 		printf("everything is ok!\n");
 		cleaner_file(&input);
 	}
