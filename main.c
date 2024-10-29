@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/28 18:08:49 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/29 18:07:17 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	controls(mlx_key_data_t keydata, void *param)
 		mlx_close_window(data->mlx);
 	}
 }
-
 
 int	init_mlx(t_game *data, t_file *input)
 {
@@ -66,23 +65,48 @@ void	init_file_struct(t_file *valid_file)
 	// valid_file->valid_tex->SO_tex = malloc(sizeof(mlx_texture_t));
 	// valid_file->valid_tex->WE_tex = malloc(sizeof(mlx_texture_t));
 }
-void	init_player(t_player *player) // vai receber o valor da posicao do player
+void	game_loop(void *param)
 {
-	double	distance_to_wall;
-	double	field_of_view;
+	t_game	*game;
 
-	player->direction_x = 1; // precisa mudar de acordo com a letra que esta no mapa
-	player->direction_y = 1; // "
-	field_of_view = 0.60;
-	distance_to_wall = sqrt((player->direction_x * player->direction_x) + (player->direction_y * player->direction_y));
-	player->angle_x = (player->direction_y / distance_to_wall) * field_of_view;
-	player->angle_y = (player->direction_x / distance_to_wall) * field_of_view;
+	game = param;
+	// if (game->player->rotation == 1) // rotation right
+	// {
+	// 	game->player->angle += rotation_speed;
+	// 	if (game->player->angle > 2 * M_PI)
+	// 		game->player->angle -= 2 * M_PI;
+	// }
+	// if (game->player->rotation == -1) // rotation left
+	// {
+	// 	game->player->angle += rotation_speed;
+	// 	if (game->player->angle < 0)
+	// 		game->player->angle += 2 * M_PI;
+	// }
+	casting_rays(game);
+}
+
+int	start_game(t_file *input)
+{
+	t_game	screen;
+
+	screen.temp = init_argumet(); // will not be used in future
+	screen.player = calloc(1, sizeof(t_player)); // change later
+	screen.ray = calloc(1, sizeof(t_ray)); // change later
+	if (init_mlx(&screen, input) == 1)
+		return (1);
+	init_player(&screen);
+	mlx_image_to_window(screen.mlx, screen.img, 0, 0);
+	mlx_loop_hook(screen.mlx, &game_loop, &screen);
+	mlx_key_hook(screen.mlx, &controls, &screen);
+	mlx_loop(screen.mlx);
+	mlx_terminate(screen.mlx);
+	cleaner_file(input);
+	return (0);
 }
 
 int	main(int argc, char **argv)
 {
 	t_file	input;
-	t_game	screen;
 
 	if (argc == 2)
 	{
@@ -94,17 +118,8 @@ int	main(int argc, char **argv)
 			cleaner_file(&input);
 			return (1);
 		}
-		init_ray(&screen.ray);
-		init_player(&screen.player);
-		if (init_mlx(&screen, &input) == 1)
+		if (start_game(&input) == 1)
 			return (1);
-		mlx_image_to_window(screen.mlx, screen.img, 0, 0);
-		mlx_loop_hook(screen.mlx, &game, &screen);
-		mlx_key_hook(screen.mlx, &controls, &screen);
-		mlx_loop(screen.mlx);
-		mlx_terminate(screen.mlx);
-		printf("everything is ok!\n");
-		cleaner_file(&input);
 	}
 	else
 	{
@@ -112,4 +127,25 @@ int	main(int argc, char **argv)
 		printf("Please add one file!\n");
 		return (1);
 	}
+}
+
+t_temp *init_argumet()	// init the data structure
+{
+	t_temp *dt = calloc(1, sizeof(t_temp)); // init the data structure
+	dt->map2d = calloc(10, sizeof(char *)); // init the map
+	dt->map2d[0] = strdup("1111111111111111111111111"); //fill the map
+	dt->map2d[1] = strdup("1000000000000000000100001");
+	dt->map2d[2] = strdup("1001000000000P00000000001");
+	dt->map2d[3] = strdup("1001000000000000001000001");
+	dt->map2d[4] = strdup("1001000000000000001000001");
+	dt->map2d[5] = strdup("1001000000100000001000001");
+	dt->map2d[6] = strdup("1001000000000000001000001");
+	dt->map2d[7] = strdup("1001000000001000001000001");
+	dt->map2d[8] = strdup("1111111111111111111111111");
+	dt->map2d[9] = NULL;
+	dt->p_y = 3; // player y position in the map
+	dt->p_x = 14; // player x position in the map
+	dt->w_map = 25; // map width
+	dt->h_map = 9; // map height
+	return (dt); // return the data structure
 }

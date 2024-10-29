@@ -2,3 +2,5 @@ obj/
 libft.a
 *.o
 cub3d
+.vscode
+temp.c

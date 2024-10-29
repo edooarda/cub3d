@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/28 18:09:14 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/29 18:07:58 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 
 # define WIDTH 1920
 # define HEIGHT 1080
+# define cell_size 64 // textures png 64x64
+# define M_PI 3.14159265358979323846 // matematical number
+# define rotation_speed 0.03
 
 typedef struct s_tex
 {
@@ -33,14 +36,16 @@ typedef struct s_tex
 	int32_t			floor;
 }	t_tex;
 
+
 typedef struct s_player
 {
-	int		pos_x;
-	int		pos_y;
-	double	direction_x;
-	double	direction_y;
-	double	angle_x;
-	double	angle_y;
+	int		pos_x; // player x position in pixels
+	int		pos_y; // player y position in pixels
+	double	angle; // player angle
+	float	fov_radians; // field of view in radians
+	int		rotation; // rotation flag
+	int		left_right; // left right flag
+	int		up_down; // up down flag
 } t_player;
 
 typedef struct s_map
@@ -68,33 +73,29 @@ typedef struct s_file
 	t_map	*map;
 }	t_file;
 
-typedef struct s_ray
+typedef struct s_ray //the ray structure
 {
-	int	map_x;
-	int	map_y;
-	int	step_x;
-	int	step_y;
-	int	side;
-	int	wall;
-	double	view_x;
-	double	direction_x;
-	double	direction_y;
-	double	distance_x;
-	double	distance_y;
-	double	delta_distance_x;
-	double	delta_distance_y;
-	double	wall_distance;
-	int		line_height;
-	int		start_line;
-	int		end_line;
-}	t_ray;
+	double	angle; // ray angle
+	double	distance; // distance to the wall
+	bool		wall;  // flag for the wall
+} t_ray;
+
+typedef struct s_data // temporario para entender funcionamento
+{
+	char **map2d; // the map
+	int  p_x;  // player x position in the map
+	int  p_y;  // player y position in the map
+	int  w_map;  // map width
+	int  h_map;  // map height
+} t_temp;
 
 typedef struct s_game
 {
 	mlx_t		*mlx;
 	mlx_image_t	*img;
-	t_ray		ray;
-	t_player	player;
+	t_ray		*ray;
+	t_player	*player;
+	t_temp		*temp;
 }	t_game;
 
 // Utils
@@ -118,7 +119,13 @@ int		color_check(t_file *valid_file, char *word);
 bool	is_texture_valid(t_file *valid_file);
 
 // Raycasting
-void	init_ray(t_ray	*tmp);
-void	game(void *param);
+void	casting_rays(t_game *game);
+float	translater_angle(float angle);
+void	put_on_screen(t_game *game, int ray);
+
+// Init
+void	init_player(t_game *game);
+t_temp *init_argumet();
+
 
 #endif
