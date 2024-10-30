@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/29 18:07:58 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/30 15:16:58 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@
 # define cell_size 64 // textures png 64x64
 # define M_PI 3.14159265358979323846 // matematical number
 # define rotation_speed 0.03
+# define player_speed 0.8
+# define LEFT -1
+# define RIGHT 1
+# define UP 1
+# define DOWN -1
 
 typedef struct s_tex
 {
@@ -73,11 +78,11 @@ typedef struct s_file
 	t_map	*map;
 }	t_file;
 
-typedef struct s_ray //the ray structure
+typedef struct s_ray
 {
 	double	angle; // ray angle
 	double	distance; // distance to the wall
-	bool		wall;  // flag for the wall
+	bool	wall;  // flag for the wall
 } t_ray;
 
 typedef struct s_data // temporario para entender funcionamento
@@ -127,5 +132,10 @@ void	put_on_screen(t_game *game, int ray);
 void	init_player(t_game *game);
 t_temp *init_argumet();
 
+// Player
+void	directions_decisions(t_game *game, double move_x, double move_y);
+
+// Controls
+void	controls(mlx_key_data_t keydata, void *param);
 
 #endif

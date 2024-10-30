@@ -6,24 +6,11 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/29 18:07:17 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/30 15:18:23 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	controls(mlx_key_data_t keydata, void *param)
-{
-	t_game	*data;
-	
-	data = param;
-	(void)keydata;
-	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE) == true)
-	{
-		ft_putendl_fd("	Goodbye 👋, See you later! 😉", 1);
-		mlx_close_window(data->mlx);
-	}
-}
 
 int	init_mlx(t_game *data, t_file *input)
 {
@@ -82,7 +69,9 @@ void	game_loop(void *param)
 	// 	if (game->player->angle < 0)
 	// 		game->player->angle += 2 * M_PI;
 	// }
+	directions_decisions(game, 0, 0);
 	casting_rays(game);
+	
 }
 
 int	start_game(t_file *input)

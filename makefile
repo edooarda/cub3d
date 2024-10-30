@@ -6,7 +6,7 @@
 #    By: edribeir <edribeir@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/10/09 11:21:58 by edribeir      #+#    #+#                  #
-#    Updated: 2024/10/29 18:24:09 by edribeir      ########   odam.nl          #
+#    Updated: 2024/10/30 15:24:34 by edribeir      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SOURCE = main.c \
 		raycasting.c \
 		player.c \
 		draw_elements.c \
+		controls.c \
 
 OBJECTS = $(SOURCE:%.c=obj/%.o)
 

@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/28 12:07:28 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/30 12:29:47 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/30 13:16:06 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	wall_hit(float x, float y, t_game *game)
 	return (1);
 }
 
-float	vertical_intersection(t_game *mlx, float angle)
+float	vertical_intersection(t_game *game, float angle)
 {
 	float	x;
 	float	y;
@@ -49,9 +49,9 @@ float	vertical_intersection(t_game *mlx, float angle)
 	int		pixel;
 	float	distance;
 
-	x_step = cell_size; 
+	x_step = cell_size;
 	y_step = cell_size * tan(angle);
-	x = floor(mlx->player->pos_x / cell_size) * cell_size;
+	x = floor(game->player->pos_x / cell_size) * cell_size;
 	if (!(angle > M_PI / 2 && angle < 3 * M_PI / 2))
 	{
 		x += cell_size;
@@ -60,19 +60,19 @@ float	vertical_intersection(t_game *mlx, float angle)
 	else
 		pixel = 1;
 	x_step *= -1;
-	y = mlx->player->pos_y + (x - mlx->player->pos_x) * tan(angle);
+	y = game->player->pos_y + (x - game->player->pos_x) * tan(angle);
 	if (((angle > 0 && angle < M_PI) && y_step < 0) || (!(angle > 0 && angle < M_PI) && y_step > 0))
 		y_step *= -1;
-	while (wall_hit(x - pixel, y, mlx))
+	while (wall_hit(x - pixel, y, game))
 	{
 		x += x_step;
 		y += y_step;
 	}
-	distance = sqrt(((x - mlx->player->pos_x) * (x - mlx->player->pos_x)) + ((y - mlx->player->pos_y) * (y - mlx->player->pos_y)));
+	distance = sqrt(((x - game->player->pos_x) * (x - game->player->pos_x)) + ((y - game->player->pos_y) * (y - game->player->pos_y)));
 	return (distance);
 }
 
-float	horizontal_intersection(t_game *mlx, float angle)
+float	horizontal_intersection(t_game *game, float angle)
 {
 	float	x;
 	float	y;
@@ -83,7 +83,7 @@ float	horizontal_intersection(t_game *mlx, float angle)
 
 	y_step = cell_size;
 	x_step = cell_size / tan(angle);
-	y = floor(mlx->player->pos_y / cell_size) * cell_size;
+	y = floor(game->player->pos_y / cell_size) * cell_size;
 	if (angle > 0 && angle < M_PI)
 	{
 		y += cell_size;
@@ -92,15 +92,15 @@ float	horizontal_intersection(t_game *mlx, float angle)
 	else
 		pixel = 1;
 	y_step *= -1;
-	x = mlx->player->pos_x + (y - mlx->player->pos_y) / tan(angle);
+	x = game->player->pos_x + (y - game->player->pos_y) / tan(angle);
 	if (((angle > (M_PI / 2) && angle < (3 * M_PI) / 2) && x_step > 0) || (!(angle > (M_PI / 2) && angle < (3 * M_PI) / 2) && x_step < 0)) // check x_step value
 		x_step *= -1;
-	while (wall_hit(x, y - pixel, mlx))
+	while (wall_hit(x, y - pixel, game))
 	{
 		x += x_step;
 		y += y_step;
 	}
-	distance = sqrt(((x - mlx->player->pos_x) * (x - mlx->player->pos_x)) + ((y - mlx->player->pos_y) * (y - mlx->player->pos_y)));
+	distance = sqrt(((x - game->player->pos_x) * (x - game->player->pos_x)) + ((y - game->player->pos_y) * (y - game->player->pos_y)));
 	return (distance);
 }
 
