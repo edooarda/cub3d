@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 17:48:13 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/24 17:17:36 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/10/31 14:18:03 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,29 @@ bool	is_map_filled(t_file *file)
 	return (true);
 }
 
-void	map_wall(char **map, int x, int y, char *def)
+int	map_wall(char **map, int x, int y, char def)
 {
-	if (ft_strchr(def, map[y][x - 1]) == 0 || \
-	ft_strchr(def, map[y][x + 1]) == 0 || \
-	ft_strchr(def, map[y - 1][x]) == 0 || \
-	ft_strchr(def, map[y + 1][x]) == 0)
-	{
-		error_message("hey");
-		return ;
-	}
+	// while (map[y][x] != def)
+	// {
+		if (map[y][x] != def && (map[y][x + 1] != ' ' || map[y][x + 1] != '1'))
+		{
+			printf("in--%c--%i--%i-\n", map[y][x - 1], y, x - 1);
+			error_message("Map not surronded");
+			return (1);
+		}
+		if (ft_strchr("1 ", map[y][x + 1]) == 0)
+		{
+			printf("-%c-\n", map[y][x+1]);
+			error_message("Map not surronded");
+			return (1);
+		}
+		// y--;
+	// }
+	map_wall(map, y - 1, x, '1');
+	map_wall(map, y + 1, x, '1');
+	map_wall(map, y, x - 1, '1');
+	map_wall(map, y, x + 1, '1');
+	return (0);
 }
 
 int	map_area(t_file *valid_file)
@@ -100,14 +113,20 @@ int	map_area(t_file *valid_file)
 		}
 		y++;
 	}
-	printf("%i--- %c\n", y, valid_file->mapa[y-1][x]);
-	while (valid_file->mapa[y-1][x])
+	y -= 1;
+	while (valid_file->mapa[y][x])
 	{
-		if (ft_strchr("\t1 ", valid_file->mapa[y][x]) == 0)
-			return(error_message("no bottom walls"), 1);
+		if (ft_strchr("\t1 ", valid_file->mapa[y][x]))
+		{
+			if (valid_file->mapa[y][x] == ' ')
+			{
+				printf("out-%c--%i--%i-\n", valid_file->mapa[y][x], y, x);
+				if (map_wall(valid_file->mapa, x, y, '1') == 1)
+					return (1);
+			}
+		}
 		x++;
 	}
-	
 	return (1);
 }
 
