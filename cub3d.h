@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/30 15:16:58 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/31 12:17:20 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # define HEIGHT 1080
 # define cell_size 64 // textures png 64x64
 # define M_PI 3.14159265358979323846 // matematical number
-# define rotation_speed 0.03
-# define player_speed 0.8
+# define rotation_speed 0.01
+# define player_speed 1
 # define LEFT -1
 # define RIGHT 1
 # define UP 1

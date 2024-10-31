@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/30 15:18:23 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/31 12:04:33 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,15 @@ void	game_loop(void *param)
 	t_game	*game;
 
 	game = param;
-	// if (game->player->rotation == 1) // rotation right
+	// game->img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
+	// if (!game->img)
 	// {
-	// 	game->player->angle += rotation_speed;
-	// 	if (game->player->angle > 2 * M_PI)
-	// 		game->player->angle -= 2 * M_PI;
-	// }
-	// if (game->player->rotation == -1) // rotation left
-	// {
-	// 	game->player->angle += rotation_speed;
-	// 	if (game->player->angle < 0)
-	// 		game->player->angle += 2 * M_PI;
+	// 	ft_putendl_fd("Error Init Window LOOP MLX42", 2);
+	// 	return ;
 	// }
 	directions_decisions(game, 0, 0);
 	casting_rays(game);
-	
+	// mlx_image_to_window(game->mlx, game->img, 0, 0);
 }
 
 int	start_game(t_file *input)
@@ -88,6 +82,7 @@ int	start_game(t_file *input)
 	mlx_loop_hook(screen.mlx, &game_loop, &screen);
 	mlx_key_hook(screen.mlx, &controls, &screen);
 	mlx_loop(screen.mlx);
+	mlx_delete_image(screen.mlx, screen.img);
 	mlx_terminate(screen.mlx);
 	cleaner_file(input);
 	return (0);

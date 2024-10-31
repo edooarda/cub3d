@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/29 16:40:27 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/29 18:22:13 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/10/31 12:29:37 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,26 +67,26 @@ void	draw_ceiling(t_game *game, int ray, int top_px)
 	}
 }
 
-// void	draw_wall (t_game *game, int ray, int top_px, int bottom_px)
-// {
-// 	// vai ser as texturas e nao cor
-// 	int color;
+void	draw_wall (t_game *game, int ray, int top_px, int bottom_px)
+{
+	// vai ser as texturas e nao cor
+	int color;
 
-// 	color = get_color(game, game->ray->wall);
-// 	while (top_px < bottom_px) // change to go until reach the WIDTH
-// 	{
-// 		if (ray < 0) // check the x position
-// 			return ;
-// 		else if (ray >= WIDTH)
-// 			return ;
-// 		if (top_px < 0) // check the y position
-// 			return ;
-// 		else if (top_px >= WIDTH)
-// 			return ;
-// 		mlx_put_pixel(game->img, ray, top_px, color);
-// 		top_px++;
-// 	}
-// }
+	color = get_color(game, game->ray->wall);
+	while (top_px < bottom_px) // change to go until reach the WIDTH
+	{
+		if (ray < 0) // check the x position
+			return ;
+		else if (ray >= WIDTH)
+			return ;
+		if (top_px < 0) // check the y position
+			return ;
+		else if (top_px >= WIDTH)
+			return ;
+		mlx_put_pixel(game->img, ray, top_px, color);
+		top_px++;
+	}
+}
 
 void	put_on_screen(t_game *game, int ray)
 {
@@ -102,7 +102,7 @@ void	put_on_screen(t_game *game, int ray)
 		bottom_px = HEIGHT;
 	if (top_px < 0)
 		top_px = 0;
-	// draw_wall(game, ray, top_px, bottom_px);
+	draw_wall(game, ray, top_px, bottom_px);
 	draw_ceiling(game, ray, top_px);
 	draw_floor(game, ray, bottom_px);
 }
