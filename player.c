@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/29 13:52:25 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/01 10:12:14 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/01 19:08:40 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	moviments(t_game *game, double move_x, double move_y)
 		game->player->pos_y = new_y;
 	}
 }
-void	directions_decisions(t_game *game, double move_x, double move_y)
+void	player_rotation(t_game *game)
 {
 	if (game->player->rotation == RIGHT)
 	{
@@ -43,6 +43,11 @@ void	directions_decisions(t_game *game, double move_x, double move_y)
 		if (game->player->angle < 0)
 			game->player->angle += G_360;
 	}
+}
+
+void	directions_decisions(t_game *game, double move_x, double move_y)
+{
+	player_rotation(game);
 	if (game->player->left_right == RIGHT)
 	{
 		move_x = -sin(game->player->angle) * player_speed;
@@ -65,6 +70,28 @@ void	directions_decisions(t_game *game, double move_x, double move_y)
 	}
 	moviments(game, move_x, move_y);
 }
+
+// float	player_is_facing(t_game *game)
+// {
+// 	float	facing;
+
+// 	if (game->temp->facing_to == 'N')
+// 	{
+// 		facing = G_360;
+// 	}
+// 	else if (game->temp->facing_to == 'S')
+// 	{
+// 		facing = G_90;
+// 	}
+// 	else if (game->temp->facing_to == 'E')
+// 	{
+// 		facing = 0;
+// 	}
+// 	else (game->temp->facing_to == 'W')
+// 	{
+// 		facing = G_180;
+// 	}
+// }
 
 void	init_player(t_game *game)
 {

@@ -6,13 +6,13 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/28 12:07:28 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/01 10:27:35 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/01 14:41:43 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	wall_hit(float x, float y, t_game *game)
+int	wall_hit(float x, float y, t_game *game) // bonus
 {
 	int	x_point_map;
 	int	y_point_map;
@@ -71,36 +71,29 @@ float	vertical_intersection(t_game *game, float angle)
 
 float	horizontal_intersection(t_game *game, float angle)
 {
-	float	x;
-	float	y;
-	float	x_step;
-	float	y_step;
-	int		pixel;
-	float	distance;
-
-	y_step = cell_size;
-	x_step = cell_size / tan(angle);
-	y = floor(game->player->pos_y / cell_size) * cell_size;
-	if (angle > 0 && angle < G_180) // this represents 0 to 180 
+	game->ray->horizon_y_step = cell_size;
+	game->ray->horizon_x_step = cell_size / tan(angle);
+	game->ray->horizon_y = floor(game->player->pos_y / cell_size) * cell_size;
+	if (angle > 0 && angle < G_180) // this represents 0 to 180
 	{
-		y += cell_size;
-		pixel = -1;
+		game->ray->horizon_y += cell_size;
+		game->ray->horizon_pixel = -1;
 	}
 	else
 	{
-		pixel = 1;
-		y_step *= -1; // needs to be negative to go for upper cels because the else is for 180 - 360
+		game->ray->horizon_pixel = 1;
+		game->ray->horizon_y_step *= -1; // needs to be negative to go for upper cels because the else is for 180 - 360
 	}
-	x = game->player->pos_x + (y - game->player->pos_y) / tan(angle);
-	if (((angle > G_90 && angle < G_270) && x_step > 0) || (!(angle > G_90 && angle < G_270) && x_step < 0))
-		x_step *= -1;
-	while (wall_hit(x, y - pixel, game))
+	game->ray->horizon_x = game->player->pos_x + (game->ray->horizon_y - game->player->pos_y) / tan(angle);
+	if (((angle > G_90 && angle < G_270) && game->ray->horizon_x_step > 0) || (!(angle > G_90 && angle < G_270) && game->ray->horizon_x_step < 0))
+		game->ray->horizon_x_step *= -1;
+	while (wall_hit(game->ray->horizon_x, game->ray->horizon_y - game->ray->horizon_pixel, game))
 	{
-		x += x_step;
-		y += y_step;
+		game->ray->horizon_x += game->ray->horizon_x_step;
+		game->ray->horizon_y += game->ray->horizon_y_step;
 	}
-	distance = sqrt(((x - game->player->pos_x) * (x - game->player->pos_x)) + ((y - game->player->pos_y) * (y - game->player->pos_y)));
-	return (distance);
+	game->ray->horizon_distance = sqrt(((game->ray->horizon_x - game->player->pos_x) * (game->ray->horizon_x - game->player->pos_x)) + ((game->ray->horizon_y - game->player->pos_y) * (game->ray->horizon_y - game->player->pos_y)));
+	return (game->ray->horizon_distance);
 }
 
 void	casting_rays(t_game *game)

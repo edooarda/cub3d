@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/01 10:20:47 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/01 18:41:22 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ typedef struct s_tex
 	int32_t			ceil;
 	int32_t			floor;
 }	t_tex;
-
 
 typedef struct s_player
 {
@@ -107,6 +106,7 @@ typedef struct s_data // temporario para entender funcionamento
 	char **map2d; // the map
 	int  p_x;  // player x position in the map
 	int  p_y;  // player y position in the map
+	char  facing_to;
 	int  w_map;  // map width
 	int  h_map;  // map height
 } t_temp;
@@ -118,6 +118,7 @@ typedef struct s_game
 	t_ray		*ray;
 	t_player	*player;
 	t_temp		*temp;
+	t_tex		*draw;
 }	t_game;
 
 // Utils

@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/29 16:40:27 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/31 12:29:37 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/01 14:11:44 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ int	get_color(t_game *mlx, int flag)// get the color of the wall
 	mlx->ray->angle = translater_angle(mlx->ray->angle); // normalize the angle
 	if (flag == 0)
 	{
-		if (mlx->ray->angle > M_PI / 2 && mlx->ray->angle < 3 * (M_PI / 2))
+		if (mlx->ray->angle > G_90 && mlx->ray->angle < G_270)
 			return (0xB5B5B5FF); // west wall
 		else
 			return (0xB5B5B5FF); // east wall
 	}
 	else
 	{
-		if (mlx->ray->angle > 0 && mlx->ray->angle < M_PI)
+		if (mlx->ray->angle > 0 && mlx->ray->angle < G_180)
 			return (0xF5F5F5FF); // south wall
 		else
 			return (0xF5F5F5FF); // north wall
