@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/30 15:15:32 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/31 12:42:41 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/01 10:16:58 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	controls(mlx_key_data_t keydata, void *param)
 	
 	game = param;
 	// clear_frame(game);
-	// (void)keydata;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE) == true)
 	{
 		ft_putendl_fd("	Goodbye 👋, See you later! 😉", 1);

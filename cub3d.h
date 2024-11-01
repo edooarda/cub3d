@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/31 12:17:20 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/01 10:20:47 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@
 # define HEIGHT 1080
 # define cell_size 64 // textures png 64x64
 # define M_PI 3.14159265358979323846 // matematical number
+# define G_90 M_PI/2
+# define G_180 M_PI
+# define G_270  3*M_PI/2
+# define G_360 2*M_PI
+
 # define rotation_speed 0.01
 # define player_speed 1
 # define LEFT -1
@@ -83,6 +88,18 @@ typedef struct s_ray
 	double	angle; // ray angle
 	double	distance; // distance to the wall
 	bool	wall;  // flag for the wall
+	float	vert_x;
+	float	vert_y;
+	float	vert_x_step;
+	float	vert_y_step;
+	int		vert_pixel;
+	float	vert_distance;
+	float	horizon_x;
+	float	horizon_y;
+	float	horizon_x_step;
+	float	horizon_y_step;
+	int		horizon_pixel;
+	float	horizon_distance;
 } t_ray;
 
 typedef struct s_data // temporario para entender funcionamento

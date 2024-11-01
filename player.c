@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/29 13:52:25 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/31 12:15:20 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/01 10:12:14 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ void	directions_decisions(t_game *game, double move_x, double move_y)
 	if (game->player->rotation == RIGHT)
 	{
 		game->player->angle += rotation_speed;
-		if (game->player->angle > 2 * M_PI) //(2 * M_PI) represents 360graus
-			game->player->angle -= 2 * M_PI; // para manter o angulo dentro do escopo de 0 a 360
+		if (game->player->angle > G_360) //(2 * M_PI) represents 360graus
+			game->player->angle -= G_360; // para manter o angulo dentro do escopo de 0 a 360
 	}
 	else if(game->player->rotation == LEFT)
 	{
 		game->player->angle -= rotation_speed;
 		if (game->player->angle < 0)
-			game->player->angle += 2 * M_PI;
+			game->player->angle += G_360;
 	}
 	if (game->player->left_right == RIGHT)
 	{

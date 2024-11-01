@@ -6,7 +6,7 @@
 #    By: edribeir <edribeir@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/10/09 11:21:58 by edribeir      #+#    #+#                  #
-#    Updated: 2024/10/31 12:04:52 by edribeir      ########   odam.nl          #
+#    Updated: 2024/11/01 10:14:28 by edribeir      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,6 @@ MLXLIB = MLX42/build/libmlx42.a
 LIBMLX = ./MLX42
 
 FLAGSMLX = -ldl -lglfw -pthread -lm 
-
-# SOURCE =  temp.c \
 
 SOURCE = main.c \
 		main_checkers.c \

@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/31 12:04:33 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/01 10:16:19 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,8 @@ void	game_loop(void *param)
 	t_game	*game;
 
 	game = param;
-	// game->img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
-	// if (!game->img)
-	// {
-	// 	ft_putendl_fd("Error Init Window LOOP MLX42", 2);
-	// 	return ;
-	// }
 	directions_decisions(game, 0, 0);
 	casting_rays(game);
-	// mlx_image_to_window(game->mlx, game->img, 0, 0);
 }
 
 int	start_game(t_file *input)

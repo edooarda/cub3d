@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/28 12:07:28 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/01 09:09:22 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/01 10:27:35 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,44 +34,39 @@ int	wall_hit(float x, float y, t_game *game)
 float	translater_angle(float angle)// to keep the angle in 0 and 360, no negative
 {
 	if (angle < 0)
-		angle += (2 * M_PI);
-	if (angle > (2 * M_PI))
-		angle -= (2 * M_PI);
+		angle += G_360;
+	if (angle > G_360)
+		angle -= G_360;
 	return (angle);
 }
 
 float	vertical_intersection(t_game *game, float angle)
 {
-	float	x;
-	float	y;
-	float	x_step;
-	float	y_step;
-	int		pixel;
-	float	distance;
-
-	x_step = cell_size;
-	y_step = cell_size * tan(angle);
-	x = floor(game->player->pos_x / cell_size) * cell_size;
-	if (!(angle > M_PI / 2 && angle < 3 * M_PI / 2))
+	game->ray->vert_x_step = cell_size;
+	game->ray->vert_y_step = cell_size * tan(angle);
+	game->ray->vert_x = floor(game->player->pos_x / cell_size) * cell_size;
+	if (angle > G_90 && angle < G_270) // looking left mas esta entre os angulos de 90 e 270
 	{
-		x += cell_size;
-		pixel = -1;
+		game->ray->vert_pixel = 1;
+		game->ray->vert_x_step *= -1;
 	}
 	else
 	{
-		pixel = 1;
-		x_step *= -1;
+		game->ray->vert_x += cell_size;
+		game->ray->vert_pixel = -1;
 	}
-	y = game->player->pos_y + (x - game->player->pos_x) * tan(angle);
-	if (((angle > 0 && angle < M_PI) && y_step < 0) || (!(angle > 0 && angle < M_PI) && y_step > 0))
-		y_step *= -1;
-	while (wall_hit(x - pixel, y, game))
+	game->ray->vert_y = game->player->pos_y + (game->ray->vert_x - game->player->pos_x) * tan(angle);
+	if (((angle > 0 && angle < G_180) && game->ray->vert_y_step < 0)
+		|| (!(angle > 0 && angle < G_180) && game->ray->vert_y_step > 0))
+		game->ray->vert_y_step *= -1;
+	while (wall_hit(game->ray->vert_x - game->ray->vert_pixel, game->ray->vert_y, game))
 	{
-		x += x_step;
-		y += y_step;
+		game->ray->vert_x += game->ray->vert_x_step;
+		game->ray->vert_y += game->ray->vert_y_step;
 	}
-	distance = sqrt(((x - game->player->pos_x) * (x - game->player->pos_x)) + ((y - game->player->pos_y) * (y - game->player->pos_y)));
-	return (distance);
+	game->ray->distance = sqrt(((game->ray->vert_x - game->player->pos_x) * (game->ray->vert_x - game->player->pos_x))
+		+ ((game->ray->vert_y - game->player->pos_y) * (game->ray->vert_y - game->player->pos_y)));
+	return (game->ray->distance);
 }
 
 float	horizontal_intersection(t_game *game, float angle)
@@ -86,7 +81,7 @@ float	horizontal_intersection(t_game *game, float angle)
 	y_step = cell_size;
 	x_step = cell_size / tan(angle);
 	y = floor(game->player->pos_y / cell_size) * cell_size;
-	if (angle > 0 && angle < M_PI)
+	if (angle > 0 && angle < G_180) // this represents 0 to 180 
 	{
 		y += cell_size;
 		pixel = -1;
@@ -94,10 +89,10 @@ float	horizontal_intersection(t_game *game, float angle)
 	else
 	{
 		pixel = 1;
-		y_step *= -1;
+		y_step *= -1; // needs to be negative to go for upper cels because the else is for 180 - 360
 	}
 	x = game->player->pos_x + (y - game->player->pos_y) / tan(angle);
-	if (((angle > M_PI / 2 && angle < 3 * M_PI / 2) && x_step > 0) || (!(angle > M_PI / 2 && angle < 3 * M_PI / 2) && x_step < 0))
+	if (((angle > G_90 && angle < G_270) && x_step > 0) || (!(angle > G_90 && angle < G_270) && x_step < 0))
 		x_step *= -1;
 	while (wall_hit(x, y - pixel, game))
 	{
