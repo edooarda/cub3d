@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/28 12:07:28 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/01 14:41:43 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/04 14:52:19 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	wall_hit(float x, float y, t_game *game) // bonus
 	y_point_map = floor(y / cell_size);
 	if (y_point_map >= game->temp->h_map || x_point_map >= game->temp->w_map)
 		return (0);
-	if (game->temp->map2d[y_point_map] && x_point_map <= (int)ft_strlen(game->temp->map2d[y_point_map]))
+	if (game->temp->map2d[y_point_map]
+		&& x_point_map <= (int)ft_strlen(game->temp->map2d[y_point_map]))
 	{
 		if (game->temp->map2d[y_point_map][x_point_map] == '1')
 			return (0);
@@ -31,7 +32,7 @@ int	wall_hit(float x, float y, t_game *game) // bonus
 	return (1);
 }
 
-float	translater_angle(float angle)// to keep the angle in 0 and 360, no negative
+float	nor_angle(float angle)
 {
 	if (angle < 0)
 		angle += G_360;
@@ -40,84 +41,86 @@ float	translater_angle(float angle)// to keep the angle in 0 and 360, no negativ
 	return (angle);
 }
 
-float	vertical_intersection(t_game *game, float angle)
+float	vert_inter(t_game *g, t_ray *ray, float agl)
 {
-	game->ray->vert_x_step = cell_size;
-	game->ray->vert_y_step = cell_size * tan(angle);
-	game->ray->vert_x = floor(game->player->pos_x / cell_size) * cell_size;
-	if (angle > G_90 && angle < G_270) // looking left mas esta entre os angulos de 90 e 270
+	ray->v_x_step = cell_size;
+	ray->v_y_step = cell_size * tan(agl);
+	ray->v_x = floor(g->plyr->pos_x / cell_size) * cell_size;
+	if (agl > G_90 && agl < G_270)
 	{
-		game->ray->vert_pixel = 1;
-		game->ray->vert_x_step *= -1;
+		ray->v_px = 1;
+		ray->v_x_step *= -1;
 	}
 	else
 	{
-		game->ray->vert_x += cell_size;
-		game->ray->vert_pixel = -1;
+		ray->v_x += cell_size;
+		ray->v_px = -1;
 	}
-	game->ray->vert_y = game->player->pos_y + (game->ray->vert_x - game->player->pos_x) * tan(angle);
-	if (((angle > 0 && angle < G_180) && game->ray->vert_y_step < 0)
-		|| (!(angle > 0 && angle < G_180) && game->ray->vert_y_step > 0))
-		game->ray->vert_y_step *= -1;
-	while (wall_hit(game->ray->vert_x - game->ray->vert_pixel, game->ray->vert_y, game))
+	ray->v_y = g->plyr->pos_y + (ray->v_x - g->plyr->pos_x) * tan(agl);
+	if (((agl > 0 && agl < G_180) && ray->v_y_step < 0)
+		|| (!(agl > 0 && agl < G_180) && ray->v_y_step > 0))
+		ray->v_y_step *= -1;
+	while (wall_hit(ray->v_x - ray->v_px, ray->v_y, g))
 	{
-		game->ray->vert_x += game->ray->vert_x_step;
-		game->ray->vert_y += game->ray->vert_y_step;
+		ray->v_x += ray->v_x_step;
+		ray->v_y += ray->v_y_step;
 	}
-	game->ray->distance = sqrt(((game->ray->vert_x - game->player->pos_x) * (game->ray->vert_x - game->player->pos_x))
-		+ ((game->ray->vert_y - game->player->pos_y) * (game->ray->vert_y - game->player->pos_y)));
-	return (game->ray->distance);
+	ray->vdis = sqrt(((ray->v_x - g->plyr->pos_x) * (ray->v_x - g->plyr->pos_x))
+			+ ((ray->v_y - g->plyr->pos_y) * (ray->v_y - g->plyr->pos_y)));
+	return (ray->vdis);
 }
 
-float	horizontal_intersection(t_game *game, float angle)
+float	horizon_inter(t_game *g, t_ray *ray, float agl)
 {
-	game->ray->horizon_y_step = cell_size;
-	game->ray->horizon_x_step = cell_size / tan(angle);
-	game->ray->horizon_y = floor(game->player->pos_y / cell_size) * cell_size;
-	if (angle > 0 && angle < G_180) // this represents 0 to 180
+	ray->h_y_step = cell_size;
+	ray->h_x_step = cell_size / tan(agl);
+	ray->h_y = floor(g->plyr->pos_y / cell_size) * cell_size;
+	if (agl > 0 && agl < G_180)
 	{
-		game->ray->horizon_y += cell_size;
-		game->ray->horizon_pixel = -1;
+		ray->h_y += cell_size;
+		ray->h_px = -1;
 	}
 	else
 	{
-		game->ray->horizon_pixel = 1;
-		game->ray->horizon_y_step *= -1; // needs to be negative to go for upper cels because the else is for 180 - 360
+		ray->h_px = 1;
+		ray->h_y_step *= -1;
 	}
-	game->ray->horizon_x = game->player->pos_x + (game->ray->horizon_y - game->player->pos_y) / tan(angle);
-	if (((angle > G_90 && angle < G_270) && game->ray->horizon_x_step > 0) || (!(angle > G_90 && angle < G_270) && game->ray->horizon_x_step < 0))
-		game->ray->horizon_x_step *= -1;
-	while (wall_hit(game->ray->horizon_x, game->ray->horizon_y - game->ray->horizon_pixel, game))
+	ray->h_x = g->plyr->pos_x + (ray->h_y - g->plyr->pos_y) / tan(agl);
+	if (((agl > G_90 && agl < G_270) && ray->h_x_step > 0)
+		|| (!(agl > G_90 && agl < G_270) && ray->h_x_step < 0))
+		ray->h_x_step *= -1;
+	while (wall_hit(ray->h_x, ray->h_y - ray->h_px, g))
 	{
-		game->ray->horizon_x += game->ray->horizon_x_step;
-		game->ray->horizon_y += game->ray->horizon_y_step;
+		ray->h_x += ray->h_x_step;
+		ray->h_y += ray->h_y_step;
 	}
-	game->ray->horizon_distance = sqrt(((game->ray->horizon_x - game->player->pos_x) * (game->ray->horizon_x - game->player->pos_x)) + ((game->ray->horizon_y - game->player->pos_y) * (game->ray->horizon_y - game->player->pos_y)));
-	return (game->ray->horizon_distance);
+	ray->hdis = sqrt(((ray->h_x - g->plyr->pos_x) * (ray->h_x - g->plyr->pos_x))
+			+ ((ray->h_y - g->plyr->pos_y) * (ray->h_y - g->plyr->pos_y)));
+	return (ray->hdis);
 }
 
 void	casting_rays(t_game *game)
 {
-	double	inter_horizon;
-	double	inter_vert;
+	double	h_inter;
+	double	v_inter;
 	int		ray;
 
 	ray = 0;
-	game->ray->angle = game->player->angle - (game->player->fov_radians / 2); // start angle
+	game->ray->agl = game->plyr->agl - (game->plyr->fov_rad / 2);
 	while (ray < WIDTH)
 	{
 		game->ray->wall = false;
-		inter_horizon = horizontal_intersection(game, translater_angle(game->ray->angle));
-		inter_vert = vertical_intersection(game, translater_angle(game->ray->angle));
-		if (inter_vert <= inter_horizon)
-			game->ray->distance = inter_vert;
+		h_inter = horizon_inter(game, game->ray, nor_angle(game->ray->agl));
+		v_inter = vert_inter(game, game->ray, nor_angle(game->ray->agl));
+		if (v_inter <= h_inter)
+			game->ray->dist = v_inter;
 		else
 		{
-			game->ray->distance = inter_horizon;
+			game->ray->dist = h_inter;
 			game->ray->wall = true;
 		}
 		put_on_screen(game, ray);
 		ray++;
-		game->ray->angle += (game->player->fov_radians / WIDTH);
+		game->ray->agl += (game->plyr->fov_rad / WIDTH);
 	}
 }

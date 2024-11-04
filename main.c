@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/01 10:16:19 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/04 15:07:47 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ void	init_file_struct(t_file *valid_file)
 	valid_file->map = malloc(sizeof(t_map));
 	valid_file->valid_tex->floor = 0;
 	valid_file->valid_tex->ceil = 0;
-	// valid_file->valid_tex->EA_tex = malloc(sizeof(mlx_texture_t));
-	// valid_file->valid_tex->NO_tex = malloc(sizeof(mlx_texture_t));
-	// valid_file->valid_tex->SO_tex = malloc(sizeof(mlx_texture_t));
-	// valid_file->valid_tex->WE_tex = malloc(sizeof(mlx_texture_t));
+	// valid_file->valid_tex->ea_tex = malloc(sizeof(mlx_texture_t));
+	// valid_file->valid_tex->no_tex = malloc(sizeof(mlx_texture_t));
+	// valid_file->valid_tex->so_tex = malloc(sizeof(mlx_texture_t));
+	// valid_file->valid_tex->we_tex = malloc(sizeof(mlx_texture_t));
 }
 void	game_loop(void *param)
 {
@@ -66,10 +66,11 @@ int	start_game(t_file *input)
 	t_game	screen;
 
 	screen.temp = init_argumet(); // will not be used in future
-	screen.player = calloc(1, sizeof(t_player)); // change later
+	screen.plyr = calloc(1, sizeof(t_player)); // change later
 	screen.ray = calloc(1, sizeof(t_ray)); // change later
 	if (init_mlx(&screen, input) == 1)
 		return (1);
+	init_tex(&screen);
 	init_player(&screen);
 	mlx_image_to_window(screen.mlx, screen.img, 0, 0);
 	mlx_loop_hook(screen.mlx, &game_loop, &screen);
@@ -124,5 +125,6 @@ t_temp *init_argumet()	// init the data structure
 	dt->p_x = 14; // player x position in the map
 	dt->w_map = 25; // map width
 	dt->h_map = 9; // map height
+	dt->facing_to = 'W'; 
 	return (dt); // return the data structure
 }

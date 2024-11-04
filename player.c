@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/29 13:52:25 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/01 19:08:40 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/04 14:58:50 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,87 +19,83 @@ void	moviments(t_game *game, double move_x, double move_y)
 	int	new_x;
 	int	new_y;
 
-	new_x = roundf(game->player->pos_x + move_x);
-	new_y = roundf(game->player->pos_y + move_y);
+	new_x = roundf(game->plyr->pos_x + move_x);
+	new_y = roundf(game->plyr->pos_y + move_y);
 	pos_x_map = new_x / cell_size;
 	pos_y_map = new_y / cell_size;
-	if (game->temp->map2d[pos_y_map][pos_x_map] != '1' && game->temp->map2d[game->player->pos_y / cell_size][pos_x_map] != '1' && game->temp->map2d[pos_y_map][game->player->pos_x / cell_size] != '1') // check diagonal hit to the wall
+	if (game->temp->map2d[pos_y_map][pos_x_map] != '1'
+		&& game->temp->map2d[game->plyr->pos_y / cell_size][pos_x_map] != '1'
+		&& game->temp->map2d[pos_y_map][game->plyr->pos_x / cell_size] != '1')
 	{
-		game->player->pos_x = new_x;
-		game->player->pos_y = new_y;
+		game->plyr->pos_x = new_x;
+		game->plyr->pos_y = new_y;
 	}
 }
+
 void	player_rotation(t_game *game)
 {
-	if (game->player->rotation == RIGHT)
+	if (game->plyr->rot == RIGHT)
 	{
-		game->player->angle += rotation_speed;
-		if (game->player->angle > G_360) //(2 * M_PI) represents 360graus
-			game->player->angle -= G_360; // para manter o angulo dentro do escopo de 0 a 360
+		game->plyr->agl += rotation_speed;
+		if (game->plyr->agl > G_360)
+			game->plyr->agl -= G_360;
 	}
-	else if(game->player->rotation == LEFT)
+	else if (game->plyr->rot == LEFT)
 	{
-		game->player->angle -= rotation_speed;
-		if (game->player->angle < 0)
-			game->player->angle += G_360;
+		game->plyr->agl -= rotation_speed;
+		if (game->plyr->agl < 0)
+			game->plyr->agl += G_360;
 	}
 }
 
 void	directions_decisions(t_game *game, double move_x, double move_y)
 {
 	player_rotation(game);
-	if (game->player->left_right == RIGHT)
+	if (game->plyr->left_right == RIGHT)
 	{
-		move_x = -sin(game->player->angle) * player_speed;
-		move_y = cos(game->player->angle) * player_speed;
+		move_x = -sin(game->plyr->agl) * player_speed;
+		move_y = cos(game->plyr->agl) * player_speed;
 	}
-	if (game->player->left_right == LEFT)
+	if (game->plyr->left_right == LEFT)
 	{
-		move_x = sin(game->player->angle) * player_speed;
-		move_y = -cos(game->player->angle) * player_speed;
+		move_x = sin(game->plyr->agl) * player_speed;
+		move_y = -cos(game->plyr->agl) * player_speed;
 	}
-	if (game->player->up_down == UP)
+	if (game->plyr->up_down == UP)
 	{
-		move_x = cos(game->player->angle) * player_speed;
-		move_y = sin(game->player->angle) * player_speed;
+		move_x = cos(game->plyr->agl) * player_speed;
+		move_y = sin(game->plyr->agl) * player_speed;
 	}
-	if (game->player->up_down == DOWN)
+	if (game->plyr->up_down == DOWN)
 	{
-		move_x = -cos(game->player->angle) * player_speed;
-		move_y = -sin(game->player->angle) * player_speed;
+		move_x = -cos(game->plyr->agl) * player_speed;
+		move_y = -sin(game->plyr->agl) * player_speed;
 	}
 	moviments(game, move_x, move_y);
 }
 
-// float	player_is_facing(t_game *game)
-// {
-// 	float	facing;
+float	player_is_facing(t_game *game)
+{
+	float	facing;
 
-// 	if (game->temp->facing_to == 'N')
-// 	{
-// 		facing = G_360;
-// 	}
-// 	else if (game->temp->facing_to == 'S')
-// 	{
-// 		facing = G_90;
-// 	}
-// 	else if (game->temp->facing_to == 'E')
-// 	{
-// 		facing = 0;
-// 	}
-// 	else (game->temp->facing_to == 'W')
-// 	{
-// 		facing = G_180;
-// 	}
-// }
+	if (game->temp->facing_to == 'N')
+		facing = G_360;
+	else if (game->temp->facing_to == 'S')
+		facing = G_90;
+	else if (game->temp->facing_to == 'E')
+		facing = 0;
+	else
+		facing = G_180;
+	return (facing);
+}
 
 void	init_player(t_game *game)
 {
-	game->player->pos_x = game->temp->p_x * cell_size + cell_size / 2;
-	game->player->pos_y = game->temp->p_y * cell_size + cell_size / 2;
-	game->player->fov_radians = (60 * M_PI) / 180;
-	game->player->angle = M_PI;
-	game->player->rotation = 0;
-	game->player->up_down = 0;
-	game->player->left_right = 0;
+	game->plyr->pos_x = (game->temp->p_x * cell_size) + cell_size / 2;
+	game->plyr->pos_y = (game->temp->p_y * cell_size) + cell_size / 2;
+	game->plyr->fov_rad = (60 * M_PI) / 180;
+	game->plyr->agl = player_is_facing(game);
+	game->plyr->rot = 0;
+	game->plyr->up_down = 0;
+	game->plyr->left_right = 0;
 }
