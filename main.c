@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/04 15:07:47 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/05 14:38:19 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	start_game(t_file *input)
 	screen.temp = init_argumet(); // will not be used in future
 	screen.plyr = calloc(1, sizeof(t_player)); // change later
 	screen.ray = calloc(1, sizeof(t_ray)); // change later
+	screen.draw = input->valid_tex;
 	if (init_mlx(&screen, input) == 1)
 		return (1);
 	init_tex(&screen);
@@ -125,6 +126,6 @@ t_temp *init_argumet()	// init the data structure
 	dt->p_x = 14; // player x position in the map
 	dt->w_map = 25; // map width
 	dt->h_map = 9; // map height
-	dt->facing_to = 'W'; 
+	dt->facing_to = 'N'; 
 	return (dt); // return the data structure
 }

@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/04 15:06:35 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/05 14:32:00 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,14 @@ typedef struct s_tex
 	mlx_texture_t	*so_tex;
 	mlx_texture_t	*ea_tex;
 	mlx_texture_t	*we_tex;
-	int32_t			ceil;
-	int32_t			floor;
+	
+	mlx_image_t		*no_img;
+	mlx_image_t		*we_img;
+	mlx_image_t		*ea_img;
+	mlx_image_t		*so_img;
+	
+	uint32_t			ceil;
+	uint32_t			floor;
 }	t_tex;
 
 typedef struct s_player
