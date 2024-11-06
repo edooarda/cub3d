@@ -6,32 +6,11 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/30 15:15:32 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/04 16:26:03 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/06 15:12:12 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-// void	clear_frame(t_game *game)
-// {
-// 	int			x;
-// 	int			y;
-// 	// uint32_t	color;
-
-// 	// color = ft_pixel(0x00, 0x00, 0x00, 0x00);
-// 	x = 0;
-// 	y = 0;
-// 	while (y < HEIGHT)
-// 	{
-// 		while (x < WIDTH)
-// 		{
-// 			mlx_put_pixel(game->img, x, y, 0x00);
-// 			x++;
-// 		}
-// 		x = 0;
-// 		y++;
-// 	}
-// }
 
 void release_controls(mlx_key_data_t keydata, t_game *game)
 {
@@ -43,7 +22,7 @@ void release_controls(mlx_key_data_t keydata, t_game *game)
 		game->plyr->up_down = 0;
 	else if (keydata.key == MLX_KEY_S && (keydata.action == MLX_RELEASE))
 		game->plyr->up_down = 0;
-	else if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_RELEASE)
+	if (keydata.key == MLX_KEY_RIGHT && keydata.action == MLX_RELEASE)
 		game->plyr->rot = 0;
 	else if (keydata.key == MLX_KEY_LEFT && keydata.action == MLX_RELEASE)
 		game->plyr->rot = 0;
@@ -54,7 +33,6 @@ void	controls(mlx_key_data_t keydata, void *param)
 	t_game	*game;
 	
 	game = param;
-	// clear_frame(game);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE) == true)
 	{
 		ft_putendl_fd("	Goodbye 👋, See you later! 😉", 1);
@@ -68,7 +46,7 @@ void	controls(mlx_key_data_t keydata, void *param)
 		game->plyr->up_down = UP;
 	else if (mlx_is_key_down(game->mlx, MLX_KEY_S) == true)
 		game->plyr->up_down = DOWN;
-	else if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT) == true)
+	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT) == true)
 		game->plyr->rot = LEFT;
 	else if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT) == true)
 		game->plyr->rot = RIGHT;

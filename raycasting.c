@@ -6,33 +6,50 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/28 12:07:28 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/04 14:52:19 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/06 14:50:30 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	wall_hit(float x, float y, t_game *game) // bonus
+// int	wall_hit(double x, double y, t_game *game) // bonus
+// {
+// 	double	x_point_map;
+// 	double	y_point_map;
+
+// 	if (x < 0 || y < 0)
+// 		return (0);
+// 	x_point_map = floor(x / cell_size);
+// 	y_point_map = floor(y / cell_size);
+// 	if (y_point_map >= game->temp->h_map || x_point_map >= game->temp->w_map)
+// 		return (0);
+// 	if (game->temp->map2d[(int)y_point_map]
+// 		&& x_point_map <= ft_strlen(game->temp->map2d[(int)y_point_map]))
+// 	{
+// 		if (game->temp->map2d[(int)y_point_map][(int)x_point_map] == '1')
+// 			return (0);
+// 	}
+// 	return (1);
+// }
+
+int	wall_hit(double x, double y, t_game *mlx)
 {
-	int	x_point_map;
-	int	y_point_map;
+	int		x_m;
+	int		y_m;
 
 	if (x < 0 || y < 0)
 		return (0);
-	x_point_map = floor(x / cell_size);
-	y_point_map = floor(y / cell_size);
-	if (y_point_map >= game->temp->h_map || x_point_map >= game->temp->w_map)
+	x_m = floor (x / cell_size);
+	y_m = floor (y / cell_size);
+	if ((y_m >= mlx->temp->h_map || x_m >= mlx->temp->w_map))
 		return (0);
-	if (game->temp->map2d[y_point_map]
-		&& x_point_map <= (int)ft_strlen(game->temp->map2d[y_point_map]))
-	{
-		if (game->temp->map2d[y_point_map][x_point_map] == '1')
+	if (mlx->temp->map2d[y_m] && x_m <= (int)ft_strlen(mlx->temp->map2d[y_m]))
+		if (mlx->temp->map2d[y_m][x_m] == '1')
 			return (0);
-	}
 	return (1);
 }
 
-float	nor_angle(float angle)
+double	nor_angle(double angle)
 {
 	if (angle < 0)
 		angle += G_360;
@@ -41,7 +58,7 @@ float	nor_angle(float angle)
 	return (angle);
 }
 
-float	vert_inter(t_game *g, t_ray *ray, float agl)
+double	vert_inter(t_game *g, t_ray *ray, double agl)
 {
 	ray->v_x_step = cell_size;
 	ray->v_y_step = cell_size * tan(agl);
@@ -70,7 +87,7 @@ float	vert_inter(t_game *g, t_ray *ray, float agl)
 	return (ray->vdis);
 }
 
-float	horizon_inter(t_game *g, t_ray *ray, float agl)
+double	horizon_inter(t_game *g, t_ray *ray, double agl)
 {
 	ray->h_y_step = cell_size;
 	ray->h_x_step = cell_size / tan(agl);
@@ -110,7 +127,7 @@ void	casting_rays(t_game *game)
 	while (ray < WIDTH)
 	{
 		game->ray->wall = false;
-		h_inter = horizon_inter(game, game->ray, nor_angle(game->ray->agl));
+		h_inter = horizon_inter(game, game->ray, nor_angle((double)game->ray->agl));
 		v_inter = vert_inter(game, game->ray, nor_angle(game->ray->agl));
 		if (v_inter <= h_inter)
 			game->ray->dist = v_inter;
@@ -120,6 +137,7 @@ void	casting_rays(t_game *game)
 			game->ray->wall = true;
 		}
 		put_on_screen(game, ray);
+		// render_wall(game, ray);
 		ray++;
 		game->ray->agl += (game->plyr->fov_rad / WIDTH);
 	}

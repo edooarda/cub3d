@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/05 17:44:41 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/06 15:11:36 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@
 # define G_360 2*M_PI
 
 // Player Moves
-# define rotation_speed 0.01
-# define player_speed 1
+# define rotation_speed 0.05
+# define player_speed 5
 # define LEFT -1
 # define RIGHT 1
 # define UP 1
@@ -53,9 +53,9 @@ typedef struct s_player
 {
 	int		pos_x; // player x position in pixels
 	int		pos_y; // player y position in pixels
-	double	agl; // player angle
-	float	fov_rad; // field of view in radians
-	int		rot; // rotation flag
+	double		agl; // player angle
+	double		fov_rad; // field of view in radians
+	double		rot; // rotation flag
 	int		left_right; // left right flag
 	int		up_down; // up down flag
 } t_player;
@@ -87,21 +87,22 @@ typedef struct s_file
 
 typedef struct s_ray
 {
+	int		index;
 	double	agl; // ray angle
 	double	dist; // distance to the wall
 	bool	wall;  // flag for the wall
-	float	v_x;
-	float	v_y;
-	float	v_x_step;
-	float	v_y_step;
+	double	v_x;
+	double	v_y;
+	double	v_x_step;
+	double	v_y_step;
 	int		v_px;
-	float	vdis;
-	float	h_x;
-	float	h_y;
-	float	h_x_step;
-	float	h_y_step;
+	double	vdis;
+	double	h_x;
+	double	h_y;
+	double	h_x_step;
+	double	h_y_step;
 	int		h_px;
-	float	hdis;
+	double	hdis;
 } t_ray;
 
 typedef struct s_data // temporario para entender funcionamento
@@ -147,7 +148,7 @@ void	init_tex(t_game *game);
 
 // Raycasting
 void	casting_rays(t_game *game);
-float	nor_angle(float angle);
+double	nor_angle(double angle);
 void	put_on_screen(t_game *game, int ray);
 
 // Init

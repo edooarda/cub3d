@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/29 13:52:25 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/04 14:58:50 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/06 15:02:51 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ void	moviments(t_game *game, double move_x, double move_y)
 {
 	int	pos_y_map;
 	int	pos_x_map;
-	int	new_x;
-	int	new_y;
+	double	new_x;
+	double	new_y;
 
-	new_x = roundf(game->plyr->pos_x + move_x);
-	new_y = roundf(game->plyr->pos_y + move_y);
+	new_x = round(game->plyr->pos_x + move_x);
+	new_y = round(game->plyr->pos_y + move_y);
 	pos_x_map = new_x / cell_size;
 	pos_y_map = new_y / cell_size;
 	if (game->temp->map2d[pos_y_map][pos_x_map] != '1'
@@ -74,12 +74,12 @@ void	directions_decisions(t_game *game, double move_x, double move_y)
 	moviments(game, move_x, move_y);
 }
 
-float	player_is_facing(t_game *game)
+double	player_is_facing(t_game *game)
 {
-	float	facing;
+	double	facing;
 
 	if (game->temp->facing_to == 'N')
-		facing = G_360;
+		facing = G_270;
 	else if (game->temp->facing_to == 'S')
 		facing = G_90;
 	else if (game->temp->facing_to == 'E')
