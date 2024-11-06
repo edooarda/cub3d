@@ -6,11 +6,31 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/14 14:43:52 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/31 12:03:56 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/06 19:21:55 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	cleaner_game(t_game *game)
+{
+	// if (game->draw)
+	// {
+		
+	// 	mlx_delete_texture(game->draw->ea_tex);
+	// 	mlx_delete_texture(game->draw->no_tex);
+	// 	mlx_delete_texture(game->draw->we_tex);
+	// 	mlx_delete_texture(game->draw->so_tex);
+	// }
+	if (game->wall != NULL)
+		free(game->wall);
+	if (game->plyr != NULL)
+		free(game->plyr);
+	if (game->ray != NULL)
+		free(game->ray);
+	// if (game->map != NULL)
+	// 	free(game->map);
+}
 
 void	cleaner_file(t_file *valid_file)
 {
@@ -42,6 +62,6 @@ void	cleaner_file(t_file *valid_file)
 	// 	free(valid_file->valid_tex->SO_tex);
 	if (valid_file->valid_tex) // colocar os frees dessas alocacoes num free para essa estrutura
 		free(valid_file->valid_tex);
-	if (valid_file->map)
-		free(valid_file->map);
+	// if (valid_file->map)
+	// 	free(valid_file->map);
 }

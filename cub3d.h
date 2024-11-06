@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/06 15:11:36 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/06 19:19:57 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,16 @@
 # define UP 1
 # define DOWN -1
 
+typedef struct s_wall
+{
+	double			wall_h;
+	double			x_orient;
+	double			y_orient;
+	mlx_texture_t	*tex;
+	uint32_t		*tex_px;
+	double			factor;
+}	t_wall;
+
 typedef struct s_tex
 {
 	mlx_texture_t	*no_tex;
@@ -51,23 +61,23 @@ typedef struct s_tex
 
 typedef struct s_player
 {
-	int		pos_x; // player x position in pixels
-	int		pos_y; // player y position in pixels
-	double		agl; // player angle
-	double		fov_rad; // field of view in radians
-	double		rot; // rotation flag
-	int		left_right; // left right flag
-	int		up_down; // up down flag
-} t_player;
+	int			pos_x;
+	int			pos_y;
+	double		agl;
+	double		fov_rad;
+	double		rot;
+	int			left_right;
+	int			up_down;
+}	t_player;
 
-typedef struct s_map
-{
-	int		player_x;
-	int		player_y;
-	int		map_width;
-	int		map_height; // same as map_y_lines;
-	char	**map2d; // same as mapa in the sfile
-}	t_map;
+// typedef struct s_map
+// {
+// 	int		player_x;
+// 	int		player_y;
+// 	int		map_width;
+// 	int		map_height; // same as map_y_lines;
+// 	char	**map2d; // same as mapa in the sfile
+// }	t_map;
 
 typedef struct s_file
 {
@@ -82,15 +92,15 @@ typedef struct s_file
 	char	*f_color;
 	char	*c_color;
 	t_tex	*valid_tex;
-	t_map	*map;
+	// t_map	*map;
 }	t_file;
 
 typedef struct s_ray
 {
-	int		index;
-	double	agl; // ray angle
-	double	dist; // distance to the wall
-	bool	wall;  // flag for the wall
+	int		slice;
+	double	agl;
+	double	dist;
+	bool	wall;
 	double	v_x;
 	double	v_y;
 	double	v_x_step;
@@ -103,7 +113,7 @@ typedef struct s_ray
 	double	h_y_step;
 	int		h_px;
 	double	hdis;
-} t_ray;
+}	t_ray;
 
 typedef struct s_data // temporario para entender funcionamento
 {
@@ -113,7 +123,7 @@ typedef struct s_data // temporario para entender funcionamento
 	char  facing_to;
 	int  w_map;  // map width
 	int  h_map;  // map height
-} t_temp;
+} t_map;
 
 typedef struct s_game
 {
@@ -121,13 +131,15 @@ typedef struct s_game
 	mlx_image_t	*img;
 	t_ray		*ray;
 	t_player	*plyr;
-	t_temp		*temp;
+	t_map		*map;
 	t_tex		*draw;
+	t_wall		*wall;
 }	t_game;
 
 // Utils
 bool	is_file_valid(char *argv, t_file *valid_file);
 void	cleaner_file(t_file *valid_file);
+void	cleaner_game(t_game *game);
 void	error_message(char *message);
 void	free_split(char **array);
 char	*space_jumper(char *str);
@@ -151,8 +163,8 @@ void	casting_rays(t_game *game);
 double	nor_angle(double angle);
 void	put_on_screen(t_game *game, int ray);
 
-// Init
-t_temp *init_argumet();
+// Wall
+void	draw_wall(t_game *game, int t_pix, int b_pix);
 
 // Player
 void	init_player(t_game *game);
@@ -160,5 +172,8 @@ void	directions_decisions(t_game *game, double move_x, double move_y);
 
 // Controls
 void	controls(mlx_key_data_t keydata, void *param);
+
+// Init
+t_map *init_argumet();
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/06 14:45:50 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/06 18:19:18 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	init_file_struct(t_file *valid_file)
 	valid_file->we = NULL;
 	valid_file->ea = NULL;
 	valid_file->valid_tex = malloc(sizeof(t_tex));
-	valid_file->map = malloc(sizeof(t_map));
+	// valid_file->map = malloc(sizeof(t_map));
 	valid_file->valid_tex->floor = 0;
 	valid_file->valid_tex->ceil = 0;
 	// valid_file->valid_tex->ea_tex = malloc(sizeof(mlx_texture_t));
@@ -57,29 +57,31 @@ void	game_loop(void *param)
 	t_game	*game;
 
 	game = param;
-	directions_decisions(game, 0, 0);
+	directions_decisions(game, 0.0, 0.0);
 	casting_rays(game);
 }
 
 int	start_game(t_file *input)
 {
-	t_game	screen;
+	t_game	game;
 
-	screen.temp = init_argumet(); // will not be used in future
-	screen.plyr = calloc(1, sizeof(t_player)); // change later
-	screen.ray = calloc(1, sizeof(t_ray)); // change later
-	screen.draw = input->valid_tex;
-	if (init_mlx(&screen, input) == 1)
+	game.map = init_argumet(); // will not be used in future // isso vira o map 
+	game.plyr = calloc(1, sizeof(t_player)); // init function
+	game.ray = calloc(1, sizeof(t_ray)); // init function
+	game.wall = calloc(1, sizeof(t_wall)); // init function
+	game.draw = input->valid_tex;
+	if (init_mlx(&game, input) == 1)
 		return (1);
-	init_tex(&screen);
-	init_player(&screen);
-	mlx_image_to_window(screen.mlx, screen.img, 0, 0);
-	mlx_loop_hook(screen.mlx, &game_loop, &screen);
-	mlx_key_hook(screen.mlx, &controls, &screen);
-	mlx_loop(screen.mlx);
-	mlx_delete_image(screen.mlx, screen.img);
-	mlx_terminate(screen.mlx);
+	init_tex(&game);
+	init_player(&game);
+	mlx_image_to_window(game.mlx, game.img, 0, 0);
+	mlx_loop_hook(game.mlx, &game_loop, &game);
+	mlx_key_hook(game.mlx, &controls, &game);
+	mlx_loop(game.mlx);
+	mlx_delete_image(game.mlx, game.img);
+	mlx_terminate(game.mlx);
 	cleaner_file(input);
+	cleaner_game(&game);
 	return (0);
 }
 
@@ -108,9 +110,9 @@ int	main(int argc, char **argv)
 	}
 }
 
-t_temp *init_argumet()	// init the data structure
+t_map *init_argumet()// temporary fake values data
 {
-	t_temp *dt = calloc(1, sizeof(t_temp)); // init the data structure
+	t_map *dt = calloc(1, sizeof(t_map)); // init the data structure
 	dt->map2d = calloc(10, sizeof(char *)); // init the map
 	dt->map2d[0] = strdup("1111111111111111111111111"); //fill the map
 	dt->map2d[1] = strdup("1000000000000000000100001");

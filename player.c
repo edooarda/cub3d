@@ -6,16 +6,16 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/29 13:52:25 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/06 15:02:51 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/06 19:12:43 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	moviments(t_game *game, double move_x, double move_y)
+void	movements(t_game *game, double move_x, double move_y)
 {
-	int	pos_y_map;
-	int	pos_x_map;
+	double	pos_y_map;
+	double	pos_x_map;
 	double	new_x;
 	double	new_y;
 
@@ -23,9 +23,9 @@ void	moviments(t_game *game, double move_x, double move_y)
 	new_y = round(game->plyr->pos_y + move_y);
 	pos_x_map = new_x / cell_size;
 	pos_y_map = new_y / cell_size;
-	if (game->temp->map2d[pos_y_map][pos_x_map] != '1'
-		&& game->temp->map2d[game->plyr->pos_y / cell_size][pos_x_map] != '1'
-		&& game->temp->map2d[pos_y_map][game->plyr->pos_x / cell_size] != '1')
+	if (game->map->map2d[(int)pos_y_map][(int)pos_x_map] != '1'
+		&& game->map->map2d[game->plyr->pos_y / cell_size][(int)pos_x_map] != '1'
+		&& game->map->map2d[(int)pos_y_map][game->plyr->pos_x / cell_size] != '1')
 	{
 		game->plyr->pos_x = new_x;
 		game->plyr->pos_y = new_y;
@@ -71,18 +71,18 @@ void	directions_decisions(t_game *game, double move_x, double move_y)
 		move_x = -cos(game->plyr->agl) * player_speed;
 		move_y = -sin(game->plyr->agl) * player_speed;
 	}
-	moviments(game, move_x, move_y);
+	movements(game, move_x, move_y);
 }
 
 double	player_is_facing(t_game *game)
 {
 	double	facing;
 
-	if (game->temp->facing_to == 'N')
+	if (game->map->facing_to == 'N')
 		facing = G_270;
-	else if (game->temp->facing_to == 'S')
+	else if (game->map->facing_to == 'S')
 		facing = G_90;
-	else if (game->temp->facing_to == 'E')
+	else if (game->map->facing_to == 'E')
 		facing = 0;
 	else
 		facing = G_180;
@@ -91,8 +91,8 @@ double	player_is_facing(t_game *game)
 
 void	init_player(t_game *game)
 {
-	game->plyr->pos_x = (game->temp->p_x * cell_size) + cell_size / 2;
-	game->plyr->pos_y = (game->temp->p_y * cell_size) + cell_size / 2;
+	game->plyr->pos_x = (game->map->p_x * cell_size) + cell_size / 2;
+	game->plyr->pos_y = (game->map->p_y * cell_size) + cell_size / 2;
 	game->plyr->fov_rad = (60 * M_PI) / 180;
 	game->plyr->agl = player_is_facing(game);
 	game->plyr->rot = 0;
