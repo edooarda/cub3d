@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/29 13:52:25 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/06 19:12:43 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/07 12:06:26 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	movements(t_game *game, double move_x, double move_y)
 
 	new_x = round(game->plyr->pos_x + move_x);
 	new_y = round(game->plyr->pos_y + move_y);
-	pos_x_map = new_x / cell_size;
-	pos_y_map = new_y / cell_size;
+	pos_x_map = round(game->plyr->pos_x + move_x * 5) / cell_size;
+	pos_y_map = round(game->plyr->pos_y + move_y * 5) / cell_size;
 	if (game->map->map2d[(int)pos_y_map][(int)pos_x_map] != '1'
 		&& game->map->map2d[game->plyr->pos_y / cell_size][(int)pos_x_map] != '1'
 		&& game->map->map2d[(int)pos_y_map][game->plyr->pos_x / cell_size] != '1')
