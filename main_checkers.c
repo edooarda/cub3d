@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/24 16:28:52 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/11/09 15:09:45 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	fill_information(t_file *file, char **data)
 			file->f_color = ft_strdup(data[i]);
 		else if (ft_strncmp(data[i], "C", 1) == 0 && file->c_color == NULL)
 			file->c_color = ft_strdup(data[i]);
+		else
 		else
 			file->map_y_lines++;
 		i++;
@@ -81,27 +82,26 @@ bool	is_file_extension_valid(char *argv)
 	return (true);
 }
 
-
-
-bool	is_file_valid(char *argv, t_file *valid_file)
+bool	is_file_valid(char *argv, t_file *input)
 {
 	char	*file;
 
 	file = read_file(argv);
 	if (file == NULL)
 		return (error_message("Something wrong reading the file"), false);
-	valid_file->file = ft_split(file, '\n');
+	input->file = ft_split(file, '\n');
 	free(file);
-	if (valid_file->file == NULL)
+	if (input->file == NULL)
 		return (error_message("Something is wrong with the file"), false);
-	fill_information(valid_file, valid_file->file);
-	if (is_texture_valid(valid_file) == false)
+	fill_information(input, input->file);
+	if (is_texture_valid(input) == false)
 		return (error_message("Invalid Input"), false);
-	// tex_assing(valid_file);
-	if (color_check(valid_file, valid_file->c_color) == false
-		|| color_check(valid_file, valid_file->f_color) == false)
+	if (tex_assign(input) == false)
 		return (false);
-	if (is_map_filled(valid_file) == false)
+	if (color_check(input, input->c_color) == false
+		|| color_check(input, input->f_color) == false)
+		return (false);
+	if (is_map_filled(input) == false)
 		return (false);
 	find_player(valid_file);
 	// printf("player x -- %i\nplayer y -- %i\nmax y -- %i\n", valid_file->map->player_x, valid_file->map->player_y, valid_file->map->max_y);

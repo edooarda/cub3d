@@ -6,42 +6,64 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/14 14:43:52 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 17:55:06 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/09 14:12:15 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	cleaner_file(t_file *valid_file)
+void	cleaner_game(t_game *game)
 {
-	if (valid_file->no != NULL)
-		free(valid_file->no);
-	if (valid_file->so != NULL)
-		free(valid_file->so);
-	if (valid_file->ea != NULL)
-		free(valid_file->ea);
-	if (valid_file->we != NULL)
-		free(valid_file->we);
-	if (valid_file->f_color != NULL)
-		free(valid_file->f_color);
-	if (valid_file->c_color != NULL)
-		free(valid_file->c_color);
-	if (valid_file->mapa != NULL)
-		free_split(valid_file->mapa);
-	if (valid_file->file != NULL)
-		free_split(valid_file->file);
-	if (valid_file->mapa_copy != NULL)
-		free_split(valid_file->mapa_copy);
-	// if (valid_file->valid_tex->NO_tex)
-	// 	free(valid_file->valid_tex->NO_tex);
-	// if (valid_file->valid_tex->EA_tex)
-	// 	free(valid_file->valid_tex->EA_tex);
-	// if (valid_file->valid_tex->WE_tex)
-	// 	free(valid_file->valid_tex->WE_tex);
-	// if (valid_file->valid_tex->SO_tex)
-	// 	free(valid_file->valid_tex->SO_tex);
-	if (valid_file->valid_tex) // colocar os frees dessas alocacoes num free para essa estrutura
-		free(valid_file->valid_tex);
-	if (valid_file->map)
-		free(valid_file->map);
+	if (game->wall != NULL)
+		free(game->wall);
+	if (game->plyr != NULL)
+		free(game->plyr);
+	if (game->ray != NULL)
+		free(game->ray);
+	if (game != NULL)
+		free(game);
+}
+
+void	cleaner_tex(t_tex *tex)
+{
+	if (tex->no_tex != NULL)
+		mlx_delete_texture(tex->no_tex);
+	if (tex->so_tex != NULL)
+		mlx_delete_texture(tex->so_tex);
+	if (tex->we_tex != NULL)
+		mlx_delete_texture(tex->we_tex);
+	if (tex->ea_tex != NULL)
+		mlx_delete_texture(tex->ea_tex);
+	if (tex != NULL)
+		free(tex);
+}
+
+// void	cleaner_map(t_map *map)
+// {
+// 	// if (input->map)
+// 	// 	free(input->map);
+// }
+
+void	cleaner_file(t_file *input)
+{
+	if (input->no != NULL)
+		free(input->no);
+	if (input->so != NULL)
+		free(input->so);
+	if (input->ea != NULL)
+		free(input->ea);
+	if (input->we != NULL)
+		free(input->we);
+	if (input->f_color != NULL)
+		free(input->f_color);
+	if (input->c_color != NULL)
+		free(input->c_color);
+	if (input->mapa != NULL)
+		free_split(input->mapa);
+	if (input->file != NULL)
+		free_split(input->file);
+	if (input->mapa_copy != NULL)
+		free_split(input->mapa_copy);
+	cleaner_tex(input->valid_tex);
+	// cleaner_map(input->map);
 }

@@ -6,15 +6,13 @@
 #    By: edribeir <edribeir@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/10/09 11:21:58 by edribeir      #+#    #+#                  #
-#    Updated: 2024/10/21 13:47:55 by edribeir      ########   odam.nl          #
+#    Updated: 2024/11/09 13:51:10 by edribeir      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3d
 
-CC = cc
-
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -I Libft
 CFLAGS += -fsanitize=address
 
 LIBFT = ./Libft/libft.a
@@ -27,13 +25,19 @@ LIBMLX = ./MLX42
 
 FLAGSMLX = -ldl -lglfw -pthread -lm 
 
-SOURCE =  main.c \
+SOURCE = main.c \
+		init.c \
 		main_checkers.c \
 		map_checkers.c \
 		color_checkers.c \
 		textures_checkers.c \
 		utils.c \
 		cleaner.c \
+		raycasting.c \
+		player.c \
+		draw_elements.c \
+		draw_walls.c \
+		controls.c \
 
 OBJECTS = $(SOURCE:%.c=obj/%.o)
 

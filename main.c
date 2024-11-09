@@ -6,71 +6,45 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/24 13:05:27 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/11/09 15:08:13 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	controls(mlx_key_data_t keydata, void *param)
+static void	game_loop(void *param)
 {
-	t_mlx	*data;
-	
-	data = param;
-	(void)keydata;
-	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE) == true)
-	{
-		ft_putendl_fd("	Goodbye 👋, See you later! 😉", 1);
-		mlx_close_window(data->mlx);
-	}
+	t_game	*game;
+
+	game = param;
+	directions_decisions(game, 0.0, 0.0);
+	casting_rays(game);
 }
 
-
-int	init_mlx(t_mlx *data, t_file *input)
+static int	start_game(t_file *input)
 {
-	data->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", false);
-	if (!data->mlx)
-	{
-		ft_putendl_fd("Error Init Window MLX42", 2);
-		cleaner_file(input);
+	t_game	*game;
+
+	game = init_game(input);
+	if (!game)
 		return (1);
-	}
-	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
-	if (!data->img)
-	{
-		ft_putendl_fd("Error Init Window MLX42", 2);
-		cleaner_file(input);
+	if (init_mlx(game, input) == 1)
 		return (1);
-	}
+	init_player(game);
+	mlx_image_to_window(game->mlx, game->img, 0, 0);
+	mlx_loop_hook(game->mlx, &game_loop, game);
+	mlx_key_hook(game->mlx, &controls, game);
+	mlx_loop(game->mlx);
+	mlx_delete_image(game->mlx, game->img);
+	mlx_terminate(game->mlx);
+	cleaner_file(input);
+	cleaner_game(game);
 	return (0);
-}
-
-void	init_file_struct(t_file *valid_file)
-{
-	valid_file->c_color = NULL;
-	valid_file->f_color = NULL;
-	valid_file->file = NULL;
-	valid_file->mapa = NULL;
-	valid_file->map_y_lines = 0;
-	valid_file->mapa_copy = NULL;
-	valid_file->no = NULL;
-	valid_file->so = NULL;
-	valid_file->we = NULL;
-	valid_file->ea = NULL;
-	valid_file->valid_tex = malloc(sizeof(t_tex));
-	valid_file->map = malloc(sizeof(t_map));
-	valid_file->valid_tex->floor = 0;
-	valid_file->valid_tex->ceil = 0;
-	// valid_file->valid_tex->EA_tex = malloc(sizeof(mlx_texture_t));
-	// valid_file->valid_tex->NO_tex = malloc(sizeof(mlx_texture_t));
-	// valid_file->valid_tex->SO_tex = malloc(sizeof(mlx_texture_t));
-	// valid_file->valid_tex->WE_tex = malloc(sizeof(mlx_texture_t));
 }
 
 int	main(int argc, char **argv)
 {
 	t_file	input;
-	t_mlx	data;
 
 	if (argc == 2)
 	{
@@ -82,14 +56,8 @@ int	main(int argc, char **argv)
 			cleaner_file(&input);
 			return (1);
 		}
-		if (init_mlx(&data, &input) == 1)
+		if (start_game(&input) == 1)
 			return (1);
-		// mlx_image_to_window(data.mlx, data.img, 0, 0);
-		// mlx_key_hook(data.mlx, &controls, &data);
-		// mlx_loop(data.mlx);
-		// mlx_terminate(data.mlx);
-		printf("everything is ok!\n");
-		cleaner_file(&input);
 	}
 	else
 	{
@@ -97,4 +65,26 @@ int	main(int argc, char **argv)
 		printf("Please add one file!\n");
 		return (1);
 	}
+}
+
+t_map *init_argumet()// temporary fake values data
+{
+	t_map *dt = calloc(1, sizeof(t_map)); // init the data structure
+	dt->map2d = calloc(10, sizeof(char *)); // init the map
+	dt->map2d[0] = strdup("		1111111111111111111111111"); //fill the map
+	dt->map2d[1] = strdup("		1000000000000000000100001");
+	dt->map2d[2] = strdup("		1001000000000P00000000001");
+	dt->map2d[3] = strdup("		1001000000000000001000001");
+	dt->map2d[4] = strdup("11111100000000000001000001");
+	dt->map2d[5] = strdup("1001000000100000001000001");
+	dt->map2d[6] = strdup("1001000000000000001000001");
+	dt->map2d[7] = strdup("1001000000001000001000001");
+	dt->map2d[8] = strdup("1111111111111111111111111");
+	dt->map2d[9] = NULL;
+	dt->p_y = 3; // player y position in the map
+	dt->p_x = 14; // player x position in the map
+	dt->w_map = 25; // map width
+	dt->h_map = 9; // map height
+	dt->facing_to = 'N'; 
+	return (dt); // return the data structure
 }
