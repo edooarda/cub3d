@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/09 15:08:50 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/09 15:16:34 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define WIDTH 1920
 # define HEIGHT 1080
 # define CELL_SIZE 64 // textures png 64x64
-# define M_PI 3.14159265358979323846// matematical number
+# define M_PI 3.14159265358979323846 // matematical number
 
 // Angles
 // # define G_90
