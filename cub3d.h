@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/09 12:30:18 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/09 14:57:50 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@
 # define WIDTH 1920
 # define HEIGHT 1080
 # define CELL_SIZE 64 // textures png 64x64
-# define M_PI 3.14159265358979323846 // matematical number
+# define M_PI 3.14159265358979323846// matematical number
 
 // Angles
-// # define G_90 M_PI/2
+// # define G_90
 // # define G_180 M_PI
 // # define G_270 3*M_PI/2
 // # define G_360 2*M_PI
@@ -79,6 +79,15 @@ typedef struct s_player
 // 	int		map_height; // same as map_y_lines;
 // 	char	**map2d; // same as mapa in the sfile
 // }	t_map;
+
+typedef struct s_angle
+{
+	double m_pi;
+	double g_90;
+	double g_180;
+	double g_270;
+	double g_360;
+}	t_angle;
 
 typedef struct s_file
 {
@@ -135,6 +144,7 @@ typedef struct s_game
 	t_map		*map;
 	t_tex		*draw;
 	t_wall		*wall;
+	t_angle		angle;
 }	t_game;
 
 // Utils
@@ -157,9 +167,7 @@ int		color_check(t_file *valid_file, char *word);
 
 // Texture
 bool	is_texture_valid(t_file *valid_file);
-// bool	tex_assign(t_game *game, t_file *input);
 bool	tex_assign(t_file *input);
-void	init_tex(t_game *game);
 
 // Raycasting
 void	casting_rays(t_game *game);
@@ -177,6 +185,10 @@ void	directions_decisions(t_game *game, double move_x, double move_y);
 void	controls(mlx_key_data_t keydata, void *param);
 
 // Init
-t_map *init_argumet();
+t_map 	*init_argumet();
+int		init_mlx(t_game *data, t_file *input);
+void	init_file_struct(t_file *input);
+bool	init_tex_struct(t_file *input);
+t_game	*init_game(t_file *input);
 
 #endif

@@ -6,19 +6,11 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/29 16:40:27 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/09 12:29:42 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/09 14:54:47 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	init_tex(t_game *game) // will be delete
-{
-	game->draw->no_tex = mlx_load_png("./textures/stone_north.png");
-	game->draw->so_tex = mlx_load_png("./textures/grass_south.png");
-	game->draw->ea_tex = mlx_load_png("./textures/brick_east.png");
-	game->draw->we_tex = mlx_load_png("./textures/wood_west.png");
-}
 
 void	draw_floor(t_game *game, int ray, int bottom_px)
 {
