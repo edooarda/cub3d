@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/06 17:54:08 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/09 12:37:10 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,47 +81,47 @@ bool	is_file_extension_valid(char *argv)
 	return (true);
 }
 
-bool	is_file_valid(char *argv, t_file *valid_file)
+bool	is_file_valid(char *argv, t_file *input)
 {
 	char	*file;
 
 	file = read_file(argv);
 	if (file == NULL)
 		return (error_message("Something wrong reading the file"), false);
-	valid_file->file = ft_split(file, '\n');
+	input->file = ft_split(file, '\n');
 	free(file);
-	if (valid_file->file == NULL)
+	if (input->file == NULL)
 		return (error_message("Something is wrong with the file"), false);
-	fill_information(valid_file, valid_file->file);
-	if (is_texture_valid(valid_file) == false)
+	fill_information(input, input->file);
+	if (is_texture_valid(input) == false)
 		return (error_message("Invalid Input"), false);
-	if (color_check(valid_file, valid_file->c_color) == false
-		|| color_check(valid_file, valid_file->f_color) == false)
+	if (tex_assign(input) == false)
 		return (false);
-	if (is_map_filled(valid_file) == false)
+	if (color_check(input, input->c_color) == false
+		|| color_check(input, input->f_color) == false)
 		return (false);
-	// find_player(valid_file);
-	// tex_assing(valid_file);
-	printf("isso eh a textura -%s-\n", valid_file->so);
+	if (is_map_filled(input) == false)
+		return (false);
+	// find_player(input);
 	int i = 0;
 	// int j;
 	// 	i = 0;
-	while (valid_file->mapa[i])
+	while (input->mapa[i])
 	{
 	// j = 0;
-	// 	while (valid_file->mapa[i][j])
+	// 	while (input->mapa[i][j])
 	// 	{
-	// 		if (valid_file->mapa[i][j] == '\t')
+	// 		if (input->mapa[i][j] == '\t')
 	// 		{
 	// 			j++;
 	// 		}
-	// 		else if (valid_file->mapa[i][j] == ' ')
+	// 		else if (input->mapa[i][j] == ' ')
 	// 			j++;
-		printf("%s\n", valid_file->mapa[i]);
+		printf("%s\n", input->mapa[i]);
 	// 		j++;
 	// 	}
 		i++;
 	}
-	// printf("player x -- %i\nplayer y -- %i\n", valid_file->map->player_x, valid_file->map->player_y);
+	// printf("player x -- %i\nplayer y -- %i\n", input->map->player_x, input->map->player_y);
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/09 10:31:40 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/09 12:30:18 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,13 @@
 
 # define WIDTH 1920
 # define HEIGHT 1080
-// # define ERROR_TEX "Texture not found"
 # define CELL_SIZE 64 // textures png 64x64
 # define M_PI 3.14159265358979323846 // matematical number
 
 // Angles
 // # define G_90 M_PI/2
 // # define G_180 M_PI
-// # define G_270  3*M_PI/2
+// # define G_270 3*M_PI/2
 // # define G_360 2*M_PI
 
 // Player Moves
@@ -158,6 +157,8 @@ int		color_check(t_file *valid_file, char *word);
 
 // Texture
 bool	is_texture_valid(t_file *valid_file);
+// bool	tex_assign(t_game *game, t_file *input);
+bool	tex_assign(t_file *input);
 void	init_tex(t_game *game);
 
 // Raycasting

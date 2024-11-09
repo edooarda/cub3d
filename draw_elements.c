@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/29 16:40:27 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/06 19:24:09 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/09 12:29:42 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	put_on_screen(t_game *game, int ray)
 	double	top_px;
 
 	game->ray->dist *= cos(nor_angle(game->ray->agl - game->plyr->agl));
-	game->wall->wall_h = (cell_size / game->ray->dist)
+	game->wall->wall_h = (CELL_SIZE / game->ray->dist)
 		* ((WIDTH / 2) / tan(game->plyr->fov_rad / 2));
 	bottom_px = (HEIGHT / 2) + (game->wall->wall_h / 2);
 	top_px = (HEIGHT / 2) - (game->wall->wall_h / 2);

@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/06 18:19:18 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/09 12:36:53 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,22 @@ int	init_mlx(t_game *data, t_file *input)
 	return (0);
 }
 
-void	init_file_struct(t_file *valid_file)
+void	init_file_struct(t_file *input)
 {
-	valid_file->c_color = NULL;
-	valid_file->f_color = NULL;
-	valid_file->file = NULL;
-	valid_file->mapa = NULL;
-	valid_file->map_y_lines = 0;
-	valid_file->mapa_copy = NULL;
-	valid_file->no = NULL;
-	valid_file->so = NULL;
-	valid_file->we = NULL;
-	valid_file->ea = NULL;
-	valid_file->valid_tex = malloc(sizeof(t_tex));
-	// valid_file->map = malloc(sizeof(t_map));
-	valid_file->valid_tex->floor = 0;
-	valid_file->valid_tex->ceil = 0;
-	// valid_file->valid_tex->ea_tex = malloc(sizeof(mlx_texture_t));
-	// valid_file->valid_tex->no_tex = malloc(sizeof(mlx_texture_t));
-	// valid_file->valid_tex->so_tex = malloc(sizeof(mlx_texture_t));
-	// valid_file->valid_tex->we_tex = malloc(sizeof(mlx_texture_t));
+	input->file = NULL;
+	input->mapa = NULL;
+	input->map_y_lines = 0;
+	input->mapa_copy = NULL;
+	input->no = NULL;
+	input->so = NULL;
+	input->we = NULL;
+	input->ea = NULL;
+	input->f_color = NULL;
+	input->c_color = NULL;
+	input->valid_tex = NULL;
+	// input->map = NULL;
 }
+
 void	game_loop(void *param)
 {
 	t_game	*game;
@@ -72,7 +67,9 @@ int	start_game(t_file *input)
 	game.draw = input->valid_tex;
 	if (init_mlx(&game, input) == 1)
 		return (1);
-	init_tex(&game);
+	// init_tex(&game);
+	// if (tex_assign(&game, input) == false)
+	// 	return (1);
 	init_player(&game);
 	mlx_image_to_window(game.mlx, game.img, 0, 0);
 	mlx_loop_hook(game.mlx, &game_loop, &game);

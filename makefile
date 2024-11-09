@@ -6,14 +6,14 @@
 #    By: edribeir <edribeir@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/10/09 11:21:58 by edribeir      #+#    #+#                  #
-#    Updated: 2024/11/06 19:22:28 by edribeir      ########   odam.nl          #
+#    Updated: 2024/11/09 11:10:20 by edribeir      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3d
 
 CFLAGS = -Wall -Wextra -Werror -g -I Libft
-# CFLAGS += -fsanitize=address
+CFLAGS += -fsanitize=address
 
 LIBFT = ./Libft/libft.a
 
