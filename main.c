@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/24 13:05:27 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/11/05 13:09:50 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	main(int argc, char **argv)
 		init_file_struct(&input);
 		if (is_file_valid(argv[1], &input) == false)
 		{
+			error_message("wrong input");
 			cleaner_file(&input);
 			return (1);
 		}
@@ -88,7 +89,7 @@ int	main(int argc, char **argv)
 		// mlx_key_hook(data.mlx, &controls, &data);
 		// mlx_loop(data.mlx);
 		// mlx_terminate(data.mlx);
-		printf("everything is ok!\n");
+		// printf("everything is ok!\n");
 		cleaner_file(&input);
 	}
 	else

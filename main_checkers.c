@@ -15,10 +15,8 @@
 void	fill_information(t_file *file, char **data)
 {
 	int	i;
-	int	lines;
 
 	i = 0;
-	lines = 0;
 	while (data[i])
 	{
 		if (ft_strncmp(data[i], "NO", 2) == 0 && file->no == NULL)
@@ -104,9 +102,11 @@ bool	is_file_valid(char *argv, t_file *valid_file)
 	if (is_map_filled(valid_file) == false)
 		return (false);
 	find_player(valid_file);
-	// printf("player x -- %i\nplayer y -- %i\nmax y -- %i\n", valid_file->map->player_x, valid_file->map->player_y, valid_file->map->max_y);
-	if (!map_area(valid_file))
-		return (false);
+	printf("max y -- %i\nmax x -- %i\n", valid_file->map->player_y, valid_file->map->max_x);
+	// flood_fill(valid_file->map, valid_file->mapa, valid_file->map->player_y, valid_file->map->player_x);
+	printf("-%i--%i-\n-%c-\n", valid_file->map->player_y, valid_file->map->max_y, valid_file->mapa[valid_file->map->player_y][valid_file->map->player_x]);
+	// printf("max y -- %i\nmax x -- %i\n", valid_file->map->max_y, valid_file->map->max_x);
+	// if (!map_area(valid_file))
+	// 	return (false);
 	return (true);
 }
-
