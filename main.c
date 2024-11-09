@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/09 15:08:13 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/09 16:52:03 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	main(int argc, char **argv)
 		init_file_struct(&input);
 		if (is_file_valid(argv[1], &input) == false)
 		{
+			error_message("wrong input");
 			cleaner_file(&input);
 			return (1);
 		}
@@ -67,24 +68,24 @@ int	main(int argc, char **argv)
 	}
 }
 
-t_map *init_argumet()// temporary fake values data
-{
-	t_map *dt = calloc(1, sizeof(t_map)); // init the data structure
-	dt->map2d = calloc(10, sizeof(char *)); // init the map
-	dt->map2d[0] = strdup("		1111111111111111111111111"); //fill the map
-	dt->map2d[1] = strdup("		1000000000000000000100001");
-	dt->map2d[2] = strdup("		1001000000000P00000000001");
-	dt->map2d[3] = strdup("		1001000000000000001000001");
-	dt->map2d[4] = strdup("11111100000000000001000001");
-	dt->map2d[5] = strdup("1001000000100000001000001");
-	dt->map2d[6] = strdup("1001000000000000001000001");
-	dt->map2d[7] = strdup("1001000000001000001000001");
-	dt->map2d[8] = strdup("1111111111111111111111111");
-	dt->map2d[9] = NULL;
-	dt->p_y = 3; // player y position in the map
-	dt->p_x = 14; // player x position in the map
-	dt->w_map = 25; // map width
-	dt->h_map = 9; // map height
-	dt->facing_to = 'N'; 
-	return (dt); // return the data structure
-}
+// t_map *init_argumet()// temporary fake values data
+// {
+// 	t_map *dt = calloc(1, sizeof(t_map)); // init the data structure
+// 	dt->map2d = calloc(10, sizeof(char *)); // init the map
+// 	dt->map2d[0] = strdup("		1111111111111111111111111"); //fill the map
+// 	dt->map2d[1] = strdup("		1000000000000000000100001");
+// 	dt->map2d[2] = strdup("		1001000000000P00000000001");
+// 	dt->map2d[3] = strdup("		1001000000000000001000001");
+// 	dt->map2d[4] = strdup("11111100000000000001000001");
+// 	dt->map2d[5] = strdup("1001000000100000001000001");
+// 	dt->map2d[6] = strdup("1001000000000000001000001");
+// 	dt->map2d[7] = strdup("1001000000001000001000001");
+// 	dt->map2d[8] = strdup("1111111111111111111111111");
+// 	dt->map2d[9] = NULL;
+// 	dt->p_y = 3; // player y position in the map
+// 	dt->p_x = 14; // player x position in the map
+// 	dt->w_map = 25; // map width
+// 	dt->h_map = 9; // map height
+// 	dt->facing_to = 'N'; 
+// 	return (dt); // return the data structure
+// }

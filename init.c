@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/09 13:50:36 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/09 14:50:24 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/09 17:31:20 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ t_game	*init_game(t_file *input)
 	if (!game)
 		return (error_message("malloc fail to init game"), NULL);
 	init_angle(game);
-	game->map = init_argumet(); // change
+	game->map = input->map;
+	// game->map = init_argumet(); // change
 	if (!game->map)
 		return (error_message("malloc fail to init map"), NULL);
 	game->plyr = ft_calloc(1, sizeof(t_player));
@@ -83,7 +84,7 @@ void	init_file_struct(t_file *input)
 	input->file = NULL;
 	input->mapa = NULL;
 	input->map_y_lines = 0;
-	input->mapa_copy = NULL;
+	// input->mapa_copy = NULL;
 	input->no = NULL;
 	input->so = NULL;
 	input->we = NULL;
@@ -91,5 +92,5 @@ void	init_file_struct(t_file *input)
 	input->f_color = NULL;
 	input->c_color = NULL;
 	input->valid_tex = NULL;
-	// input->map = NULL;
+	input->map = NULL;
 }

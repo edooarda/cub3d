@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/14 14:43:52 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/09 14:12:15 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/09 16:20:50 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ void	cleaner_file(t_file *input)
 		free_split(input->mapa);
 	if (input->file != NULL)
 		free_split(input->file);
-	if (input->mapa_copy != NULL)
-		free_split(input->mapa_copy);
 	cleaner_tex(input->valid_tex);
 	// cleaner_map(input->map);
 }
