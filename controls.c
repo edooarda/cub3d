@@ -6,13 +6,13 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/30 15:15:32 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/06 15:12:12 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/09 10:41:41 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void release_controls(mlx_key_data_t keydata, t_game *game)
+void	release_controls(mlx_key_data_t keydata, t_game *game)
 {
 	if (keydata.key == MLX_KEY_A && (keydata.action == MLX_RELEASE))
 		game->plyr->left_right = 0;
@@ -31,7 +31,7 @@ void release_controls(mlx_key_data_t keydata, t_game *game)
 void	controls(mlx_key_data_t keydata, void *param)
 {
 	t_game	*game;
-	
+
 	game = param;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE) == true)
 	{

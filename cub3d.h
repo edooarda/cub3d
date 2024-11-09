@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/06 19:19:57 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/09 10:31:40 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,20 @@
 
 # define WIDTH 1920
 # define HEIGHT 1080
-# define cell_size 64 // textures png 64x64
+// # define ERROR_TEX "Texture not found"
+# define CELL_SIZE 64 // textures png 64x64
 # define M_PI 3.14159265358979323846 // matematical number
 
 // Angles
-# define G_90 M_PI/2
-# define G_180 M_PI
-# define G_270  3*M_PI/2
-# define G_360 2*M_PI
+// # define G_90 M_PI/2
+// # define G_180 M_PI
+// # define G_270  3*M_PI/2
+// # define G_360 2*M_PI
 
 // Player Moves
-# define rotation_speed 0.05
-# define player_speed 5
+# define HIT_BOX 5
+# define ROTATION_SPEED 0.05
+# define PLAYER_SPEED 5
 # define LEFT -1
 # define RIGHT 1
 # define UP 1
