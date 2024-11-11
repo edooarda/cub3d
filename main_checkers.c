@@ -50,7 +50,6 @@ bool	is_map(char *input, int line_num, t_file *file)
 int	read_file(char *file, t_file *input)
 {
 	char	*current_line;
-	char	*temp;
 	int		line_num;
 	int		fd;
 
@@ -61,9 +60,6 @@ int	read_file(char *file, t_file *input)
 	current_line = get_next_line(fd);
 	if (current_line == NULL)
 		return (error_message("There is a problem Reading the File"), -1);
-	temp = ft_calloc(1, sizeof(char));
-	if (temp == NULL)
-		return (error_message("Allocation Memory Problem"), -1);
 	while (current_line != NULL)
 	{
 		fill_information(input, current_line);
