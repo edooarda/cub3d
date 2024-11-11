@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/09 17:35:04 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/11/11 15:52:17 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,14 @@ typedef struct s_map
 	int		h_map;
 }	t_map;
 
-typedef struct s_angle
-{
-	double	m_pi;
-	double	g_90;
-	double	g_180;
-	double	g_270;
-	double	g_360;
-}	t_angle;
+// typedef struct s_angle
+// {
+// 	double	m_pi;
+// 	double	g_90;
+// 	double	g_180;
+// 	double	g_270;
+// 	double	g_360;
+// }	t_angle;
 
 typedef struct s_ray
 {
@@ -100,7 +100,7 @@ typedef struct s_ray
 	double	h_x_step;
 	double	h_y_step;
 	int		h_px;
-	bool	wall;
+	bool	n_s_wall;
 	double	hdis;
 }	t_ray;
 
@@ -113,7 +113,7 @@ typedef struct s_game
 	t_map		*map;
 	t_tex		*draw;
 	t_wall		*wall;
-	t_angle		angle;
+	// t_angle		angle;
 }	t_game;
 
 typedef struct s_file
@@ -145,7 +145,7 @@ bool	is_file_extension_valid(char *argv);
 // Map
 bool	is_map_filled(t_file *valid_file);
 bool	find_player(t_file *valid_file);
-int		map_area(t_file *valid_file);
+// int		map_area(t_file *valid_file);
 
 // Color
 int		color_check(t_file *valid_file, char *word);

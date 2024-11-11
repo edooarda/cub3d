@@ -6,20 +6,20 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/09 13:50:36 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/09 17:31:20 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/11/11 15:40:39 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	init_angle(t_game *game)
-{
-	game->angle.m_pi = 3.14159265358979323846;
-	game->angle.g_90 = game->angle.m_pi / 2;
-	game->angle.g_180 = game->angle.m_pi;
-	game->angle.g_270 = 3 * game->angle.m_pi / 2;
-	game->angle.g_360 = 2 * game->angle.m_pi;
-}
+// static void	init_angle(t_game *game)
+// {
+// 	game->angle.m_pi = 3.14159265358979323846;
+// 	game->angle.g_90 = game->angle.m_pi / 2;
+// 	game->angle.g_180 = game->angle.m_pi;
+// 	game->angle.g_270 = 3 * game->angle.m_pi / 2;
+// 	game->angle.g_360 = 2 * game->angle.m_pi;
+// }
 
 t_game	*init_game(t_file *input)
 {
@@ -28,9 +28,8 @@ t_game	*init_game(t_file *input)
 	game = malloc(sizeof(t_game));
 	if (!game)
 		return (error_message("malloc fail to init game"), NULL);
-	init_angle(game);
+	// init_angle(game);
 	game->map = input->map;
-	// game->map = init_argumet(); // change
 	if (!game->map)
 		return (error_message("malloc fail to init map"), NULL);
 	game->plyr = ft_calloc(1, sizeof(t_player));
@@ -84,7 +83,6 @@ void	init_file_struct(t_file *input)
 	input->file = NULL;
 	input->mapa = NULL;
 	input->map_y_lines = 0;
-	// input->mapa_copy = NULL;
 	input->no = NULL;
 	input->so = NULL;
 	input->we = NULL;

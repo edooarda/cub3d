@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/28 12:07:28 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/09 10:31:17 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/11 15:34:27 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	casting_rays(t_game *game)
 	game->ray->agl = game->plyr->agl - (game->plyr->fov_rad / 2);
 	while (ray < WIDTH)
 	{
-		game->ray->wall = false;
+		game->ray->n_s_wall = false;
 		h_inter = horizon_inter(game, game->ray, nor_angle(game->ray->agl));
 		v_inter = vert_inter(game, game->ray, nor_angle(game->ray->agl));
 		if (v_inter <= h_inter)
@@ -124,7 +124,7 @@ void	casting_rays(t_game *game)
 		else
 		{
 			game->ray->dist = h_inter;
-			game->ray->wall = true;
+			game->ray->n_s_wall = true;
 		}
 		put_on_screen(game, ray);
 		ray++;
