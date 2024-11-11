@@ -69,6 +69,7 @@ typedef struct s_map
 {
 	char	**map2d;
 	char	facing_to;
+	int		start_y;
 	int		p_x;
 	int		p_y;
 	int		w_map;
@@ -118,7 +119,7 @@ typedef struct s_game
 
 typedef struct s_file
 {
-	char	**file;
+	// char	**file;
 	char	**mapa;
 	int		map_y_lines; // para alocacao de memoria do mapa o mesmo que o h_map do t_map
 	char	*no;
@@ -143,9 +144,11 @@ char	*space_jumper(char *str);
 bool	is_file_extension_valid(char *argv);
 
 // Map
-bool	is_map_filled(t_file *valid_file);
-bool	find_player(t_file *valid_file);
-// int		map_area(t_file *valid_file);
+bool	is_map_filled(char *argv, t_file *valid_file);
+bool	find_player(t_file *file);
+char	player_pos(char c);
+void	flood_fill(t_map *map, char **mapa, int y, int x);
+void	map_check(t_map *map);
 
 // Color
 int		color_check(t_file *valid_file, char *word);

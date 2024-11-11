@@ -39,16 +39,12 @@ bool	tex_assign(t_file *input)
 
 bool	is_texture_valid(t_file *input)
 {
-	input->no = space_jumper(input->no);
 	if (input->no == NULL)
 		return (false);
-	input->so = space_jumper(input->so);
 	if (input->so == NULL)
 		return (false);
-	input->ea = space_jumper(input->ea);
 	if (input->ea == NULL)
 		return (false);
-	input->we = space_jumper(input->we);
 	if (input->we == NULL)
 		return (false);
 	if (init_tex_struct(input) == false)

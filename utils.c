@@ -40,18 +40,14 @@ char	*space_jumper(char *str)
 	int		len;
 
 	i = 2;
-	if (str != NULL)
-	{
-		if (str[i] != ' ' && str[i] != '\t')
-			return (free(str), NULL);
-		while (str[i] == ' ' || str[i] == '\t')
-			i++;
-		len = ft_strlen(str);
-		temp = malloc(sizeof(char) * len);
-		ft_strlcpy(temp, &str[i], len);
-		free(str);
-		return (temp);
-	}
-	else
+	if (!str)
 		return (NULL);
+	if (str[i] != ' ' && str[i] != '\t')
+		return (NULL);
+	while (str[i] == ' ' || str[i] == '\t')
+		i++;
+	len = ft_strlen(&str[i]);
+	temp = malloc(sizeof(char) * len);
+	ft_strlcpy(temp, &str[i], len);
+	return (temp);
 }

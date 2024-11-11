@@ -80,7 +80,6 @@ bool	init_tex_struct(t_file *input)
 
 void	init_file_struct(t_file *input)
 {
-	input->file = NULL;
 	input->mapa = NULL;
 	input->map_y_lines = 0;
 	input->no = NULL;

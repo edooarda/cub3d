@@ -12,118 +12,56 @@
 
 #include "cub3d.h"
 
-// void	flood_map(int x, int y, t_file *valid_file)
-// {
-
-// }
-
-static bool	allocation_memory_map(t_file *file)
+bool	is_map_filled(char *argv, t_file *file)
 {
-	file->mapa = malloc((file->map_y_lines + 1) * sizeof(char *));
-	if (file->mapa == NULL)
-	{
-		cleaner_file(file);
-		ft_putendl_fd("Allocation problem for the map", 2);
-		return (false);
-	}
-	return (true);
-}
-/*(file->file[i][0] == '\t' || file->file[i][0] == '1' || file->file[i][0] == ' ')*/
-bool	is_map_filled(t_file *file)
-{
+	int	fd;
 	int	i;
-	int	j;
+	char	*temp;
 
-	i = 6;
-	j = 0;
-	if (allocation_memory_map(file) == false)
-		return (false);
-	while (file->file[i])
+	i = 0;
+	fd = open(argv, O_RDONLY);
+	if (fd == -1)
+		return (error_message("fudeu"), false);
+	while (i++ < file->map->start_y)
 	{
-		file->mapa[j] = ft_strdup(file->file[i]);
-		j++;
-		i++;
+		temp = get_next_line(fd);
+		free(temp);
 	}
-	file->mapa[j] = NULL;
+	i = 0;
+	file->map->map2d = ft_calloc(file->map->h_map + 1, sizeof(char *));
+	if (!file->map->map2d)
+		return (error_message("fudeu mapa"), false);
+	// int	j;
+	// int	h;
+	while (1)
+	{
+		// j = 0;
+		temp = get_next_line(fd);
+		if (!temp)
+			break ;
+		// while (temp[j])
+		// {
+		// 	printf("%i\n", j);
+		// 	if (temp[j] == '\t')
+		// 	{
+		// 		h = 0;
+		// 		while (h < 4)
+		// 		{
+		// 			printf("%s\n", temp);
+		// 			temp[j] = ' ';
+		// 			j++;
+		// 			h++;
+		// 		}
+		// 		j += j;
+		// 	}
+		// 	j++;
+		// }
+		file->map->map2d[i++] = ft_strtrim(temp, "\n");
+		free(temp);
+	}
+	free(temp);
 	return (true);
 }
-
-// int	map_wall(char **map, int x, int y, char def)
-// {
-// 	// while (map[y][x] != def)
-// 	// {
-// 		if (map[y][x] != def && (map[y][x + 1] != ' ' || map[y][x + 1] != '1'))
-// 		{
-// 			printf("in--%c--%i--%i-\n", map[y][x - 1], y, x - 1);
-// 			error_message("Map not surronded");
-// 			return (1);
-// 		}
-// 		if (ft_strchr("1 ", map[y][x + 1]) == 0)
-// 		{
-// 			printf("-%c-\n", map[y][x+1]);
-// 			error_message("Map not surronded");
-// 			return (1);
-// 		}
-// 		// y--;
-// 	// }
-// 	map_wall(map, y - 1, x, '1');
-// 	map_wall(map, y + 1, x, '1');
-// 	map_wall(map, y, x - 1, '1');
-// 	map_wall(map, y, x + 1, '1');
-// 	return (0);
-// }
-
-// int	map_area(t_file *valid_file)
-// {
-// 	int	x;
-// 	int	y;
-// int	map_area(t_file *valid_file)
-// {
-// 	int	x;
-// 	int	y;
-	
-// 	y = 1;
-// 	x = 0;
-// 	while (valid_file->mapa[0][x])
-// 	{
-// 		if (ft_strchr("\t1 ", valid_file->mapa[0][x]) == 0)
-// 			return(error_message("no top walls"), 1);
-// 		x++;
-// 	}
-// 	x = 0;
-// 	while (ft_isspace(valid_file->mapa[y][x]))
-// 	{
-// 		x++;
-// 	}
-// 	while (valid_file->mapa[y])
-// 	{
-// 		int len;
-// 		len = ft_strlen(valid_file->mapa[y]);
-// 		if (!ft_isspace(valid_file->mapa[y][0]))
-// 			x = 0;
-// 		if (ft_strchr("1", valid_file->mapa[y][x]) == 0 \
-// 		|| ft_strrchr("1", valid_file->mapa[y][len - 1]) == 0)
-// 		{
-// 			return(error_message("no side walls"), 1);
-// 		}
-// 		y++;
-// 	}
-// 	y -= 1;
-// 	while (valid_file->mapa[y][x])
-// 	{
-// 		if (ft_strchr("\t1 ", valid_file->mapa[y][x]))
-// 		{
-// 			if (valid_file->mapa[y][x] == ' ')
-// 			{
-// 				printf("out-%c--%i--%i-\n", valid_file->mapa[y][x], y, x);
-// 				if (map_wall(valid_file->mapa, x, y, '1') == 1)
-// 					return (1);
-// 			}
-// 		}
-// 		x++;
-// 	}
-// 	return (1);
-// }
 
 char	player_pos(char c)
 {
@@ -131,27 +69,6 @@ char	player_pos(char c)
 		return (c);
 	return (0);
 }
-
-// void	check_width_height(t_file *map, int start)
-// {
-// 	int		i;
-
-// 	while (map)
-// 	{
-// 		i = 0;
-// 		if (map->mapa[i] /*&& ft_isdigit(map->mapa[i])*/)
-// 		{
-// 			if (start == 0)
-// 				start = map->map->max_y;
-// 			while (map->mapa[i])
-// 				i++;
-// 		}
-// 		if (i > map->map->max_x)
-// 			map->map->max_x = i - 1;
-// 		map->map->max_y++;
-// 	}
-// 	map->map->max_y -= start;
-// }
 
 void	valid_space(t_map *map, char **arr, int x, int y)
 {
@@ -173,20 +90,14 @@ void	valid_space(t_map *map, char **arr, int x, int y)
 		return (error_message("No walls at SE edge"));
 	if (!arr[y + 1][x - 1] || arr[y + 1][x - 1] == ' ')
 		return (error_message("No walls at SW edge"));
-	// if (!start_pos(arr[y][x]) && !is_door(arr[y][x]))
-	// 	arr[y][x] = '.';
-	// if ((arr[y][x]) == 'C')
-	// 	arr[y][x] = 'c';
-	// if ((arr[y][x]) == 'L')
-	// 	arr[y][x] = 'l';
 }
 
-int	is_changed(char c)
-{
-	if (c == 'l')
-		return (1);
-	return (0);
-}
+// int	is_changed(char c)
+// {
+// 	if (c == 'l')
+// 		return (1);
+// 	return (0);
+// }
 
 void	flood_fill(t_map *map, char **mapa, int y, int x)
 {
@@ -194,29 +105,31 @@ void	flood_fill(t_map *map, char **mapa, int y, int x)
 		return (error_message("No walls at north or south border"));
 	if (y == 0 || y == map->h_map)
 	{
-		printf("-%i--%i-\n-%c-\n", y, map->h_map, mapa[y][x]);
+		// printf("-%i--%i-\n-%c-\n", y, map->h_map, mapa[y][x]);
 		return (error_message(" y No walls at north or south border"));
 	}
-	valid_space(map, mapa, x, y);
-	if (!is_changed(mapa[y - 1][x]))
+	// valid_space(map, mapa, x, y);
+	printf("y -- %i\n", map->p_y);
+	// if (!is_changed(mapa[y - 1][x]))
 		flood_fill(map, mapa, y - 1, x);
-	if (!is_changed(mapa[y + 1][x]))
+	// if (!is_changed(mapa[y + 1][x]))
 		flood_fill(map, mapa, y + 1, x);
-	if (!is_changed(mapa[y][x - 1]))
+	// if (!is_changed(mapa[y][x - 1]))
 		flood_fill(map, mapa, y, x - 1);
-	if (!is_changed(mapa[y][x + 1]))
+	// if (!is_changed(mapa[y][x + 1]))
 		flood_fill(map, mapa, y, x + 1);
-	if (!is_changed(mapa[y - 1][x - 1]))
+	// if (!is_changed(mapa[y - 1][x - 1]))
 		flood_fill(map, mapa, y - 1, x - 1);
-	if (!is_changed(mapa[y - 1][x + 1]))
+	// if (!is_changed(mapa[y - 1][x + 1]))
 		flood_fill(map, mapa, y - 1, x + 1);
-	if (!is_changed(mapa[y + 1][x + 1]))
+	// if (!is_changed(mapa[y + 1][x + 1]))
 		flood_fill(map, mapa, y + 1, x + 1);
-	if (!is_changed(mapa[y + 1][x - 1]))
+	// if (!is_changed(mapa[y + 1][x - 1]))
 		flood_fill(map, mapa, y, x + 1);
 }
 
-bool	find_player(t_file *valid_file)
+
+bool	find_player(t_file *file)
 {
 	int	x;
 	int	y;
@@ -226,30 +139,31 @@ bool	find_player(t_file *valid_file)
 	y = 0;
 	i = 0;
 	start = 0;
-	while (valid_file->mapa[y])
+	while (file->map->map2d[y])
 	{
 		x = 0;
-		while (valid_file->mapa[y][x])
+		while (file->map->map2d[y][x])
 		{
 			if (start == 0)
-				start = valid_file->map->h_map;
-			if (player_pos(valid_file->mapa[y][x]))
+				start = file->map->h_map;
+			if (player_pos(file->map->map2d[y][x]))
 			{
 				i++;
 				if (i != 1)
 					return (false);
-				valid_file->map->p_x = x;
-				valid_file->map->p_y = y;
-				valid_file->map->facing_to = player_pos(valid_file->mapa[y][x]);
+				file->map->p_x = x;
+				file->map->p_y = y;
+				file->map->facing_to = player_pos(file->map->map2d[y][x]);
+				file->map->map2d[y][x] = '0';
 				x++;
 			}
 			x++;
 		}
-		if (x > valid_file->map->w_map)
-			valid_file->map->w_map = x - 1;
-		valid_file->map->h_map++;
+		if (x > file->map->w_map)
+			file->map->w_map = x - 1;
+		file->map->h_map++;
 		y++;
 	}
-	valid_file->map->h_map -= start;
+	file->map->h_map -= start;
 	return (true);
 }

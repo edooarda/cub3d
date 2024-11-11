@@ -60,8 +60,6 @@ void	cleaner_file(t_file *input)
 		free(input->c_color);
 	if (input->mapa != NULL)
 		free_split(input->mapa);
-	if (input->file != NULL)
-		free_split(input->file);
 	cleaner_tex(input->valid_tex);
 	cleaner_map(input);
 }

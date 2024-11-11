@@ -53,7 +53,7 @@ int	main(int argc, char **argv)
 		init_file_struct(&input);
 		if (is_file_valid(argv[1], &input) == false)
 		{
-			error_message("wrong input");
+			// error_message("wrong input");
 			cleaner_file(&input);
 			return (1);
 		}
