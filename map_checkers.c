@@ -12,6 +12,24 @@
 
 #include "cub3d.h"
 
+int	is_valid_char(char *str)
+{
+	char *valid;
+	int	i;
+
+	valid = "01NSEW\n ";
+	i = -1;
+	while (str[++i])
+	{
+		if (!ft_strchr(valid, str[i]))
+		{
+			printf("%i\n", str[i]);
+			return (1);
+		}
+	}
+	return (0);
+}
+
 bool	is_map_filled(char *argv, t_file *file)
 {
 	int	fd;
@@ -31,31 +49,13 @@ bool	is_map_filled(char *argv, t_file *file)
 	file->map->map2d = ft_calloc(file->map->h_map + 1, sizeof(char *));
 	if (!file->map->map2d)
 		return (error_message("fudeu mapa"), false);
-	// int	j;
-	// int	h;
 	while (1)
 	{
-		// j = 0;
 		temp = get_next_line(fd);
 		if (!temp)
 			break ;
-		// while (temp[j])
-		// {
-		// 	printf("%i\n", j);
-		// 	if (temp[j] == '\t')
-		// 	{
-		// 		h = 0;
-		// 		while (h < 4)
-		// 		{
-		// 			printf("%s\n", temp);
-		// 			temp[j] = ' ';
-		// 			j++;
-		// 			h++;
-		// 		}
-		// 		j += j;
-		// 	}
-		// 	j++;
-		// }
+		if (is_valid_char(temp))
+			return (error_message("fudeu character"), false);
 		file->map->map2d[i++] = ft_strtrim(temp, "\n");
 		free(temp);
 	}
@@ -70,64 +70,24 @@ char	player_pos(char c)
 	return (0);
 }
 
-void	valid_space(t_map *map, char **arr, int x, int y)
+int	flood_fill(t_map *map, int r, int y, int x)
 {
-	if ((x == map->w_map - 1 || y == map->h_map - 1) && arr[y][x] != '1')
-		return (error_message("No walls at border"));
-	if (!arr[y - 1][x] || arr[y - 1][x] == ' ')
-		return (error_message("No walls at N edge"));
-	if (!arr[y + 1][x] || arr[y + 1][x] == ' ')
-		return (error_message("No walls at S edge"));
-	if (!arr[y][x - 1] || arr[y][x - 1] == ' ')
-		return (error_message("No walls at W edge"));
-	if (!arr[y][x + 1] || arr[y][x + 1] == ' ')
-		return (error_message("No walls at E edge"));
-	if (!arr[y - 1][x - 1] || arr[y - 1][x - 1] == ' ')
-		return (error_message("No walls at NW edge"));
-	if (!arr[y - 1][x + 1] || arr[y - 1][x + 1] == ' ')
-		return (error_message("No walls at NE edge"));
-	if (!arr[y + 1][x + 1] || arr[y + 1][x + 1] == ' ')
-		return (error_message("No walls at SE edge"));
-	if (!arr[y + 1][x - 1] || arr[y + 1][x - 1] == ' ')
-		return (error_message("No walls at SW edge"));
+	if (!map->map2d[y])
+		return (1);
+	if (map->map2d[y][x] && (map->map2d[y][x] == '1' \
+		|| map->map2d[y][x] == '2'))
+		return (0);
+	if ((y > map->h_map || y < 0) || (x > (int)ft_strlen(map->map2d[y]) || x == 0))
+		return (1);
+	if (map->map2d[y][x] != '1' && map->map2d[y][x] != '2' && map->map2d[y][x] != '0')
+		return (1);
+	map->map2d[y][x] = '2';
+	r += flood_fill(map, r, y, x + 1);
+	r += flood_fill(map, r, y, x - 1);
+	r += flood_fill(map, r, y + 1, x);
+	r += flood_fill(map, r ,y - 1, x);
+	return (r);
 }
-
-// int	is_changed(char c)
-// {
-// 	if (c == 'l')
-// 		return (1);
-// 	return (0);
-// }
-
-void	flood_fill(t_map *map, char **mapa, int y, int x)
-{
-	if (x == 0 || x == map->w_map)
-		return (error_message("No walls at north or south border"));
-	if (y == 0 || y == map->h_map)
-	{
-		// printf("-%i--%i-\n-%c-\n", y, map->h_map, mapa[y][x]);
-		return (error_message(" y No walls at north or south border"));
-	}
-	// valid_space(map, mapa, x, y);
-	printf("y -- %i\n", map->p_y);
-	// if (!is_changed(mapa[y - 1][x]))
-		flood_fill(map, mapa, y - 1, x);
-	// if (!is_changed(mapa[y + 1][x]))
-		flood_fill(map, mapa, y + 1, x);
-	// if (!is_changed(mapa[y][x - 1]))
-		flood_fill(map, mapa, y, x - 1);
-	// if (!is_changed(mapa[y][x + 1]))
-		flood_fill(map, mapa, y, x + 1);
-	// if (!is_changed(mapa[y - 1][x - 1]))
-		flood_fill(map, mapa, y - 1, x - 1);
-	// if (!is_changed(mapa[y - 1][x + 1]))
-		flood_fill(map, mapa, y - 1, x + 1);
-	// if (!is_changed(mapa[y + 1][x + 1]))
-		flood_fill(map, mapa, y + 1, x + 1);
-	// if (!is_changed(mapa[y + 1][x - 1]))
-		flood_fill(map, mapa, y, x + 1);
-}
-
 
 bool	find_player(t_file *file)
 {
@@ -155,7 +115,6 @@ bool	find_player(t_file *file)
 				file->map->p_y = y;
 				file->map->facing_to = player_pos(file->map->map2d[y][x]);
 				file->map->map2d[y][x] = '0';
-				x++;
 			}
 			x++;
 		}

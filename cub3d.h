@@ -147,7 +147,7 @@ bool	is_file_extension_valid(char *argv);
 bool	is_map_filled(char *argv, t_file *valid_file);
 bool	find_player(t_file *file);
 char	player_pos(char c);
-void	flood_fill(t_map *map, char **mapa, int y, int x);
+int		flood_fill(t_map *map, int r, int y, int x);
 void	map_check(t_map *map);
 
 // Color

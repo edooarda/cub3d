@@ -111,7 +111,9 @@ bool	is_file_valid(char *argv, t_file *input)
 	// 	printf("%s\n", input->map->map2d[i]);
 	// 	i++;
 	// }
-	flood_fill(input->map, input->map->map2d, input->map->p_y, input->map->p_x);
+	if (flood_fill(input->map, 0, input->map->p_y, input->map->p_x))
+		return (error_message("mapa fudeu"), false);
+	
 	// printf("-%i--%i-\n-%c-\n", input->map->p_y, input->map->p_x, input->mapa[input->map->p_y][input->map->p_x]);
 	// printf("max y -- %i\nmax x -- %i\n", input->map->max_y, input->map->max_x);
 	// if (!map_area(input))
