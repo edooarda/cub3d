@@ -6,26 +6,51 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/09 17:26:59 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/11/12 17:35:12 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	fill_information(t_file *file, char *data)
+int	fill_information(t_file *file, char *data)
 {
-	if (file->no == NULL && ft_strncmp(data, "NO ", 3) == 0 )// mudar <-
+	if (ft_strncmp(data, "NO", 2) == 0)
+	{
+		if (file->no != NULL)
+			return(error_message("Fail north"), 1);
 		file->no = space_jumper(data);
-	else if (ft_strncmp(data, "WE ", 3) == 0 && file->we == NULL)
+	}
+	if (ft_strncmp(data, "WE", 2) == 0)
+	{
+		if (file->we != NULL)
+			return(error_message("Fail west"), 1);
 		file->we = space_jumper(data);
-	else if (ft_strncmp(data, "SO ", 3) == 0 && file->so == NULL)
+	}
+	else if (ft_strncmp(data, "SO", 2) == 0)
+	{
+		if (file->so != NULL)
+			return(error_message("Fail south"), 1);
 		file->so = space_jumper(data);
-	else if (ft_strncmp(data, "EA ", 3) == 0 && file->ea == NULL)
+	}
+	else if (ft_strncmp(data, "EA", 2) == 0)
+	{
+		if (file->ea != NULL)
+			return(error_message("Fail east"), 1);
 		file->ea = space_jumper(data);
-	else if (ft_strncmp(data, "F ", 2) == 0 && file->f_color == NULL)
+	}
+	else if (ft_strncmp(data, "F", 1) == 0)
+	{
+		if (file->f_color != NULL)
+			return(error_message("Fail floor color"), 1);
 		file->f_color = ft_strdup(data);
-	else if (ft_strncmp(data, "C ", 2) == 0 && file->c_color == NULL)
+	}
+	else if (ft_strncmp(data, "C", 1) == 0)
+	{
+		if (file->c_color != NULL)
+			return(error_message("Fail ceiling color"), 1);
 		file->c_color = ft_strdup(data);
+	}
+	return (0);
 }
 
 bool	is_map(char *input, int line_num, t_file *file)
@@ -41,7 +66,9 @@ bool	is_map(char *input, int line_num, t_file *file)
 		return (free(temp), false);
 	if (!file->map)
 	{
-		file->map = ft_calloc(1, sizeof(t_map));//malloc check
+		file->map = ft_calloc(1, sizeof(t_map));
+		if (!file->map)
+			return(error_message("Malloc fail"), false);
 		file->map->start_y = line_num;
 	}
 	return (free(temp), true);
@@ -56,18 +83,20 @@ int	read_file(char *file, t_file *input)
 	line_num = 0;
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		return (error_message("There is a problem Open the File"), -1);
+		return (error_message("Fail to read file"), -1);
 	current_line = get_next_line(fd);
 	if (current_line == NULL)
-		return (error_message("There is a problem Reading the File"), -1);
+		return (error_message("Fail to read file"), -1);
 	while (current_line != NULL)
 	{
-		fill_information(input, current_line);
+		if (fill_information(input, current_line))
+			return (free(current_line), -1);
 		is_map(current_line, line_num, input);
 		free(current_line);
 		line_num++;
 		current_line = get_next_line(fd);
 	}
+	free(current_line);
 	if (input->map)
 		input->map->h_map = line_num - input->map->start_y;
 	return (close(fd));
@@ -88,36 +117,21 @@ bool	is_file_extension_valid(char *argv)
 
 bool	is_file_valid(char *argv, t_file *input)
 {
-	read_file(argv, input);
+	if (read_file(argv, input) == -1)
+		return (false);
 	if (is_texture_valid(input) == false)
-		return (error_message("Invalid Input"), false);
+		return (error_message("Invalid input"), false);
 	if (tex_assign(input) == false)
 		return (false);
 	if (color_check(input, input->c_color) == false
 		|| color_check(input, input->f_color) == false)
 		return (false);
+	if (is_full(input) == false)
+		return(error_message("Missing elements"), false);
 	if (is_map_filled(argv, input) == false)
 		return (false);
 	find_player(input);
-	// map_check(input->map);
-	// int i;
-	// i = 0;
-	// while (input->map->map2d[i])
-	// {
-	// 	printf("%s\n", input->map->map2d[i]);
-	// 	i++;
-	// }
 	if (flood_fill(input->map, 0, input->map->p_y, input->map->p_x))
-		return (error_message("mapa fudeu"), false);
-	
-	// printf("-%i--%i-\n-%c-\n", input->map->p_y, input->map->p_x, input->mapa[input->map->p_y][input->map->p_x]);
-	// printf("max y -- %i\nmax x -- %i\n", input->map->max_y, input->map->max_x);
-	// if (!map_area(input))
-	// 	return (false);
-	// while(input->map->map2d[i])
-	// {
-	// 	printf("%s\n", input->map->map2d[i]);
-	// 	i++;
-	// }
+		return (error_message("Invalid map"), false);
 	return (true);
 }

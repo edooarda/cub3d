@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/14 14:43:52 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/11 15:37:47 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/12 17:35:48 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	cleaner_tex(t_tex *tex)
 
 void	cleaner_map(t_file *input)
 {
+	if (input->map->map2d)
+		free_split(input->map->map2d);
 	if (input->map != NULL)
 		free(input->map);
 }
@@ -60,6 +62,8 @@ void	cleaner_file(t_file *input)
 		free(input->c_color);
 	if (input->mapa != NULL)
 		free_split(input->mapa);
-	cleaner_tex(input->valid_tex);
-	cleaner_map(input);
+	if (input->valid_tex)
+		cleaner_tex(input->valid_tex);
+	if (input->map)
+		cleaner_map(input);
 }

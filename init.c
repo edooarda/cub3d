@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/09 13:50:36 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/11 15:40:39 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/12 17:16:51 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ bool	init_tex_struct(t_file *input)
 void	init_file_struct(t_file *input)
 {
 	input->mapa = NULL;
-	input->map_y_lines = 0;
 	input->no = NULL;
 	input->so = NULL;
 	input->we = NULL;

@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 17:58:25 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/04 15:45:32 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/12 17:32:44 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	color_check(t_file *valid_file, char *word)
 
 	i = 0;
 	if (!word)
-		return (EXIT_FAILURE);
+		return (error_message("missing color"), 0);
 	while (word[i] == '\t')
 		word[i++] = ' ';
 	word[ft_strlen(word)] = '\0';
@@ -72,8 +72,8 @@ int	color_check(t_file *valid_file, char *word)
 	if (ft_arrlen(color) != 3)
 		return (free_split(color), error_message("Wrong color selection"), 0);
 	if (!get_colors(valid_file, color, line))
-		return (free_split(color), free_split(line), EXIT_FAILURE);
+		return (free_split(color), free_split(line), 1);
 	free_split(color);
 	free_split(line);
-	return (EXIT_SUCCESS);
+	return (0);
 }

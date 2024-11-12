@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/09 16:52:03 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/11/12 14:58:41 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,7 @@ int	main(int argc, char **argv)
 			return (1);
 		init_file_struct(&input);
 		if (is_file_valid(argv[1], &input) == false)
-		{
-			// error_message("wrong input");
-			cleaner_file(&input);
-			return (1);
-		}
+			return (cleaner_file(&input), 1);
 		if (start_game(&input) == 1)
 			return (1);
 	}

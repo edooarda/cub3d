@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 17:48:13 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/09 17:32:12 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/11/12 17:43:09 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,14 @@ int	is_valid_char(char *str)
 	while (str[++i])
 	{
 		if (!ft_strchr(valid, str[i]))
-		{
-			printf("%i\n", str[i]);
 			return (1);
-		}
 	}
 	return (0);
+}
+
+int	is_full(t_file *file)
+{
+	return(file->c_color && file->f_color && file->ea && file->we && file->so && file->no);
 }
 
 bool	is_map_filled(char *argv, t_file *file)
@@ -39,7 +41,7 @@ bool	is_map_filled(char *argv, t_file *file)
 	i = 0;
 	fd = open(argv, O_RDONLY);
 	if (fd == -1)
-		return (error_message("fudeu"), false);
+		return (error_message("Fail to open file"), false);
 	while (i++ < file->map->start_y)
 	{
 		temp = get_next_line(fd);
@@ -48,14 +50,14 @@ bool	is_map_filled(char *argv, t_file *file)
 	i = 0;
 	file->map->map2d = ft_calloc(file->map->h_map + 1, sizeof(char *));
 	if (!file->map->map2d)
-		return (error_message("fudeu mapa"), false);
+		return (error_message("Fail to create map"), false);
 	while (1)
 	{
 		temp = get_next_line(fd);
 		if (!temp)
 			break ;
 		if (is_valid_char(temp))
-			return (error_message("fudeu character"), false);
+			return (error_message("Invalid character"), free(temp), false);
 		file->map->map2d[i++] = ft_strtrim(temp, "\n");
 		free(temp);
 	}
@@ -72,7 +74,7 @@ char	player_pos(char c)
 
 int	flood_fill(t_map *map, int r, int y, int x)
 {
-	if (!map->map2d[y])
+	if (!map->map2d[y] || ft_strlen(map->map2d[y]) == 0)
 		return (1);
 	if (map->map2d[y][x] && (map->map2d[y][x] == '1' \
 		|| map->map2d[y][x] == '2'))

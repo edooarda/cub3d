@@ -6,32 +6,24 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 18:00:58 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/09 15:25:14 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/11/12 14:35:38 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-mlx_texture_t	*tex_check(mlx_texture_t *png, char *path)
-{
-	png = mlx_load_png(path);
-	if (!png)
-		return (false);
-	return (png);
-}
-
 bool	tex_assign(t_file *input)
 {
-	input->valid_tex->no_tex = tex_check(input->valid_tex->no_tex, input->no);
+	input->valid_tex->no_tex = mlx_load_png(input->no);
 	if (!input->valid_tex->no_tex)
 		return (error_message("Invalid North texture path"), false);
-	input->valid_tex->so_tex = tex_check(input->valid_tex->so_tex, input->so);
+	input->valid_tex->so_tex = mlx_load_png(input->so);
 	if (!input->valid_tex->so_tex)
 		return (error_message("Invalid South texture path"), false);
-	input->valid_tex->we_tex = tex_check(input->valid_tex->we_tex, input->we);
+	input->valid_tex->we_tex = mlx_load_png(input->we);
 	if (!input->valid_tex->we_tex)
 		return (error_message("Invalid West texture path"), false);
-	input->valid_tex->ea_tex = tex_check(input->valid_tex->ea_tex, input->ea);
+	input->valid_tex->ea_tex = mlx_load_png(input->ea);
 	if (!input->valid_tex->ea_tex)
 		return (error_message("Invalid East texture path"), false);
 	return (true);

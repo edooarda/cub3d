@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/11 15:52:17 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/12 17:28:12 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,9 +119,7 @@ typedef struct s_game
 
 typedef struct s_file
 {
-	// char	**file;
 	char	**mapa;
-	int		map_y_lines; // para alocacao de memoria do mapa o mesmo que o h_map do t_map
 	char	*no;
 	char	*so;
 	char	*we;
@@ -139,6 +137,7 @@ void	cleaner_game(t_game *game);
 void	error_message(char *message);
 void	free_split(char **array);
 char	*space_jumper(char *str);
+int		is_full(t_file *file);
 
 // Checkers
 bool	is_file_extension_valid(char *argv);
