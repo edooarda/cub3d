@@ -12,15 +12,6 @@
 
 #include "../cub3d.h"
 
-// static void	init_angle(t_game *game)
-// {
-// 	game->angle.m_pi = 3.14159265358979323846;
-// 	game->angle.g_90 = game->angle.m_pi / 2;
-// 	game->angle.g_180 = game->angle.m_pi;
-// 	game->angle.g_270 = 3 * game->angle.m_pi / 2;
-// 	game->angle.g_360 = 2 * game->angle.m_pi;
-// }
-
 t_game	*init_game(t_file *input)
 {
 	t_game	*game;

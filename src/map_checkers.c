@@ -12,54 +12,6 @@
 
 #include "../cub3d.h"
 
-int	is_valid_char(char *str)
-{
-	char	*valid;
-	int		i;
-
-	valid = "01NSEW\n ";
-	i = -1;
-	while (str[++i])
-	{
-		if (!ft_strchr(valid, str[i]))
-			return (1);
-	}
-	return (0);
-}
-
-bool	is_map_filled(char *argv, t_file *file)// reduzir linas
-{
-	int		fd;
-	int		i;
-	char	*temp;
-
-	i = 0;
-	fd = open(argv, O_RDONLY);
-	if (fd == -1)
-		return (error_message("Fail to open file"), false);
-	while (i++ < file->map->start_y)
-	{
-		temp = get_next_line(fd);
-		free(temp);
-	}
-	i = 0;
-	file->map->map2d = ft_calloc(file->map->h_map + 1, sizeof(char *));
-	if (!file->map->map2d)
-		return (error_message("Fail to create map"), false);
-	while (1)
-	{
-		temp = get_next_line(fd);
-		if (!temp)
-			break ;
-		if (is_valid_char(temp))
-			return (error_message("Invalid character"), free(temp), false);
-		file->map->map2d[i++] = ft_strtrim(temp, "\n");
-		free(temp);
-	}
-	free(temp);
-	return (true);
-}
-
 char	player_pos(char c)
 {
 	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
@@ -88,7 +40,22 @@ int	flood_fill(t_map *map, int r, int y, int x)
 	return (r);
 }
 
-bool	find_player(t_file *file) // reduzir linas
+bool	tile_change(t_file *file, int y, int x, int i)
+{
+	if (player_pos(file->map->map2d[y][x]))
+	{
+		i++;
+		if (i != 1)
+			return (false);
+		file->map->p_x = x;
+		file->map->p_y = y;
+		file->map->facing_to = player_pos(file->map->map2d[y][x]);
+		file->map->map2d[y][x] = '0';
+	}
+	return (true);
+}
+
+bool	find_player(t_file *file)
 {
 	int	x;
 	int	y;
@@ -98,29 +65,20 @@ bool	find_player(t_file *file) // reduzir linas
 	y = 0;
 	i = 0;
 	start = 0;
-	while (file->map->map2d[y])
+	while (file->map->map2d[++y])
 	{
 		x = 0;
 		while (file->map->map2d[y][x])
 		{
 			if (start == 0)
 				start = file->map->h_map;
-			if (player_pos(file->map->map2d[y][x]))
-			{
-				i++;
-				if (i != 1)
-					return (false);
-				file->map->p_x = x;
-				file->map->p_y = y;
-				file->map->facing_to = player_pos(file->map->map2d[y][x]);
-				file->map->map2d[y][x] = '0';
-			}
+			if (tile_change(file, y, x, i) == false)
+				return (false);
 			x++;
 		}
 		if (x > file->map->w_map)
 			file->map->w_map = x - 1;
 		file->map->h_map++;
-		y++;
 	}
 	file->map->h_map -= start;
 	return (true);

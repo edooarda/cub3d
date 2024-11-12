@@ -12,47 +12,6 @@
 
 #include "../cub3d.h"
 
-int	fill_information(t_file *file, char *data) // reduzir linhas
-{
-	if (ft_strncmp(data, "NO", 2) == 0)
-	{
-		if (file->no != NULL)
-			return (error_message("Fail north"), 1);
-		file->no = space_jumper(data);
-	}
-	if (ft_strncmp(data, "WE", 2) == 0)
-	{
-		if (file->we != NULL)
-			return (error_message("Fail west"), 1);
-		file->we = space_jumper(data);
-	}
-	else if (ft_strncmp(data, "SO", 2) == 0)
-	{
-		if (file->so != NULL)
-			return (error_message("Fail south"), 1);
-		file->so = space_jumper(data);
-	}
-	else if (ft_strncmp(data, "EA", 2) == 0)
-	{
-		if (file->ea != NULL)
-			return (error_message("Fail east"), 1);
-		file->ea = space_jumper(data);
-	}
-	else if (ft_strncmp(data, "F", 1) == 0)
-	{
-		if (file->f_color != NULL)
-			return (error_message("Fail floor color"), 1);
-		file->f_color = ft_strdup(data);
-	}
-	else if (ft_strncmp(data, "C", 1) == 0)
-	{
-		if (file->c_color != NULL)
-			return (error_message("Fail ceiling color"), 1);
-		file->c_color = ft_strdup(data);
-	}
-	return (0);
-}
-
 bool	is_map(char *input, int line_num, t_file *file)
 {
 	int		i;
@@ -130,7 +89,8 @@ bool	is_file_valid(char *argv, t_file *input)
 		return (error_message("Missing elements"), false);
 	if (is_map_filled(argv, input) == false)
 		return (false);
-	find_player(input);
+	if (find_player(input) == false)
+		return (error_message("Player not found"), false);
 	if (flood_fill(input->map, 0, input->map->p_y, input->map->p_x))
 		return (error_message("Invalid map"), false);
 	return (true);

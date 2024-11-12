@@ -32,6 +32,8 @@ OBJ_DIR = obj
 # Source Files
 SOURCE = main.c \
 	init.c \
+	check_utils.c\
+	map_utils.c\
 	main_checkers.c \
 	map_checkers.c \
 	color_checkers.c \

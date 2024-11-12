@@ -76,15 +76,6 @@ typedef struct s_map
 	int		h_map;
 }	t_map;
 
-// typedef struct s_angle
-// {
-// 	double	m_pi;
-// 	double	g_90;
-// 	double	g_180;
-// 	double	g_270;
-// 	double	g_360;
-// }	t_angle;
-
 typedef struct s_ray
 {
 	int		slice;
@@ -114,7 +105,6 @@ typedef struct s_game
 	t_map		*map;
 	t_tex		*draw;
 	t_wall		*wall;
-	// t_angle		angle;
 }	t_game;
 
 typedef struct s_file
@@ -147,7 +137,6 @@ bool	is_map_filled(char *argv, t_file *valid_file);
 bool	find_player(t_file *file);
 char	player_pos(char c);
 int		flood_fill(t_map *map, int r, int y, int x);
-void	map_check(t_map *map);
 
 // Color
 int		color_check(t_file *valid_file, char *word);
@@ -155,6 +144,7 @@ int		color_check(t_file *valid_file, char *word);
 // Texture
 bool	is_texture_valid(t_file *valid_file);
 bool	tex_assign(t_file *input);
+int		fill_information(t_file *file, char *data);
 
 // Raycasting
 void	casting_rays(t_game *game);
