@@ -6,11 +6,11 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/29 16:40:27 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/09 16:51:20 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/11/12 18:17:15 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	draw_floor(t_game *game, int ray, int bottom_px)
 {

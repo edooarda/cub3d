@@ -6,11 +6,11 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/06 19:11:20 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/11 15:49:04 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/12 18:17:17 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 // M_PI/2 is 90 degrees
 // M_PI is 180 degrees

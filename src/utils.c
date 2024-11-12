@@ -6,11 +6,11 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 18:32:15 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/10/18 20:24:19 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/12 18:24:53 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	error_message(char *message)
 {
@@ -50,4 +50,10 @@ char	*space_jumper(char *str)
 	temp = malloc(sizeof(char) * len);
 	ft_strlcpy(temp, &str[i], len);
 	return (temp);
+}
+
+int	is_full(t_file *file)
+{
+	return (file->c_color && file->f_color
+		&& file->ea && file->we && file->so && file->no);
 }

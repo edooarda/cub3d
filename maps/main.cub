@@ -8,7 +8,7 @@ EA ./textures/brick_east.png
 WE ./textures/wood_west.png
 
 
- 25,100,233
+C 25,100,233
 
 F 255,100,15
 

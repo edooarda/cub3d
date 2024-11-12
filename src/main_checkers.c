@@ -6,48 +6,48 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/12 17:35:12 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/11/12 18:25:35 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
-int	fill_information(t_file *file, char *data)
+int	fill_information(t_file *file, char *data) // reduzir linhas
 {
 	if (ft_strncmp(data, "NO", 2) == 0)
 	{
 		if (file->no != NULL)
-			return(error_message("Fail north"), 1);
+			return (error_message("Fail north"), 1);
 		file->no = space_jumper(data);
 	}
 	if (ft_strncmp(data, "WE", 2) == 0)
 	{
 		if (file->we != NULL)
-			return(error_message("Fail west"), 1);
+			return (error_message("Fail west"), 1);
 		file->we = space_jumper(data);
 	}
 	else if (ft_strncmp(data, "SO", 2) == 0)
 	{
 		if (file->so != NULL)
-			return(error_message("Fail south"), 1);
+			return (error_message("Fail south"), 1);
 		file->so = space_jumper(data);
 	}
 	else if (ft_strncmp(data, "EA", 2) == 0)
 	{
 		if (file->ea != NULL)
-			return(error_message("Fail east"), 1);
+			return (error_message("Fail east"), 1);
 		file->ea = space_jumper(data);
 	}
 	else if (ft_strncmp(data, "F", 1) == 0)
 	{
 		if (file->f_color != NULL)
-			return(error_message("Fail floor color"), 1);
+			return (error_message("Fail floor color"), 1);
 		file->f_color = ft_strdup(data);
 	}
 	else if (ft_strncmp(data, "C", 1) == 0)
 	{
 		if (file->c_color != NULL)
-			return(error_message("Fail ceiling color"), 1);
+			return (error_message("Fail ceiling color"), 1);
 		file->c_color = ft_strdup(data);
 	}
 	return (0);
@@ -55,20 +55,20 @@ int	fill_information(t_file *file, char *data)
 
 bool	is_map(char *input, int line_num, t_file *file)
 {
-	int	i;
-	char *temp;
-	
+	int		i;
+	char	*temp;
+
 	i = 0;
 	temp = ft_strtrim(input, "\n\t ");
 	while (temp[i] && (ft_isdigit(temp[i]) || player_pos(temp[i])))
 		i++;
-	if (ft_strlen(temp) == 0 || (!ft_isdigit(temp[i])  && temp[i] != '\0'))
+	if (ft_strlen(temp) == 0 || (!ft_isdigit(temp[i]) && temp[i] != '\0'))
 		return (free(temp), false);
 	if (!file->map)
 	{
 		file->map = ft_calloc(1, sizeof(t_map));
 		if (!file->map)
-			return(error_message("Malloc fail"), false);
+			return (error_message("Malloc fail"), false);
 		file->map->start_y = line_num;
 	}
 	return (free(temp), true);
@@ -127,7 +127,7 @@ bool	is_file_valid(char *argv, t_file *input)
 		|| color_check(input, input->f_color) == false)
 		return (false);
 	if (is_full(input) == false)
-		return(error_message("Missing elements"), false);
+		return (error_message("Missing elements"), false);
 	if (is_map_filled(argv, input) == false)
 		return (false);
 	find_player(input);

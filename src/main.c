@@ -6,11 +6,11 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/12 14:58:41 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/11/12 18:16:56 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 static void	game_loop(void *param)
 {

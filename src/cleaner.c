@@ -6,11 +6,11 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/14 14:43:52 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/12 17:35:48 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/11/12 18:17:09 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	cleaner_game(t_game *game)
 {

@@ -6,80 +6,99 @@
 #    By: edribeir <edribeir@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/10/09 11:21:58 by edribeir      #+#    #+#                  #
-#    Updated: 2024/11/12 17:39:49 by jovieira      ########   odam.nl          #
+#    Updated: 2024/11/12 18:15:59 by jovieira      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = cub3d
+# Project Name
+NAME = Cub3d
 
-CFLAGS = -Wall -Wextra -Werror -g -I Libft
+# Compilation Flags
+CFLAGS = -Wall -Wextra -Werror -g -I Libft -I MLX42/include -I/cub3d.h
 CFLAGS += -fsanitize=address
 
+# Library Paths
 LIBFT = ./Libft/libft.a
-
-SUB_DIR = .MLX42
-
-MLXLIB = MLX42/build/libmlx42.a
-
+MLXLIB = ./MLX42/build/libmlx42.a
 LIBMLX = ./MLX42
 
+# MLX Linker Flags
 FLAGSMLX = -ldl -lglfw -pthread -lm 
 
-SOURCE = main.c \
-		init.c \
-		main_checkers.c \
-		map_checkers.c \
-		color_checkers.c \
-		textures_checkers.c \
-		utils.c \
-		cleaner.c \
-		raycasting.c \
-		player.c \
-		draw_elements.c \
-		draw_walls.c \
-		controls.c \
-
-OBJECTS = $(SOURCE:%.c=obj/%.o)
-
+# Source and Object Directories
+SRC_DIR = src
 OBJ_DIR = obj
 
-all: $(MLXLIB) $(NAME)
+# Source Files
+SOURCE = main.c \
+	init.c \
+	main_checkers.c \
+	map_checkers.c \
+	color_checkers.c \
+	textures_checkers.c \
+	utils.c \
+	cleaner.c \
+	raycasting.c \
+	player.c \
+	draw_elements.c \
+	draw_walls.c \
+	controls.c
 
+# Generate full paths for source and object files
+SRC = $(addprefix $(SRC_DIR)/, $(SOURCE))
+OBJECTS = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+
+# Default Target
+all: sub $(MLXLIB) $(OBJ_DIR) $(NAME)
+
+# Create Object Directory
 $(OBJ_DIR):
-	@mkdir $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)
+	@echo "Object directory created."
 
+# Build MLX42 Library
 $(MLXLIB):
-	@cmake $(LIBMLX) -DEBUG=1 -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
+	@cmake -S $(LIBMLX) -B $(LIBMLX)/build -DDEBUG=1
+	@make -C $(LIBMLX)/build -j4
+	@echo "MLX42 Library built successfully."
 
+# Build Libft Library
 $(LIBFT):
 	@$(MAKE) -C ./Libft
+	@echo "Libft Library built successfully."
 
+# Compile the Project
 $(NAME): $(LIBFT) $(MLXLIB) $(OBJECTS)
 	@cc $(CFLAGS) $(FLAGSMLX) $(OBJECTS) $(LIBFT) $(MLXLIB) -o $(NAME)
-	@echo "\n--------------------------------------------\n"
-	@echo "\n\t R-E-A-D-Y! LET'S PLAY!! 🎉🎉\n"
-	@echo "\n--------------------------------------------\n"
+	@echo "\n--------------------------------------------"
+	@echo "\n\t R-E-A-D-Y! LET'S PLAY!! 🎉🎉"
+	@echo "\n--------------------------------------------"
 
-obj/%.o:%.c | $(OBJ_DIR)
-	@cc $(CFLAGS) -c -o $@ $^ 
+# Compile Object Files
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	@echo "Compiling $<..."
+	@cc $(CFLAGS) -c $< -o $@
 
+# Clean Object Files
 clean:
 	@$(MAKE) clean -C ./Libft
 	@rm -rf $(OBJ_DIR)
-	@echo "\t OFILES Cleansed ✅!"
+	@echo "Object files cleaned."
 
+# Full Clean (including built libraries)
 fclean: clean
-	@$(MAKE) fclean -C $ ./Libft
+	@$(MAKE) fclean -C ./Libft
 	@rm -f $(NAME)
 	@rm -rf $(LIBMLX)/build
-	@echo "\t ALL Cleansed ✅!"
+	@echo "All files cleaned."
 
+# Update Git Submodules
 sub:
-	@echo "\t\tUpdating submodules...⌛"
+	@echo "Updating submodules..."
 	@git submodule update --init --recursive
-	@echo "\t\tSubmodules Updated ✅"
+	@echo "Submodules updated."
 
+# Rebuild the Project
 re: fclean all
 
 .PHONY: all clean fclean re sub
-

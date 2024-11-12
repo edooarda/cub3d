@@ -6,11 +6,11 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 18:00:58 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/12 14:35:38 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/11/12 18:17:30 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 bool	tex_assign(t_file *input)
 {

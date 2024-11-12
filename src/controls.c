@@ -6,11 +6,11 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/30 15:15:32 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/09 10:41:41 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/12 18:17:13 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	release_controls(mlx_key_data_t keydata, t_game *game)
 {

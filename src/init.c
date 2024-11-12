@@ -6,11 +6,11 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/09 13:50:36 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/12 17:16:51 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/11/12 18:19:18 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 // static void	init_angle(t_game *game)
 // {
@@ -28,7 +28,6 @@ t_game	*init_game(t_file *input)
 	game = malloc(sizeof(t_game));
 	if (!game)
 		return (error_message("malloc fail to init game"), NULL);
-	// init_angle(game);
 	game->map = input->map;
 	if (!game->map)
 		return (error_message("malloc fail to init map"), NULL);

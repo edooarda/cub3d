@@ -6,11 +6,11 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/28 12:07:28 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/11 15:34:27 by edribeir      ########   odam.nl         */
+/*   Updated: 2024/11/12 18:17:28 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 int	wall_hit(double x, double y, t_game *game)
 {

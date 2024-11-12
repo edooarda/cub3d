@@ -6,16 +6,16 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 17:48:13 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/12 17:43:09 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/11/12 18:24:43 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 int	is_valid_char(char *str)
 {
-	char *valid;
-	int	i;
+	char	*valid;
+	int		i;
 
 	valid = "01NSEW\n ";
 	i = -1;
@@ -27,15 +27,10 @@ int	is_valid_char(char *str)
 	return (0);
 }
 
-int	is_full(t_file *file)
+bool	is_map_filled(char *argv, t_file *file)// reduzir linas
 {
-	return(file->c_color && file->f_color && file->ea && file->we && file->so && file->no);
-}
-
-bool	is_map_filled(char *argv, t_file *file)
-{
-	int	fd;
-	int	i;
+	int		fd;
+	int		i;
 	char	*temp;
 
 	i = 0;
@@ -79,19 +74,21 @@ int	flood_fill(t_map *map, int r, int y, int x)
 	if (map->map2d[y][x] && (map->map2d[y][x] == '1' \
 		|| map->map2d[y][x] == '2'))
 		return (0);
-	if ((y > map->h_map || y < 0) || (x > (int)ft_strlen(map->map2d[y]) || x == 0))
+	if ((y > map->h_map || y < 0)
+		|| (x > (int)ft_strlen(map->map2d[y]) || x == 0))
 		return (1);
-	if (map->map2d[y][x] != '1' && map->map2d[y][x] != '2' && map->map2d[y][x] != '0')
+	if (map->map2d[y][x] != '1'
+		&& map->map2d[y][x] != '2' && map->map2d[y][x] != '0')
 		return (1);
 	map->map2d[y][x] = '2';
 	r += flood_fill(map, r, y, x + 1);
 	r += flood_fill(map, r, y, x - 1);
 	r += flood_fill(map, r, y + 1, x);
-	r += flood_fill(map, r ,y - 1, x);
+	r += flood_fill(map, r, y - 1, x);
 	return (r);
 }
 
-bool	find_player(t_file *file)
+bool	find_player(t_file *file) // reduzir linas
 {
 	int	x;
 	int	y;
