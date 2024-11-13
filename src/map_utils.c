@@ -6,7 +6,7 @@
 /*   By: jovieira <jovieira@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/13 11:06:33 by jovieira      #+#    #+#                 */
-/*   Updated: 2024/11/13 11:06:45 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/11/13 14:04:29 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,11 @@ static void	move_line(t_file *file, char *temp, int i, int fd)
 	}
 }
 
-static int	cycle_line(t_file *file, char *temp, int i, int fd)
+static bool	alloc_map(t_file *file)
 {
-	while (1)
-	{
-		temp = get_next_line(fd);
-		if (!temp)
-			return (false);
-		if (is_valid_char(temp))
-			return (error_message("Invalid character"), free(temp), false);
-		file->map->map2d[i++] = ft_strtrim(temp, "\n");
-		free(temp);
-	}
+	file->map->map2d = ft_calloc(file->map->h_map + 1, sizeof(char *));
+	if (!file->map->map2d)
+		return (error_message("Fail to create map"), false);
 	return (true);
 }
 
@@ -64,11 +57,18 @@ bool	is_map_filled(char *argv, t_file *file)
 	temp = NULL;
 	move_line(file, temp, i, fd);
 	i = 0;
-	file->map->map2d = ft_calloc(file->map->h_map + 1, sizeof(char *));
-	if (!file->map->map2d)
-		return (error_message("Fail to create map"), false);
-	if (cycle_line(file, temp, i, fd))
+	if (alloc_map(file) == false)
 		return (false);
+	while (1)
+	{
+		temp = get_next_line(fd);
+		if (!temp)
+			break ;
+		if (is_valid_char(temp))
+			return (error_message("Invalid character"), free(temp), false);
+		file->map->map2d[i++] = ft_strtrim(temp, "\n");
+		free(temp);
+	}
 	free(temp);
 	return (true);
 }

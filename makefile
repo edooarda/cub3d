@@ -6,16 +6,16 @@
 #    By: edribeir <edribeir@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2024/10/09 11:21:58 by edribeir      #+#    #+#                  #
-#    Updated: 2024/11/13 11:47:44 by edribeir      ########   odam.nl          #
+#    Updated: 2024/11/13 14:04:41 by jovieira      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 # Project Name
-NAME = Cub3d
+NAME = cub3D
 
 # Compilation Flags
 CFLAGS = -Wall -Wextra -Werror -g -I Libft -I MLX42/include -I/cub3d.h
-CFLAGS += -fsanitize=address
+# CFLAGS += -fsanitize=address
 
 # Library Paths
 LIBFT = ./Libft/libft.a
