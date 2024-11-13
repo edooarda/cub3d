@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 12:03:18 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/12 18:16:56 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/11/13 11:06:15 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-			printf("   Wrong Input\n");
+		printf("   Wrong Input\n");
 		printf("Please add one file!\n");
 		return (1);
 	}

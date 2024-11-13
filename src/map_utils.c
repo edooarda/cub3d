@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   map_utils.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jovieira <jovieira@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/11/13 11:06:33 by jovieira      #+#    #+#                 */
+/*   Updated: 2024/11/13 11:06:45 by jovieira      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
 static int	is_valid_char(char *str)
@@ -14,6 +26,7 @@ static int	is_valid_char(char *str)
 	}
 	return (0);
 }
+
 static void	move_line(t_file *file, char *temp, int i, int fd)
 {
 	while (i++ < file->map->start_y)
