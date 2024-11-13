@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/09 11:22:31 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/12 17:28:12 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/11/13 11:22:53 by jovieira      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ typedef struct s_file
 	char	*ea;
 	char	*f_color;
 	char	*c_color;
+	int		start;
 	t_tex	*valid_tex;
 	t_map	*map;
 }	t_file;
