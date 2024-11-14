@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/16 17:48:13 by edribeir      #+#    #+#                 */
-/*   Updated: 2024/11/13 11:45:44 by jovieira      ########   odam.nl         */
+/*   Updated: 2024/11/14 12:44:11 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	player_pos(char c)
 
 int	flood_fill(t_map *map, int r, int y, int x)
 {
+	if (map->map2d[0] && ft_strchr(map->map2d[0], '0'))
+		return (1);
 	if (!map->map2d[y] || ft_strlen(map->map2d[y]) == 0)
 		return (1);
 	if (map->map2d[y][x] && (map->map2d[y][x] == '1' \
